@@ -23,27 +23,27 @@ public class InventoryController {
     public String addInventoryFormPage(Model model){
         Inventory inventory = new Inventory();
         model.addAttribute("inventory", inventory);
-        return "form-add-inventory";
+        return "inventory/form-add-inventory";
     }
     @PostMapping("/inventory/add")
     public String addInventorySubmitPage(@ModelAttribute Inventory inventory, Model model) {
         inventoryService.addInventory(inventory);
         model.addAttribute("id", inventory.getId());
-        return "add-inventory";
+        return "inventory/add-inventory";
     }
 
     @GetMapping("/inventory/update/{id}")
     public String updateInventoryFormPage(@PathVariable Long id, Model model){
         Inventory inventory = inventoryService.getInventoryById(id);
         model.addAttribute("inventory", inventory);
-        return "form-update-inventory";
+        return "inventory/form-update-inventory";
     }
 
     @PostMapping("/inventory/update")
     public String updateInventorySubmitPage(@ModelAttribute Inventory inventory, Model model){
         Inventory updatedInventory = inventoryService.updateInventory(inventory);
         model.addAttribute("id", updatedInventory.getId());
-        return "update-inventory";
+        return "inventory/update-inventory";
     }
 
     @GetMapping("/inventory/delete/{id}")
@@ -51,7 +51,7 @@ public class InventoryController {
         Inventory inventory = inventoryService.getInventoryById(id);
         Inventory deletedInventory = inventoryService.deleteInventory(inventory);
         model.addAttribute("id", inventory.getId());
-        return "delete-inventory";
+        return "inventory/delete-inventory";
 
     }
 
@@ -59,11 +59,8 @@ public class InventoryController {
     public String listInventory(Model model){
         List<Inventory> listInventory = inventoryService.getListInventory();
         model.addAttribute("listInventory", listInventory);
-        return "viewall-inventory";
+        return "inventory/viewall-inventory";
     }
-
-
-
 
 
 }
