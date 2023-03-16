@@ -18,4 +18,3 @@ deploy-railway:
     - apt-get update && apt-get install -y curl
     - curl -fsSL https://railway.app/install.sh | sh
     - railway up --service=$RAILWAY_SERVICE_NAME -d
-    - railway link --environment production 43bc9660-9839-4755-8805-471573e47833
