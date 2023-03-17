@@ -3,5 +3,5 @@ package propensi.sinuansa.SINuansa.service;
 import propensi.sinuansa.SINuansa.model.Pembayaran;
 
 public interface PembayaranService {
-    Pembayaran findPembayaranId(Long id);
+    Pembayaran findPembayaranId(String id);
 }

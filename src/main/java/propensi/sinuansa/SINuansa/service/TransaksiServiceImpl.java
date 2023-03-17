@@ -2,21 +2,21 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import propensi.sinuansa.SINuansa.model.Admin;
-import propensi.sinuansa.SINuansa.repository.AdminDb;
+import propensi.sinuansa.SINuansa.model.Transaksi;
+import propensi.sinuansa.SINuansa.repository.TransaksiDb;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
 @Transactional
-public class AdminServiceImpl implements AdminService{
+public class TransaksiServiceImpl implements TransaksiService{
     @Autowired
-    AdminDb adminDb;
+    TransaksiDb transaksiDb;
 
     @Override
-    public Admin findAdminId(Long id){
-        Optional<Admin> admin = adminDb.findById(id);
+    public Transaksi findTransactionId(Long id){
+        Optional<Transaksi> admin = transaksiDb.findById(id);
         if(admin.isPresent()){
             return admin.get();
         }else return null;

@@ -5,6 +5,6 @@ import propensi.sinuansa.SINuansa.model.Pembayaran;
 
 import java.util.Optional;
 
-public interface PembayaranDb extends JpaRepository<Pembayaran, Long> {
-    Optional<Pembayaran> findById(Long id);
+public interface PembayaranDb extends JpaRepository<Pembayaran, String> {
+    Optional<Pembayaran> findById(String id);
 }
