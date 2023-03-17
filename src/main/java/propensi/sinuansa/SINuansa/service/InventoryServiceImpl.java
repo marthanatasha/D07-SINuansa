@@ -1,12 +1,11 @@
 package propensi.sinuansa.SINuansa.service;
 
-import propensi.sinuansa.SINuansa.model.Inventory;
-import propensi.sinuansa.SINuansa.repository.InventoryDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Inventory;
+import propensi.sinuansa.SINuansa.repository.InventoryDb;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

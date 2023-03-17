@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 public class Pembayaran {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotNull
     @Column(name = "metode", nullable=false)
