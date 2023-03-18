@@ -21,7 +21,7 @@ public class Resep {
     private Long id;
 
     @NotNull
-    @Column(name = "jumlah", nullable=false)
+    @Column(name = "nama", nullable=false)
     private Long jumlah;
 
     @ManyToOne
