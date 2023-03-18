@@ -21,9 +21,12 @@ public class TransaksiServiceImpl implements TransaksiService{
             return admin.get();
         }else return null;
     }
+<<<<<<< HEAD
 
     @Override
     public void saveTransaksi(Transaksi transaksi){
         transaksiDb.save(transaksi);
     }
+=======
+>>>>>>> 60bb45b95c425e1f531b20c3534d377c8c0a1f43
 }
