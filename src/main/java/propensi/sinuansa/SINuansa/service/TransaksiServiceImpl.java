@@ -26,4 +26,5 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void saveTransaksi(Transaksi transaksi){
         transaksiDb.save(transaksi);
     }
+
 }
