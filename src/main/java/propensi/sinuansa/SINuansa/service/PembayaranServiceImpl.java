@@ -21,4 +21,9 @@ public class PembayaranServiceImpl implements PembayaranService{
             return pembayaran.get();
         }else return null;
     }
+
+    @Override
+    public void savePembayaran(Pembayaran pembayaran){
+        pembayaranDb.save(pembayaran);
+    }
 }

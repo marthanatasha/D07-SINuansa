@@ -21,4 +21,9 @@ public class TransaksiServiceImpl implements TransaksiService{
             return admin.get();
         }else return null;
     }
+
+    @Override
+    public void saveTransaksi(Transaksi transaksi){
+        transaksiDb.save(transaksi);
+    }
 }
