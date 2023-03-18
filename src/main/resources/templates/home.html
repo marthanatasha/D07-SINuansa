@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,5 +9,6 @@
 <h1 class="text-3xl font-bold underline">
     Welcome to SINuansa!
 </h1>
+<h2 th:if="${#httpServletRequest.remoteUser != null}" th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'">Login as</h2>
 </body>
 </html>

@@ -1,10 +1,12 @@
 package propensi.sinuansa.SINuansa.service;
 
-import propensi.sinuansa.SINuansa.model.User;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import java.util.List;
 
 public interface UserService {
-    User findUserId(Long Id);
-    List<User> getListUser();
-    void addUser(User user);
+    UserModel findUserId(Long Id);
+    UserModel findByUsername(String username);
+    List<UserModel> getListUser();
+    UserModel addUser(UserModel user);
+    public String encrypt(String password);
 }
