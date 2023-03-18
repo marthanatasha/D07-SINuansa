@@ -21,4 +21,9 @@ public class ManajerServiceImpl implements ManajerService{
             return manajer.get();
         }else return null;
     }
+
+    @Override
+    public void addManajer (Manajer manajer){
+        manajerDb.save(manajer);
+    }
 }

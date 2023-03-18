@@ -21,4 +21,9 @@ public class BaristaServiceImpl implements BaristaService{
             return barista.get();
         }else return null;
     }
+
+    @Override
+    public void addBarista (Barista barista){
+        baristaDb.save(barista);
+    }
 }
