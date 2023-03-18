@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.repository.CabangDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,15 @@ public class CabangServiceImpl implements CabangService{
         if(cabang.isPresent()){
             return cabang.get();
         }else return null;
+    }
+
+    @Override
+    public void addCabang (Cabang cb){
+        cabangDb.save(cb);
+    }
+
+    @Override
+    public List<Cabang> getListCabang() {
+        return cabangDb.findAll();
     }
 }
