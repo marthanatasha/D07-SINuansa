@@ -33,10 +33,6 @@ public class User {
     @Column(name = "nama", nullable=false)
     private String nama;
 
-    @NotNull
-    @Column(name = "role", nullable = false)
-    private Role role;
-
     @ManyToOne
     @JoinColumn(name="id_cabang")
     private Cabang cabang;

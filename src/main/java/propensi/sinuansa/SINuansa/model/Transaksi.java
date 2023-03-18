@@ -23,10 +23,6 @@ public class Transaksi {
     private Long id;
 
     @NotNull
-    @Column(name = "nama", nullable =false)
-    private String nama;
-
-    @NotNull
     @Column(name = "akun", nullable =false)
     private String akun;
 
