@@ -53,6 +53,7 @@ public class UserController {
     @GetMapping("/user/addmanajer")
     public String addManajerForm (Model model){
         Manajer manajer = new Manajer();
+//        manajer.setRole(Role.MANAJER);
         List<Cabang> listCabang = cabangService.getListCabang();
         model.addAttribute("manajer", manajer);
         model.addAttribute("listCabang", listCabang);
