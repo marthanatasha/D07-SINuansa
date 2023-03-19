@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Add Menu</h2>
+                <br>
+                <form th:action="@{/menu/add}" th:object="${menu}" method="POST">
+                    Name: <br>
+                    <input class="form-control" type="text" th:field="*{nama}"/>
+                    <br><br>
+
+                    Price: <br>
+                    <input class="form-control" type="number" th:field="*{harga}"/>
+                    <br><br>
+
+                    Category: <br>
+                    <select th:field="*{kategori}" class="form-control">
+                        <option th:value="'Coffee'" th:text="Coffee"></option>
+                        <option th:value="'Non-Coffee'" th:text="Non-Coffee"></option>
+                    </select>
+
+                    <table class="table">
+                        <thead>
+                        <th>Ingredients</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="inventory, iterationStatus: *{resepList}">
+                            <td>
+                                <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
+                                        class="form-control">
+                                    <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
+                                        <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="number" th:field="*{resepList[__${iterationStatus.index}__].jumlah}">
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
+                                        name="deleteRowResep">Delete</button>
+                            </td>
+                        </tr>
+                        <th>
+                            <button class="btn btn-info" type="submit" name="addRow">+ Add Ingredient</button>
+                        </th>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary" type="submit" name="save">Save</button>
+                    <a class="btn-btn secondary" href="/menu">Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

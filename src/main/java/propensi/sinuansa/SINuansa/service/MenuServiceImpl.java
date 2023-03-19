@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.Menu;
 import propensi.sinuansa.SINuansa.repository.MenuDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,15 @@ public class MenuServiceImpl implements MenuService{
         if(menu.isPresent()){
             return menu.get();
         }else return null;
+    }
+
+    @Override
+    public List<Menu> getListMenu(){
+        return menuDb.findAll();
+    }
+
+    @Override
+    public void addMenu (Menu menu){
+        menuDb.save(menu);
     }
 }
