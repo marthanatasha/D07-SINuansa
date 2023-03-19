@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,11 +26,13 @@ public class Resep {
     @Column(name = "jumlah", nullable=false)
     private Long jumlah;
 
-    @ManyToOne
-    @JoinColumn(name="id_menu")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="id_menu", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Menu menu;
 
-    @ManyToOne
-    @JoinColumn(name="id_inventory")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="id_inventory", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Inventory inventory;
 }
