@@ -37,7 +37,7 @@ public class Menu {
     @JoinColumn(name="id_cabang")
     private Cabang cabang;
 
-    @OneToMany(mappedBy="menu")
+    @OneToMany(mappedBy="menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Resep> resepList;
 
     @OneToMany(mappedBy="menu")

@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.Resep;
 import propensi.sinuansa.SINuansa.repository.ResepDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,10 @@ public class ResepServiceImpl implements ResepService{
         if(resep.isPresent()){
             return resep.get();
         }else return null;
+    }
+
+    @Override
+    public List<Resep> getListResep(){
+        return resepDb.findAll();
     }
 }
