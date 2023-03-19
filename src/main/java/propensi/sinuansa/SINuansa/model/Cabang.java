@@ -34,7 +34,7 @@ public class Cabang {
     private Long noTelp;
 
     @OneToMany(mappedBy="cabang")
-    private List<User> userList;
+    private List<UserModel> userList;
 
     @OneToMany(mappedBy="cabang")
     private List<Supplier> supplierList;

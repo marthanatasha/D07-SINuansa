@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @Entity
 @NoArgsConstructor
 @Table(name = "barista")
-public class Barista extends User{
+public class Barista extends UserModel {
 }

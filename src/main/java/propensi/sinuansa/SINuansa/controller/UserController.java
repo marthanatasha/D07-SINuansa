@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.model.Role;
-import propensi.sinuansa.SINuansa.model.User;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.service.*;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class UserController {
 
     @RequestMapping("/user")
     public String viewAllUser(Model model) {
-        List<User> listUser = userService.getListUser();
+        List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
         return "user/viewall-user";
     }
@@ -65,7 +65,7 @@ public class UserController {
         // to do: encrypt password
         manajer.setRole(Role.MANAJER);
         manajerService.addManajer(manajer);
-        List<User> listUser = userService.getListUser();
+        List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
@@ -87,7 +87,7 @@ public class UserController {
         // to do: encrypt password
         barista.setRole(Role.BARISTA);
         baristaService.addBarista(barista);
-        List<User> listUser = userService.getListUser();
+        List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
@@ -109,7 +109,7 @@ public class UserController {
         // to do: encrypt password
         staff.setRole(Role.StaffInventory);
         staffInventoryService.addStaff(staff);
-        List<User> listUser = userService.getListUser();
+        List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
@@ -131,7 +131,7 @@ public class UserController {
         // to do: encrypt password
         staff.setRole(Role.StaffPabrik);
         staffPabrikService.addStaff(staff);
-        List<User> listUser = userService.getListUser();
+        List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
