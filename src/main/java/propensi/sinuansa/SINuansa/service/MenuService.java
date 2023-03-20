@@ -9,4 +9,5 @@ public interface MenuService {
     List<Menu> getListMenu();
     void addMenu(Menu menu);
     Boolean availabilityCheck(Menu menu);
+
 }
