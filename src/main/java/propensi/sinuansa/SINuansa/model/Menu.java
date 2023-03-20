@@ -33,11 +33,15 @@ public class Menu {
     @Column(name = "kategori", nullable=false)
     private String kategori;
 
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name="id_cabang")
     private Cabang cabang;
 
-    @OneToMany(mappedBy="menu")
+    @OneToMany(mappedBy="menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Resep> resepList;
 
     @OneToMany(mappedBy="menu")
