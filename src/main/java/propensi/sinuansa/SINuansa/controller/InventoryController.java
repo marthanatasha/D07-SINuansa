@@ -33,17 +33,19 @@ public class InventoryController {
     @RequestMapping ("/inventory/add")
     public String addInventoryModal(Model model,
                                     @RequestParam(value="is_kopi",required = false) Boolean is_kopi,
-                                    @RequestParam(value="quantity",required = false) Integer quantity,
+                                    @RequestParam(value="quantity1",required = false) Integer quantity1,
                                     @RequestParam(value="kategori",required = false) String kategori,
                                     @RequestParam(value="name",required = false) String name,
                                     @RequestParam(value="id_cabang",required = false) Cabang id_cabang,
                                     @RequestParam(value="temp",required = false) Long temp){
         Inventory inventory = new Inventory();
         inventory.setKopi(is_kopi);
-        inventory.setJumlah(quantity);
+        System.out.println(quantity1);
+        inventory.setJumlah(quantity1);
         inventory.setKategori(kategori);
         inventory.setNama(name);
         inventory.setCabang(id_cabang);
+        inventoryService.addInventory(inventory);
         model.addAttribute("inventory", inventory);
         return "redirect:/inventory/viewall";
     }

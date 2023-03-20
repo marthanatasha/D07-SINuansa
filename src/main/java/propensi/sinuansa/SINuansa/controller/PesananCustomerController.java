@@ -30,12 +30,12 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         return "pesananCustomer/form-add-pesananCustomer";
     }
-    @PostMapping("/pesananCustomer/add")
-    public String addPesananCustomerPage(@ModelAttribute PesananCustomer pesananCustomer, Model model) {
-        pesananCustomerService.addPesananCustomer(pesananCustomer);
-        model.addAttribute("id", pesananCustomer.getId());
-        return "pesananCustomer/add-pesananCustomer";
-    }
+//    @PostMapping("/pesananCustomer/add")
+//    public String addPesananCustomerPage(@ModelAttribute PesananCustomer pesananCustomer, Model model) {
+//        pesananCustomerService.addPesananCustomer(pesananCustomer);
+//        model.addAttribute("id", pesananCustomer.getId());
+//        return "pesananCustomer/add-pesananCustomer";
+//    }
 
     @GetMapping("/inventory/viewall")
     public String listInventory(Model model){

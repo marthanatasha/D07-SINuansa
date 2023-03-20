@@ -6,11 +6,19 @@
     <title>Inventory</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
+<nav th:replace="fragments/fragment :: navbar(home)"></nav>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
-<h2 class="text-center text-3xl font-bold dark:text-black">List Inventory Nuansa Coffe</h2>
+
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Inventories')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
 <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
+    <h2 class="text-center text-3xl font-bold dark:text-black">List Inventory Nuansa Coffe</h2>
     <table class="rounded-md w-400 mx-auto text-sm text-center font-bold text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
@@ -28,20 +36,20 @@
                                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add Nuansa's New Inventory</h3>
                                 <form class="space-y-6" th:action="@{/inventory/add}">
                                     <div>
-                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Name</label>
-                                        <input type="text" th:name="quantity"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Name</label>
+                                        <input type="text" id="name" th:name="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
 
-                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Category</label>
-                                        <input type="number" th:name="quantity"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Category</label>
+                                        <input type="text" id="kategori" th:name="kategori"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
 
-                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is That Coffee?</label>
-                                        <input type="number" th:name="quantity"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <label for="is_kopi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is That Coffee?</label>
+                                        <input type="number" id="is_kopi" th:name="is_kopi"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
 
-                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Branch</label>
-                                        <input type="number" th:name="quantity"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <label for="id_cabang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Branch</label>
+                                        <input type="number" id="id_cabang" th:name="id_cabang"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
 
-                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
-                                        <input type="number" th:name="quantity"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <label for="quantity1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
+                                        <input type="number" id="quantity1" th:name="quantity1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
 
                                     </div>
                                     <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Inventory</button>
@@ -126,6 +134,9 @@
         var temp3 = document.getElementById("temp");
         temp3.value = temp2;
     }
+
 </script>
+    </div>
+</div>
 </body>
 </html>
