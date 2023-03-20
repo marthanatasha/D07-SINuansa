@@ -10,20 +10,26 @@
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8"
             src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-    <div class="bg-slate-200 h-screen">
+<nav th:replace="fragments/fragment :: navbar(home)"></nav>
+<div class="flex">
+<button th:replace="fragments/sidebar :: sidebarhead"></button>
+<aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <div class="p-10">
             <h1 class="text-3xl">Transaction History</h1>
         </div>
-    <div class="flex">
+    <div class="flex justify-center pt-7">
         <div class="flex items-center">
             <div class="relative">
                 <input onchange="print(this)" name="start" id="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
             </div>
             <span class="mx-4 text-gray-500">to</span>
             <div class="relative">
-                <input onchange="print(this)" name="end" id="end" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                <input onchange="print(this)" name="end" id="end" type="date" class="content-end bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
             </div>
         </div>
         <button id="dropdownDefault" data-dropdown-toggle="dropdown"
@@ -80,24 +86,24 @@
             </ul>
         </div>
     </div>
-            <div class="mt-35 pt-40" id="table">
+            <div class="block p-6 mt-35 pt-40" id="table">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg" th:if="${listTransaksi.size() != 0}">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Quantity
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Akun
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Date
                             </th>
                         </tr>
@@ -108,6 +114,7 @@
                 </div>
             </div>
     </div>
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 </body>
 <script th:inline="javascript">
@@ -124,8 +131,14 @@
         let flag = false;
         if(listCheck.length>0) flag=true;
         if(startVal !="" && endVal!=""){
+        var startDate = new Date(startVal);
+        var endDate = new Date(endVal);
+        if(Math.abs((startDate - endDate)/ (1000 * 3600 * 24))>30){
+                        alert("Maksimal periode yang dipilih 30 hari")
+        }else{
             if(datas.length>0){
                 for(let i =0; i<datas.length; i++){
+                    console.log(Math.abs((startDate- endDate)/ (1000 * 3600 * 24)));
                     if(datas[i].waktuTransaksi.substring(0,10)>=startVal && datas[i].waktuTransaksi.substring(0,10)<=endVal && startVal<endVal){
                         listData.push(datas[i]);
                         if(flag){
@@ -144,13 +157,14 @@
                 for(let j =0; j<listFinal.length; j++){  
                     let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
+            }
             }
         }
     }
@@ -171,10 +185,10 @@
                 for(let j =0; j<listFinal.length; j++){  
                     let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
@@ -195,10 +209,10 @@
                 for(let j =0; j<listFinal.length; j++){  
                     let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
@@ -210,10 +224,10 @@
                 for(let j =0; j<listData.length; j++){  
                     let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].nama}</td>
-                            <td class="px-6 py-4"> ${listData[j].kuantitas}</td>
-                            <td class="px-6 py-4">${listData[j].nominal}</td>
-                            ${(listData[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`}
-                            <td class="px-6 py-4">${listData[j].waktuTransaksi.substring(0,10)}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listData[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].nominal}</td>
+                            ${(listData[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }

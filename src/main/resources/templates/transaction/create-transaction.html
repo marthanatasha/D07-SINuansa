@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <title>Create Transaction</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-    <div class="bg-slate-200 h-screen">
+    <nav th:replace="fragments/fragment :: navbar(home)"></nav>
+    <div class="flex">
+        <button th:replace="fragments/sidebar :: sidebarhead"></button>
+        <aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <div class="p-10">
             <h1 class="text-3xl">Create Transaction</h1>
         </div>
@@ -32,7 +38,6 @@
                     <label for="ref">Reference Code</label>
                     <select th:field="*{refCode}" id="ref" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
                         <option value="4-40000 Pendapatan Makanan" selected>Pendapatan Makanan</option>
-                        <option value="4-40001 Pendapatan Minuman">Pendapatan Minuman</option>
                         <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
                         <option value="4-40200">Retur Penjualan</option>
                     </select>
@@ -48,6 +53,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
     <script>
         function getRef(){
