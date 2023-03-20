@@ -3,25 +3,31 @@ package propensi.sinuansa.SINuansa.DTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 public class PesananInventoryDTO {
-    String namaItem;
-    Long jumlah;
-    Long hargaItem;
-    Long hargaTotal;
 
-    public PesananInventoryDTO(){
-        this.namaItem = "";
-        this.jumlah=0L;
-        this.hargaItem = 0L;
-        this.hargaTotal = 0L;
+    String cabang;
+    LocalDateTime waktu;
+    List<EntryPesananInventoryDTO> entryPI;
+    Long harga;
+
+
+    public PesananInventoryDTO() {
+        this.cabang = "";
+        this.waktu= null;
+        this.entryPI=null;
+        this.harga=0L;
     }
 
-    public PesananInventoryDTO(String namaItem, Long jumlah, Long hargaItem, Long hargaTotal){
-        this.namaItem = namaItem;
-        this.jumlah = jumlah;
-        this.hargaItem = hargaItem;
-        this.hargaTotal = hargaTotal;
+    public PesananInventoryDTO(String cabang, LocalDateTime waktu, List<EntryPesananInventoryDTO> entryPI, Long harga) {
+        this.cabang = cabang;
+        this.waktu = waktu;
+        this.entryPI = entryPI;
+        this.harga = harga;
     }
+
 }
