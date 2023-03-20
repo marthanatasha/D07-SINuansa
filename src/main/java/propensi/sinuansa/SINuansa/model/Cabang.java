@@ -25,8 +25,16 @@ public class Cabang {
     @Column(name = "nama", nullable=false)
     private String nama;
 
+    @NotNull
+    @Column(name = "alamat", nullable=false)
+    private String alamat;
+
+    @NotNull
+    @Column(name = "no_telp", nullable=false)
+    private Long noTelp;
+
     @OneToMany(mappedBy="cabang")
-    private List<User> userList;
+    private List<UserModel> userList;
 
     @OneToMany(mappedBy="cabang")
     private List<Supplier> supplierList;

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar(home)"></nav>
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Menus')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+        <div class="p-10">
+            <h1 class="text-3xl">Menu</h1>
+            <br>
+            <div class="my-3 d-flex justify-content-center">
+                <a th:href="@{/menu/add}" class="mx-2 btn btn-primary">Add Menu</a>
+            </div>
+            <br>
+            <div class="my-3 d-flex justify-content-center">
+                <a th:href="@{/menu/delete}" class="mx-2 btn btn-primary">Delete Menu</a>
+            </div>
+        </div>
+        <div class="flex justify-center pt-7">
+            <div class="flex items-center">
+                <br><br>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th> </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="menu, iterationStatus : ${listMenu}">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${menu.nama}"></td>
+                        <td th:text="${menu.harga}"></td>
+                        <td class="text-center">
+                            <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>
+                            <p th:if="${menu.status} == true" th:text="'Available'"></p>
+                        </td>
+                        <td><a class="btn btn-info" th:href="@{/menu}">Edit</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br><br>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

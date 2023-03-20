@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Inventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<nav th:replace="fragments/fragment :: navbar(home)"></nav>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Inventories')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+<div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
+    <h2 class="text-center text-3xl font-bold dark:text-black">List Inventory Nuansa Coffe</h2>
+    <table class="rounded-md w-400 mx-auto text-sm text-center font-bold text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">
+                <button data-modal-target="authentication-modal1" data-modal-toggle="authentication-modal1" class="bg-blue-900 text-white hover:bg-blue-600 font-bold py-2 px-4 mt-3 rounded">Add Inventory</button>
+                <div id="authentication-modal1" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+                    <div class="relative w-full h-full max-w-md md:h-auto">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal1">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="px-6 py-6 lg:px-8">
+                                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add Nuansa's New Inventory</h3>
+                                <form class="space-y-6" th:action="@{/inventory/add}">
+                                    <div>
+                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Name</label>
+                                        <input type="text" id="name" th:name="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+
+                                        <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Category</label>
+                                        <input type="text" id="kategori" th:name="kategori"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+
+                                        <label for="is_kopi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is That Coffee?</label>
+                                        <input type="number" id="is_kopi" th:name="is_kopi"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+
+                                        <label for="id_cabang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Branch</label>
+                                        <input type="number" id="id_cabang" th:name="id_cabang"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+
+                                        <label for="quantity1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
+                                        <input type="number" id="quantity1" th:name="quantity1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+
+                                    </div>
+                                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Inventory</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th>
+            <th scope="col" class="px-6 py-3">
+                <a class="bg-yellow-600 text-white hover:bg-yellow-800 font-bold py-2 px-4 mt-3 rounded" th:href="@{/orderinventory/all}">Order Inventory</a>
+            </th>
+    </table>
+</div>
+<div class="relative overflow-x-auto">
+    <table class="rounded-md w-400 mx-auto border rounded-lg text-sm text-center font-bold text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">
+                No
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Inventory Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Quantity
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Edit Quantity
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Delete
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+            th:each="inventory, iterationStatus : ${listInventory}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${inventory.nama}"></td>
+            <td th:text="${inventory.jumlah}"></td>
+            <td>
+                <button th:value="${inventory.id}" onclick="savingId(this)" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="m-2 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded-full">
+                    Update Quantity
+
+                </button>
+                <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+                    <div class="relative w-full h-full max-w-md md:h-auto">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="px-6 py-6 lg:px-8">
+                                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Update your Stock!</h3>
+                                <form class="space-y-6" th:action="@{/inventory/update}">
+                                    <div>
+                                        <label for="quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Input Quantity</label>
+                                        <input type="number" th:name="quantity" id="quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <input type="number" hidden id="temp" th:name="temp">
+                                    </div>
+                                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Stock</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a class="m-2 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded-full" th:href="@{/inventory/delete/}+${inventory.id}">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    function savingId(temp){
+        var temp2 = temp.value;
+        var temp3 = document.getElementById("temp");
+        temp3.value = temp2;
+    }
+
+</script>
+    </div>
+</div>
+</body>
+</html>
