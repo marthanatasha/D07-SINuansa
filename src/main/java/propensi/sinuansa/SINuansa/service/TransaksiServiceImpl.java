@@ -32,4 +32,5 @@ public class TransaksiServiceImpl implements TransaksiService{
     public List<Transaksi> getTransaksiList(){
         return transaksiDb.findAll();
     }
+
 }

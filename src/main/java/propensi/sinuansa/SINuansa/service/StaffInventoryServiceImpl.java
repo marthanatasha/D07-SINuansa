@@ -21,4 +21,9 @@ public class StaffInventoryServiceImpl implements StaffInventoryService{
             return staffInventory.get();
         }else return null;
     }
+
+    @Override
+    public void addStaff(StaffInventory staff){
+        staffInventoryDb.save(staff);
+    }
 }
