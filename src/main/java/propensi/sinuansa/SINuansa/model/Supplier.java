@@ -29,6 +29,10 @@ public class Supplier {
     @Column(name = "kontak", nullable=false)
     private String link;
 
+    @NotNull
+    @Column(name = "material", nullable=false)
+    private String material;
+
     @ManyToOne
     @JoinColumn(name="id_cabang")
     private Cabang cabang;
