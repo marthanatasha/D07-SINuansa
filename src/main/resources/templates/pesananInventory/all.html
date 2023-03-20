@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>SINUANSA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<!--<nav th:replace="fragments/fragment :: navbar"></nav>-->
+<div class="container">
+    <br>
+    <h2>List Inventory Order</h2>
+    <br>
+    <div>
+        <a class="btn btn-primary" th:href="@{/orderinventory/create}">+ Create Order Inventory Request</a>
+    </div>
+    <br>
+    <div th:if="*{listPesananInventory.size() != 0}">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Tanggal</th>
+                <th scope="col">Kode</th>
+                <th scope="col">Status</th>
+                <th scope="col">Detail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pi, iterationStatus : ${listPesananInventory}">
+                <td th:text="${pi.waktuPemesanan}"></td>
+                <td th:text="${pi.kode}"></td>
+                <td th:text="${pi.status}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="*{listPesananInventory.size() != 0}">
+        <h3 th:text="'No Order Has Been Made'"></h3>
+    </div>
+</div>
+
+</body>
+
+</html>

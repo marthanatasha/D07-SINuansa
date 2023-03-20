@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.PesananInventory;
 import propensi.sinuansa.SINuansa.repository.PesananInventoryDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,16 @@ public class PesananInventoryServiceImpl implements PesananInventoryService{
         if(pesananInventory.isPresent()){
             return pesananInventory.get();
         }else return null;
+    }
+
+    @Override
+    public PesananInventory addPesananInventory(PesananInventory pesananInventory) {
+        pesananInventoryDb.save(pesananInventory);
+        return pesananInventory;
+    }
+
+    @Override
+    public List<PesananInventory> getListPesananInventory() {
+        return pesananInventoryDb.findAll();
     }
 }
