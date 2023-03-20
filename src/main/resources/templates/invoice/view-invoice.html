@@ -8,40 +8,122 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 </head>
 <body>
-    <div class="bg-slate-200">
-        <h1 class="text-3xl">Payment Successful</h1>
-        <div th:text="${pembayaran.id}"></div>
+    <div class="bg-slate-200 h-screen">
+        <div class="p-10">
+            <h1 class="text-3xl">Payment Successful</h1>
+            <div th:text="${invoice.noPembayaran}"></div>
+        </div>
         <div class="flex justify-center pt-7">
             <div id="pdf" class="block p-6 bg-white border rounded-lg shadow w-2/4 pt-15">
-                <p class="text-xl font-semibold text-center">Store A</p>
-                <p class="text-center">Kejayaan No. 2 Krukut, Taman Sari Jakarta Barat, 11140</p>
-                <p class="text-center">08229805362</p>
+                <p class="text-xl font-semibold text-center" th:text="${invoice.namaCabang}"></p>
+                <p class="text-center" th:text="${invoice.alamatCabang}"></p>
+                <p class="text-center" th:text="${invoice.noCabang}"></p>
                 <hr>
-                <table>
+                <table style="width:100%">
                     <tr>
-                        <td th:text="${pembayaran.waktuBayar}"></td>
+                        <td th:text="${invoice.waktu}"></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Receipt Number</td>
                     </tr>
                     <tr>
-                        <td th:text="${pembayaran.id}"></td>
+                        <td th:text="${invoice.noPembayaran}"></td>
                     </tr>
+                    <tr></tr>
+                    <tr style="border-bottom: 1px solid #000;">
+                    <tr></tr>
+                    <tr th:each="item, iterationStatus : ${invoice.items}">
+                        <td th:text="${item.namaItem}" style="text-align:left"></td>
+                        <td th:text="${item.jumlah} + @{ x } + ${item.hargaItem}" style="text-align:right"></td>
+                        <td th:text="${item.hargaTotal}" style="text-align:right"></td>
+                    </tr>
+                    <tr></tr>
+                    <tr style="border-bottom: 1px solid #000;">
+                    <tr></tr>
+                    <tr>
+                        <td><p class="font-semibold" style="text-align:left">Subtotal</p></td>
+                        <td></td>
+                        <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #000;"></tr>
+                    <tr>
+                        <td><p class="font-semibold" style="text-align:left">Total</p></td>
+                        <td></td>
+                        <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr>
+                        <td><p style="text-align:left" th:text="${invoice.source}"></p></td>
+                        <td></td>
+                        <td><p th:text="${invoice.harga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #000;"></tr>
+                    <tr>
+                        <td><p style="text-align:left">Instagram: @nuansa_idn</p></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #000;"></tr>
                 </table>
+                <p class="text-2xl font-semibold text-center">Thank You</p>
             </div>
         </div>
-        <button class="rounded-full" id="exportForm">Print</button>
+        <div class="flex justify-center pt-7">
+        <button class="rounded-full bg-cyan-900 text-slate-100 px-5 py-2 text-lg mr-3" id="exportForm">Print</button>
+            <button class="rounded-full bg-stone-400 px-5 text-lg" href="/">Back</button>
+        </div>
     </div>
-    <script>
+    <script th:inline="javascript">
+    var data = [[${invoice}]];
+    var date = data.waktu.substring(0,10);
+    var time = data.waktu.substring(11,16);
     $('#exportForm').click(function () {
+            
             var pdf = new jsPDF('p', 'mm', 'a4');
-            let h1 = document.querySelector('#pdf')
-            pdf.fromHTML(h1,12,12)
-            pdf.setFont('Courier');
-            pdf.save("receipt.pdf")
+            var width = pdf.internal.pageSize.width;
+            var height = pdf.internal.pageSize.height;
+            pdf.setFont('Helvetica');
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'bold');
+            pdf.text(data.namaCabang, 100, 20, {align:'center'})
+            pdf.setFontSize(8);
+            pdf.setFont(undefined, 'normal');
+            pdf.text(data.alamatCabang, 75, 25, {align:'center'});
+            pdf.text(data.noCabang, 100, 30, {align:'center'});
+            pdf.line(width/8, 35, width*7/8, 35);
+            pdf.text(date + " " + time, width/8, 42);
+            pdf.setFont(undefined, 'bold');
+            pdf.text("Receipt Number", width/8, 50);
+            pdf.setFont(undefined, 'normal');
+            pdf.text(data.noPembayaran, width/8, 55);
+            pdf.line(width/8, 60, width*7/8, 60);
+            for(let i =0; i<data.items.length; i++){
+                pdf.text(data.items[i].namaItem, width/8, 65+(i*5));
+                pdf.text(data.items[i].jumlah + " x " + data.items[i].hargaItem, 145, 65+(i*5));
+                pdf.text(""+data.items[i].hargaTotal, 170, 65+(i*5));
+            }
+            pdf.line(width/8, 65+(data.items.length*5), width*7/8, 65+(data.items.length*5));
+            pdf.setFont(undefined, 'bold');
+            pdf.text("Subtotal", width/8, 70+(data.items.length*5));
+            pdf.text(data.harga+"", 170, 70+(data.items.length*5));
+            pdf.line(width/8, 75+(data.items.length*5), width*7/8, 75+(data.items.length*5));
+            pdf.text("Total", width/8, 80+(data.items.length*5));
+            pdf.text(data.harga+"", 170, 80+(data.items.length*5));
+            pdf.setFont(undefined, 'normal');
+            pdf.text(data.source, width/8, 85+(data.items.length*5));
+            pdf.text(data.harga+"", 170, 85+(data.items.length*5));
+            pdf.line(width/8, 90+(data.items.length*5), width*7/8, 90+(data.items.length*5));
+            pdf.text('Instagram : @nuansa_idn', width/8, 95+(data.items.length*5));
+            pdf.line(width/8, 100+(data.items.length*5), width*7/8, 100+(data.items.length*5));
+            pdf.setFont(undefined, 'bold');
+            pdf.setFontSize(10);
+            pdf.text("Thank You", 97, 105+(data.items.length*5));
+
+            pdf.save(`${data.noPembayaran}-Receipt.pdf`);
     })
     </script>
 </body>

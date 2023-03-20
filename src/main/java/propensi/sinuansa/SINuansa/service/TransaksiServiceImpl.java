@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.Transaksi;
 import propensi.sinuansa.SINuansa.repository.TransaksiDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,4 +28,8 @@ public class TransaksiServiceImpl implements TransaksiService{
         transaksiDb.save(transaksi);
     }
 
+    @Override
+    public List<Transaksi> getTransaksiList(){
+        return transaksiDb.findAll();
+    }
 }

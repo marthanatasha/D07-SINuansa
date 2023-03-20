@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Transaction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="bg-slate-200 h-screen">
+        <div class="p-10">
+            <h1 class="text-3xl">Create Transaction</h1>
+        </div>
+        <div class="flex justify-center pt-7">
+            <div class="block p-6 bg-white border rounded-lg shadow w-2/4 pt-15">
+                <form th:object="${transaksi}" th:action="@{/transaction/add}" method="post">
+                    <label for="nama">Nama</label>
+                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="text"
+                           th:field="*{nama}"
+                           id="nama" />
+                    <label for="akun">Account</label>
+                    <select th:field="*{akun}" id="akun" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
+                        <option value="Debit" selected>Debit</option>
+                        <option value="Credit">Credit</option>
+                    </select>
+                    <label for="kategori">Category</label>
+                    <select th:field="*{kategori}" id="kategori" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600" onchange="getRef()">
+                        <option value="Pendapatan Penjualan" selected>Pendapatan Penjualan</option>
+                        <option value="Harga Pokok Penjualan">Harga Pokok Penjualan</option>
+                        <option value="Biaya Operasional">Biaya Operasional</option>
+                        <option value="Biaya Lainnya">Biaya Lainnya</option>
+                    </select>
+                    <label for="ref">Reference Code</label>
+                    <select th:field="*{refCode}" id="ref" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
+                        <option value="4-40000 Pendapatan Makanan" selected>Pendapatan Makanan</option>
+                        <option value="4-40001 Pendapatan Minuman">Pendapatan Minuman</option>
+                        <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
+                        <option value="4-40200">Retur Penjualan</option>
+                    </select>
+                    <label for="kuantitas">Quantity</label>
+                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="number"
+                           th:field="*{kuantitas}"
+                           id="kuantitas" />
+                    <label for="nominal">Price</label>
+                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="number"
+                           th:field="*{nominal}"
+                           id="nominal" />
+                    <button type="submit" class="rounded-full bg-cyan-900 text-slate-100 px-5 py-2 text-lg mr-3" id="exportForm">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getRef(){
+            var select = document.getElementById("kategori");
+            var val = select.value;
+            var PP = `<option value="4-40000 Pendapatan Makanan">Pendapatan Makanan</option>
+                        <option value="4-40001 Pendapatan Minuman">Pendapatan Minuman</option>
+                        <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
+                        <option value="4-40200">Retur Penjualan</option>`;
+
+            var HPP = `<option value="5-50000 Beban Pokok Pendapatan Makanan">Beban Pokok Pendapatan Makanan</option>
+                        <option value="5-50001 Beban Pokok Pendapatan Minuman">Beban Pokok Pendapatan Minuman</option>
+                        <option value="5-50500 Biaya Produksi">Biaya Produksi</option>`;
+
+            var BO = `<option value="6-60000 Biaya Penjualan">Biaya Penjualan</option>
+                        <option value="6-60008 Biaya Kemitraan">Biaya Kemitraan</option>
+                        <option value="6-60100 Biaya Umum Dan Administrasi">Biaya Umum Dan Administrasi</option>
+                        <option value="6-60101 Gaji">Gaji</option>
+                        <option value="6-60217 Listrik">Listrik</option>
+                        <option value="6-60400 Biaya Kemitraan">Biaya Sewa Bangunan</option>
+                        <option value="6-60225 Biaya Internet">Biaya Internet</option>
+                        `;
+            
+            var BL = `<option value="8-80003 Biaya Lain-Lain">Biaya Lain-Lain</option>
+                        <option value="8-80004 Biaya Depresiasi">Biaya Kemitraan</option>
+                        <option value="8-80999 Beban Lain-Lain">Beban Lain-Lain</option>`
+            var choose = document.getElementById("ref");
+            if(val=="Pendapatan Penjualan"){
+                choose.innerHTML = PP;
+            }
+            else if(val =="Harga Pokok Penjualan"){
+                choose.innerHTML = HPP;
+            }
+            else if(val =="Biaya Operasional"){
+                choose.innerHTML = BO;
+            }
+            else{
+                choose.innerHTML = BL;
+            }
+        }
+    </script>
+</body>
+</html>

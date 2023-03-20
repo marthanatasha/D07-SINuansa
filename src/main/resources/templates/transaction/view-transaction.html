@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <div class="bg-slate-200 h-screen">
+        <div class="p-10">
+            <h1 class="text-3xl">Transaction History</h1>
+        </div>
+    <div class="flex">
+        <div class="flex items-center">
+            <div class="relative">
+                <input onchange="print(this)" name="start" id="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+            </div>
+            <span class="mx-4 text-gray-500">to</span>
+            <div class="relative">
+                <input onchange="print(this)" name="end" id="end" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+            </div>
+        </div>
+        <button id="dropdownDefault" data-dropdown-toggle="dropdown"
+                class="mx-5 text-white bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="button">
+            Filter by category
+            <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+        <a class="mx-5 text-white bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                href="/transaction/create" type="button">Create New Transaction</a>
+        <div id="dropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+            <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
+                Category
+            </h6>
+            <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
+                <li class="flex items-center">
+                    <input onclick="check(this)" id="pp" type="checkbox" value="Pendapatan Penjualan"
+                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+
+                    <label for="pp" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Pendapatan Penjualan
+                    </label>
+                </li>
+
+                <li class="flex items-center">
+                    <input onclick="check(this)" id="hpp" type="checkbox" value="Harga Pokok Penjualan"
+                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+
+                    <label for="hpp" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Harga Pokok Penjualan
+                    </label>
+                </li>
+
+                <li class="flex items-center">
+                    <input onclick="check(this)" id="bo" type="checkbox" value="Biaya Operasional"
+                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+
+                    <label for="bo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Biaya Operasional
+                    </label>
+                </li>
+
+                <li class="flex items-center">
+                    <input onclick="check(this)" id="bl" type="checkbox" value="Biaya Lainnya"
+                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+
+                    <label for="bl" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Biaya Lainnya
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+            <div class="mt-35 pt-40" id="table">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg" th:if="${listTransaksi.size() != 0}">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Name
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Quantity
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Price
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Akun
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Date
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="body">
+                    </tbody>
+                </table>
+                </div>
+            </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+</body>
+<script th:inline="javascript">
+    var listCheck = [];
+    var listData = [];
+    var datas = [[${listTransaksi}]];
+    function print(e){
+        var start = document.getElementById("start");
+        var startVal = start.value;
+        var end = document.getElementById("end");
+        var endVal = end.value;
+        listData = [];
+        let listFinal = [];
+        let flag = false;
+        if(listCheck.length>0) flag=true;
+        if(startVal !="" && endVal!=""){
+            if(datas.length>0){
+                for(let i =0; i<datas.length; i++){
+                    if(datas[i].waktuTransaksi.substring(0,10)>=startVal && datas[i].waktuTransaksi.substring(0,10)<=endVal && startVal<endVal){
+                        listData.push(datas[i]);
+                        if(flag){
+                            if(listCheck.includes(datas[i].kategori)){
+                                listFinal.push(datas[i]);
+                            }
+                        }
+                        else{
+                            listFinal.push(datas[i]);
+                        }
+                    }
+                }
+                var tables = document.getElementById("body");
+                tables.innerHTML = "";
+                
+                for(let j =0; j<listFinal.length; j++){  
+                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                        </tr>`
+                    tables.innerHTML+=row;
+                }
+            }
+        }
+    }
+
+    function check(e){
+        let listFinal = [];
+        if(e.checked){
+            listCheck.push(e.value);
+            if(listData.length>0){
+                for(let i =0; i<listData.length; i++){
+                    if(listCheck.includes(listData[i].kategori)){
+                        listFinal.push(listData[i]);
+                    }
+                }
+                var tables = document.getElementById("body");
+                tables.innerHTML = "";
+                
+                for(let j =0; j<listFinal.length; j++){  
+                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                        </tr>`
+                    tables.innerHTML+=row;
+                }
+            }
+        }
+        else{
+            listCheck = listCheck.filter((item) => {return item!=e.value});
+            if(listCheck.length>0){
+                if(listData.length>0){
+                for(let i =0; i<listData.length; i++){
+                    if(listCheck.includes(listData[i].kategori)){
+                        listFinal.push(listData[i]);
+                    }
+                }
+                var tables = document.getElementById("body");
+                tables.innerHTML = "";
+                
+                for(let j =0; j<listFinal.length; j++){  
+                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                        </tr>`
+                    tables.innerHTML+=row;
+                }
+            }
+            }
+            else{
+                var tables = document.getElementById("body");
+                tables.innerHTML = "";
+                for(let j =0; j<listData.length; j++){  
+                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].nama}</td>
+                            <td class="px-6 py-4"> ${listData[j].kuantitas}</td>
+                            <td class="px-6 py-4">${listData[j].nominal}</td>
+                            ${(listData[j]).akun=="Debit"?`<td class="px-6 py-4"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`}
+                            <td class="px-6 py-4">${listData[j].waktuTransaksi.substring(0,10)}</td>
+                        </tr>`
+                    tables.innerHTML+=row;
+                }
+            }
+        }
+    }
+
+</script>
+</html>
