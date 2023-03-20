@@ -50,6 +50,10 @@ public class PesananInventory {
     @Column(name = "harga", nullable=false)
     private Long harga;
 
+    @NotNull
+    @Column(name = "kode", nullable=false)
+    private String kode;
+
     @OneToMany(mappedBy="pesananInventory")
     private List<EntryPI> entryPIList;
 
