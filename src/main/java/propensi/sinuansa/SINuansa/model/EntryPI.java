@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "entry_pi")
-public class EntryPI {
+public class EntryPI implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
