@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.service.InventoryService;
 
@@ -19,40 +17,56 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @GetMapping("/inventory/add")
-    public String addInventoryFormPage(Model model){
+//    @GetMapping("/inventory/add")
+//    public String addInventoryFormPage(Model model){
+//        Inventory inventory = new Inventory();
+//        model.addAttribute("inventory", inventory);
+//        return "inventory/form-add-inventory";
+//    }
+//    @PostMapping("/inventory/add")
+//    public String addInventorySubmitPage(@ModelAttribute Inventory inventory, Model model) {
+//        inventoryService.addInventory(inventory);
+//        model.addAttribute("id", inventory.getId());
+//        return "inventory/add-inventory";
+//    }
+
+    @RequestMapping ("/inventory/add")
+    public String addInventoryModal(Model model,
+                                    @RequestParam(value="is_kopi",required = false) Boolean is_kopi,
+                                    @RequestParam(value="quantity",required = false) Integer quantity,
+                                    @RequestParam(value="kategori",required = false) String kategori,
+                                    @RequestParam(value="name",required = false) String name,
+                                    @RequestParam(value="id_cabang",required = false) Cabang id_cabang,
+                                    @RequestParam(value="temp",required = false) Long temp){
         Inventory inventory = new Inventory();
+        inventory.setKopi(is_kopi);
+        inventory.setJumlah(quantity);
+        inventory.setKategori(kategori);
+        inventory.setNama(name);
+        inventory.setCabang(id_cabang);
         model.addAttribute("inventory", inventory);
-        return "inventory/form-add-inventory";
-    }
-    @PostMapping("/inventory/add")
-    public String addInventorySubmitPage(@ModelAttribute Inventory inventory, Model model) {
-        inventoryService.addInventory(inventory);
-        model.addAttribute("id", inventory.getId());
-        return "inventory/add-inventory";
+        return "redirect:/inventory/viewall";
     }
 
-    @GetMapping("/inventory/update/{id}")
-    public String updateInventoryFormPage(@PathVariable Long id, Model model){
-        Inventory inventory = inventoryService.getInventoryById(id);
-        model.addAttribute("inventory", inventory);
-        return "inventory/form-update-inventory";
-    }
-
-    @PostMapping("/inventory/update")
-    public String updateInventorySubmitPage(@ModelAttribute Inventory inventory, Model model){
+    @RequestMapping ("/inventory/update")
+    public String updateInventoryModal(Model model,
+                                        @RequestParam(value="quantity",required = false) Integer quantity,
+                                        @RequestParam(value="temp",required = false) Long temp){
+        Inventory inventory = inventoryService.getInventoryById(temp);
+        inventory.setJumlah(quantity);
         Inventory updatedInventory = inventoryService.updateInventory(inventory);
         model.addAttribute("id", updatedInventory.getId());
-        return "inventory/update-inventory";
+        System.out.print("masuk");
+        return "redirect:/inventory/viewall";
     }
 
     @GetMapping("/inventory/delete/{id}")
     public String deleteInventorySubmitPage(@PathVariable Long id, Model model){
         Inventory inventory = inventoryService.getInventoryById(id);
+        Long idThis = inventory.getId();
         Inventory deletedInventory = inventoryService.deleteInventory(inventory);
-        model.addAttribute("id", inventory.getId());
-        return "inventory/delete-inventory";
-
+        model.addAttribute("id", idThis);
+        return "redirect:/inventory/viewall";
     }
 
     @GetMapping("/inventory/viewall")
@@ -61,7 +75,6 @@ public class InventoryController {
         model.addAttribute("listInventory", listInventory);
         return "inventory/viewall-inventory";
     }
-
 
 }
 
