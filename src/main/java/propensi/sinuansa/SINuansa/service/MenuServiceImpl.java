@@ -2,7 +2,9 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.model.Menu;
+import propensi.sinuansa.SINuansa.model.Resep;
 import propensi.sinuansa.SINuansa.repository.MenuDb;
 
 import javax.transaction.Transactional;
@@ -31,5 +33,17 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public void addMenu (Menu menu){
         menuDb.save(menu);
+    }
+
+    @Override
+    public Boolean availabilityCheck(Menu menu){
+        Boolean status = true;
+        for (Resep resep : menu.getResepList()){
+            System.out.println(resep.getInventory().getJumlah());
+            if (resep.getInventory().getJumlah() < resep.getJumlah()){
+                status = false;
+            }
+        }
+        return status;
     }
 }

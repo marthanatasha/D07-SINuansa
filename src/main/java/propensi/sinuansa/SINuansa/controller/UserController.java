@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,8 @@ public class UserController {
     @PostMapping(value = "/user/addmanajer")
     public String addManajerSubmit(@ModelAttribute Manajer manajer, Model model, RedirectAttributes redirectAttrs) {
         // to do: encrypt password
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        manajer.setPassword(encoder.encode(manajer.getPassword()));
         manajer.setRole(Role.MANAJER);
         manajerService.addManajer(manajer);
         List<UserModel> listUser = userService.getListUser();

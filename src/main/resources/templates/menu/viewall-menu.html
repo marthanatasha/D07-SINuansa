@@ -12,26 +12,33 @@
                 <h2>Menu</h2>
             </div>
             <br>
-            <a class="btn btn-primary" href="/menu/add">Add Menu</a>
+            <a class="btn btn-primary" href="/menu/add">+ Add Menu</a>
+            <br>
+            <a class="btn btn-primary" href="/menu/delete">Delete Menu</a>
             <br><br>
-<!--            <table class="table">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>No</th>-->
-<!--                    <th>Name</th>-->
-<!--                    <th>Role</th>-->
-<!--                    <th>Cabang</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="user, iterationStatus : ${listUser}">-->
-<!--                    <td th:text="${iterationStatus.count}"></td>-->
-<!--                    <td th:text="${user.nama}"></td>-->
-<!--                    <td th:text="${user.role}"></td>-->
-<!--                    <td th:text="${user.cabang.nama}"></td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="menu, iterationStatus : ${listMenu}">
+                    <td th:text="${iterationStatus.count}"></td>
+                    <td th:text="${menu.nama}"></td>
+                    <td th:text="${menu.harga}"></td>
+                    <td class="text-center">
+                        <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>
+                        <p th:if="${menu.status} == true" th:text="'Available'"></p>
+                    </td>
+                    <td><a class="btn btn-info" th:href="@{/menu}">Edit</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
