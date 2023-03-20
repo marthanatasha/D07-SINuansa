@@ -44,6 +44,22 @@ public class UserController {
     @Qualifier("staffPabrikServiceImpl")
     private StaffPabrikService staffPabrikService;
 
+    @GetMapping("/dummy")
+    public String addAdminDummy (Model model){
+        Admin admin = new Admin();
+//        manajer.setRole(Role.MANAJER);
+        admin.setNama("admin");
+        admin.setUsername("admin");
+        Cabang cb = cabangService.findCabangId(1L);
+        admin.setCabang(cb);
+        admin.setRole(Role.ADMIN);
+        admin.setPassword("admin");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        admin.setPassword(encoder.encode(admin.getPassword()));
+        adminService.addAdmin(admin);
+        return "redirect:/";
+    }
+
     @RequestMapping("/user")
     public String viewAllUser(Model model) {
         List<UserModel> listUser = userService.getListUser();
