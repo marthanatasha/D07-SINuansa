@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<html>
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
     <meta charset="UTF-8">
@@ -61,7 +60,7 @@
                 </div>
             </th>
             <th scope="col" class="px-6 py-3">
-                <button class="bg-yellow-600 text-white hover:bg-yellow-800 font-bold py-2 px-4 mt-3 rounded">Order Inventory</button>
+                <a class="bg-yellow-600 text-white hover:bg-yellow-800 font-bold py-2 px-4 mt-3 rounded" th:href="@{/orderinventory/all}">Order Inventory</a>
             </th>
     </table>
 </div>
