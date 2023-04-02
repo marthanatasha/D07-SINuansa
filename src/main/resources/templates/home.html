@@ -19,10 +19,10 @@
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Dashboard')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
-<h1 class="text-3xl font-bold underline">
+<h1 class="text-3xl font-bold underline m-10">
     Welcome to SINuansa!
 </h1>
-<h2 th:if="${#httpServletRequest.remoteUser != null}" th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'">Login as</h2>
+<h2 class="text-xl font-normal m-10" th:if="${#httpServletRequest.remoteUser != null}" th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'">Login as</h2>
 </div>
 </div>
 </body>
