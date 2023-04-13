@@ -43,7 +43,7 @@
                     <span class="flex-1 ml-3 whitespace-nowrap">Orders</span>
                 </a>
             </li>
-            <li>
+            <li th:classappend="${activeTab == 'Menus'} ?  bg-gray-700: '' ">
                 <a href="/menu" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-3 whitespace-nowrap">Menus</span>
                 </a>
@@ -53,7 +53,7 @@
                     <span class="flex-1 ml-3 whitespace-nowrap">Inventories</span>
                 </a>
             </li>
-            <li>
+            <li th:classappend="${activeTab == 'Suppliers'} ?  bg-gray-700: '' ">
                 <a href="/supplier/viewall" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-3 whitespace-nowrap">Suppliers</span>
                 </a>
