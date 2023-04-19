@@ -30,7 +30,7 @@ public class MenuController {
     public String viewAllMenu(Model model) {
         List<Menu> listMenu = menuService.getListMenu();
         model.addAttribute("listMenu", listMenu);
-        return "menu/viewall-menu";
+        return "menu/view-all-menu";
     }
 
     @GetMapping("/menu/add")
@@ -51,23 +51,27 @@ public class MenuController {
     }
 
     @PostMapping(value = "/menu/add", params = {"save"})
-    public String addMenuSubmit (@ModelAttribute Menu menu, Model model){
-            if (menu.getResepList() == null) {
-                menu.setResepList(new ArrayList<>());
-            } else {
-                int idx = 0;
-                for (Resep resep : menu.getResepList()) {
-                    resep.setMenu(menu);
-                    resep.setInventory(menu.getResepList().get(idx).getInventory());
-                    idx++;
-                }
+    public String addMenuSubmit (@ModelAttribute Menu menu, Model model, RedirectAttributes redirectAttrs){
+        if (menu.getResepList() == null) {
+            menu.setResepList(new ArrayList<>());
+        } else {
+            int idx = 0;
+            for (Resep resep : menu.getResepList()) {
+                resep.setMenu(menu);
+                resep.setInventory(menu.getResepList().get(idx).getInventory());
+                idx++;
             }
+        }
 
-            //to do: atur supaya cabang disimpen berdasarkan siapa yg lagi login
-            // sementara cabang jadi field dulu ketika add menu
-            menuService.addMenu(menu);
-            model.addAttribute("menu", menu);
-            return "menu/viewall-menu";
+        //to do: atur supaya cabang disimpen berdasarkan siapa yg lagi login
+        // sementara cabang jadi field dulu ketika add menu
+
+        //to do: cek status availability
+        // menu.setStatus(menuService.availabilityCheck(menu));
+        menu.setStatus(true);
+        menuService.addMenu(menu);
+        model.addAttribute("menu", menu);
+        return "redirect:/menu";
     }
 
 

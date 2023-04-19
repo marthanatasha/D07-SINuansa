@@ -33,6 +33,10 @@ public class Menu {
     @Column(name = "kategori", nullable=false)
     private String kategori;
 
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name="id_cabang")
     private Cabang cabang;

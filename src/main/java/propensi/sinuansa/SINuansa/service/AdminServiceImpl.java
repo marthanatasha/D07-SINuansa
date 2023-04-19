@@ -21,4 +21,9 @@ public class AdminServiceImpl implements AdminService{
             return admin.get();
         }else return null;
     }
+
+    @Override
+    public void addAdmin (Admin admin){
+        adminDb.save(admin);
+    }
 }
