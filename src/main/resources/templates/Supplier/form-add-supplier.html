@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar(supplier)"></nav>
+<section class="container px-4 py-4 mx-auto">
+    <div class="sm:flex sm:items-center sm:justify-between m-5">
+        <div>
+            <div class="flex items-center gap-x-3">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white">Add Supplier</h2>
+            </div>
+        </div>
+    </div>
+    <form th:action="@{/supplier/add}" th:object="${supplier}" method="POST">
+        <div class="form-group mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+            <input type="text" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Name" th:field="*{nama}">
+        </div>
+        <div class="form-group mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact</label>
+            <input type="text" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Contact" th:field="*{link}">
+        </div>
+        <div class="form-group mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Material</label>
+            <input type="text" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Material" th:field="*{material}">
+        </div>
+        <div class="form-group mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cabang</label>
+            <input type="text" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Cabang" th:field="*{cabang}">
+        </div>
+        <div class="form-group flex items-center justify-center">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Submit
+            </button>
+        </div>
+
+
+    </form>
+</section>
+
+</body>
+</html>
