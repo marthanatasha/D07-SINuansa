@@ -30,7 +30,7 @@ public class MenuController {
     public String viewAllMenu(Model model) {
         List<Menu> listMenu = menuService.getListMenu();
         model.addAttribute("listMenu", listMenu);
-        return "menu/viewall-menu";
+        return "menu/view-all-menu";
     }
 
     @GetMapping("/menu/add")

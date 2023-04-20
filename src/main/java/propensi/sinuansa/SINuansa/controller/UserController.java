@@ -44,11 +44,28 @@ public class UserController {
     @Qualifier("staffPabrikServiceImpl")
     private StaffPabrikService staffPabrikService;
 
+
+    @GetMapping("/dummy")
+    public String addAdminDummy (Model model){
+        Admin admin = new Admin();
+//        manajer.setRole(Role.MANAJER);
+        admin.setNama("admin");
+        admin.setUsername("admin");
+        Cabang cb = cabangService.findCabangId(1L);
+        admin.setCabang(cb);
+        admin.setRole(Role.ADMIN);
+        admin.setPassword("admin");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        admin.setPassword(encoder.encode(admin.getPassword()));
+        adminService.addAdmin(admin);
+        return "redirect:/";
+    }
+
     @RequestMapping("/user")
     public String viewAllUser(Model model) {
         List<UserModel> listUser = userService.getListUser();
         model.addAttribute("listUser", listUser);
-        return "user/viewall-user";
+        return "user/view-all-user";
     }
 
     @GetMapping("/user/addmanajer")
@@ -88,6 +105,8 @@ public class UserController {
     @PostMapping(value = "/user/addbarista")
     public String addBaristaSubmit(@ModelAttribute Barista barista, Model model, RedirectAttributes redirectAttrs) {
         // to do: encrypt password
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        barista.setPassword(encoder.encode(barista.getPassword()));
         barista.setRole(Role.BARISTA);
         baristaService.addBarista(barista);
         List<UserModel> listUser = userService.getListUser();
@@ -110,6 +129,8 @@ public class UserController {
     @PostMapping(value = "/user/addstafinv")
     public String addInventoryStaffSubmit(@ModelAttribute StaffInventory staff, Model model, RedirectAttributes redirectAttrs) {
         // to do: encrypt password
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        staff.setPassword(encoder.encode(staff.getPassword()));
         staff.setRole(Role.StaffInventory);
         staffInventoryService.addStaff(staff);
         List<UserModel> listUser = userService.getListUser();
@@ -132,6 +153,8 @@ public class UserController {
     @PostMapping(value = "/user/addstafpabrik")
     public String addFactoryStaffSubmit(@ModelAttribute StaffPabrik staff, Model model, RedirectAttributes redirectAttrs) {
         // to do: encrypt password
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        staff.setPassword(encoder.encode(staff.getPassword()));
         staff.setRole(Role.StaffPabrik);
         staffPabrikService.addStaff(staff);
         List<UserModel> listUser = userService.getListUser();

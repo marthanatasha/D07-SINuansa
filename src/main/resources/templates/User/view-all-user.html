@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf8"
+          src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar(home)"></nav>
+<div class="flex">
+  <button th:replace="fragments/sidebar :: sidebarhead"></button>
+  <aside th:replace="fragments/sidebar :: sidebar('Users')"></aside>
+  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="p-10">
+      <h1 class="text-3xl">All User</h1>
+      <br>
+    </div>
+    <div class="flex justify-center pt-7">
+      <div class="flex items-center">
+        <br><br>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Cabang</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user, iterationStatus : ${listUser}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${user.nama}"></td>
+            <td th:text="${user.role}"></td>
+            <td th:text="${user.cabang.nama}"></td>
+          </tr>
+          </tbody>
+        </table>
+        <br><br>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
