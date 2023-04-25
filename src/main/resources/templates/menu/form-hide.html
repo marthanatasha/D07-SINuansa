@@ -20,15 +20,9 @@
   <aside th:replace="fragments/sidebar :: sidebar('Menus')"></aside>
   <div class="sm:ml-64 bg-slate-200 h-screen w-full">
     <div class="p-10">
-      <h1 class="text-3xl">Menu</h1>
+      <h1 class="text-3xl">Delete Menu</h1>
       <br>
-      <div class="my-3 d-flex justify-content-center">
-        <a th:href="@{/menu/add}" class="mx-2 btn btn-primary">Add Menu</a>
-      </div>
       <br>
-      <div class="my-3 d-flex justify-content-center">
-        <a th:href="@{/menu/delete}" class="mx-2 btn btn-primary">Delete Menu</a>
-      </div>
     </div>
     <div class="flex justify-center pt-7">
       <div class="flex items-center">
@@ -45,27 +39,26 @@
           </thead>
           <tbody>
           <tr th:each="menu, iterationStatus : ${listMenu}">
-            <div th:if="${menu.isShow} == true">
-              <td th:text="${iterationStatus.count}"></td>
-              <td th:text="${menu.nama}"></td>
-              <td th:text="${menu.harga}"></td>
-              <td class="text-center">
-                <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>
-                <p th:if="${menu.status} == true" th:text="'Available'"></p>
-              </td>
-              <td><a class="btn btn-info" th:href="@{/menu/update/} + ${menu.id}">Edit</a></td>
-            </div>
-<!--            <td th:text="${iterationStatus.count}"></td>-->
-<!--            <td th:text="${menu.nama}"></td>-->
-<!--            <td th:text="${menu.harga}"></td>-->
-<!--            <td class="text-center">-->
-<!--              <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>-->
-<!--              <p th:if="${menu.status} == true" th:text="'Available'"></p>-->
-<!--            </td>-->
-<!--            <td><a class="btn btn-info" th:href="@{/menu/update/} + ${menu.id}">Edit</a></td>-->
+            <td>
+              <input type="checkbox" name="menuobj" class="menuobj" id="menuobj_${menu.id}" th:value="${menu.id}"/>
+            </td>
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${menu.nama}"></td>
+            <td th:text="${menu.harga}"></td>
+            <td class="text-center">
+              <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>
+              <p th:if="${menu.status} == true" th:text="'Available'"></p>
+            </td>
           </tr>
+          <th>
+            <button class="btn btn-warning" type="submit" name="delete" id="delete" onclick="deleterecords();">Delete</button>
+          </th>
+<!--          <button class="btn btn-warning btn-sm glyphicon glyphicon-trash" type="button" name="delete" id="delete" onclick="deleterecords();">-->
+<!--          </button>-->
           </tbody>
+
         </table>
+
         <br><br>
       </div>
 
@@ -74,5 +67,23 @@
 
   </div>
 </div>
+<script th:inline="javascript">
+  function deleterecords(){
+    var ids = $('input:checkbox:checked.menuobj').map(function() {
+                  return this.value;
+                 }).get();
+
+    if (ids.length == 0){
+      alert("Please select at least one menu");
+        return false;
+    }
+
+    var x = window.confirm("Are you sure to want to delete these records ?");
+    if (x && (ids.length > 0)) {
+      console.log(ids);
+      window.location = `hide/${ids}`;
+    }
+  }
+</script>
 </body>
 </html>

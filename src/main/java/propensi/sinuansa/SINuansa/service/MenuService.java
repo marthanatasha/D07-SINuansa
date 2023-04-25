@@ -9,5 +9,7 @@ public interface MenuService {
     List<Menu> getListMenu();
     void addMenu(Menu menu);
     Boolean availabilityCheck(Menu menu);
+    Menu updateMenu (Menu menu);
+    void hideMenu (Long[] ids);
 
 }

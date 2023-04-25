@@ -46,4 +46,18 @@ public class MenuServiceImpl implements MenuService{
         }
         return status;
     }
+
+    @Override
+    public Menu updateMenu(Menu menu){
+        menuDb.save(menu);
+        return menu;
+    }
+
+    @Override
+    public void hideMenu(Long[] ids){
+        List<Menu> menu = menuDb.findByIdIn(ids);
+        for (Menu hide : menu){
+            hide.setIsShow(false);
+        }
+    }
 }
