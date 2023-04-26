@@ -80,7 +80,6 @@ public class LaporanController {
         model.addAttribute("yearList", yearList);
         model.addAttribute("lineChart", lineChart);
         model.addAttribute("barChart", barChart);
-
         return "laporan/view-laporan";
     }
 }
