@@ -2,10 +2,13 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Laporan;
 import propensi.sinuansa.SINuansa.model.Transaksi;
+import propensi.sinuansa.SINuansa.repository.LaporanDb;
 import propensi.sinuansa.SINuansa.repository.TransaksiDb;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +17,9 @@ import java.util.Optional;
 public class TransaksiServiceImpl implements TransaksiService{
     @Autowired
     TransaksiDb transaksiDb;
+
+    @Autowired
+    LaporanDb laporanDb;
 
     @Override
     public Transaksi findTransactionId(Long id){
@@ -33,4 +39,21 @@ public class TransaksiServiceImpl implements TransaksiService{
         return transaksiDb.findAll();
     }
 
+    @Override
+    public List<Transaksi> getTransaksiLaporanList(int bulan, int tahun, Laporan laporan) {
+        List<Transaksi> allTransaksi = transaksiDb.findAll();
+        List<Transaksi> specTransaksi = new ArrayList<Transaksi>();
+        for(Transaksi eachTransaksi : allTransaksi){
+            System.out.println(eachTransaksi.getWaktuTransaksi().getMonthValue());
+            if(eachTransaksi.getWaktuTransaksi().getMonthValue() == bulan
+                    && eachTransaksi.getWaktuTransaksi().getYear() == tahun){
+                specTransaksi.add(eachTransaksi);
+                eachTransaksi.setLaporan(laporan);
+                transaksiDb.save(eachTransaksi);
+            }
+        }
+        laporan.setTransaksiList(specTransaksi);
+        laporanDb.save(laporan);
+        return specTransaksi;
+    }
 }
