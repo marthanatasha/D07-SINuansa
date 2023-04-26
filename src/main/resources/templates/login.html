@@ -7,10 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body class>
-<!--<div class = "bg-login bg-no-repeat bg-cover bg-center"></div>-->
-<div class ="bg-gradient-to-r">
-    <div class="flex flex-col h-screen justify-center items-center
-            bg-[url('../static/images/login-bg.png')] ">
+<!--<div class = "bg-[url('../images/login-bg.png')] bg-no-repeat bg-cover bg-center"></div>-->
+<!--bg-[url('../images/login-bg.png')] bg-login-->
+    <div class="flex flex-col h-screen justify-center items-center ">
             <div class="w-full max-w-xs">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" th:action="@{/login}" method="POST">
                     <div th:if="${param.error}">
@@ -38,8 +37,6 @@
                     &copy;2023 Sinuansa Corp. All rights reserved.
                 </p>
             </div>
-
-        </div>
 </div>
 
 </body>
