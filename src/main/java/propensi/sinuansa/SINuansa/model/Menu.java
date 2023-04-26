@@ -46,4 +46,9 @@ public class Menu {
 
     @OneToMany(mappedBy="menu")
     private List<MenuPesanan> menuPesananList;
+
+    //buat hide (delete) menu
+    @NotNull
+    @Column(name = "isShow", nullable = false)
+    private Boolean isShow;
 }

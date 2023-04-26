@@ -7,5 +7,6 @@ import java.util.List;
 public interface ResepService {
     Resep findResepId(Long Id);
     List<Resep> getListResep();
+    void deleteResep (Resep resep);
 
 }
