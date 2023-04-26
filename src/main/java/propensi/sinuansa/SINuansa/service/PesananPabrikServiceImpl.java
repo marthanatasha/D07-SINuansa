@@ -1,11 +1,13 @@
 package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.TrueCondition;
 import org.springframework.stereotype.Service;
 import propensi.sinuansa.SINuansa.model.PesananInventory;
 import propensi.sinuansa.SINuansa.repository.PesananInventoryDb;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,14 @@ public class PesananPabrikServiceImpl implements PesananPabrikService {
 
     @Override
     public List<PesananInventory> getListPesanan() {
-        return pesananInventoryDb.findAll();
+        List<PesananInventory> res = new ArrayList<>();
+        List<PesananInventory> data = pesananInventoryDb.findAll();
+
+        for (PesananInventory pi : data) {
+            if (pi.isKopi()){
+                res.add(pi);
+            }
+        }
+        return res;
     }
 }

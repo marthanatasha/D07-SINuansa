@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/ordermanufacturer")
+@RequestMapping("/orderfactory")
 public class PesananPabrikController {
 
     @Qualifier("pesananPabrikServiceImpl")
@@ -35,7 +35,7 @@ public class PesananPabrikController {
     private String getPesananPabrik(Model model) {
         List<PesananInventory> allList = pesananPabrikService.getListPesanan();
         model.addAttribute("listPesanan", allList);
-        return "/";
+        return "pesananPabrik/all";
     }
 
     @GetMapping("/{store}")
@@ -44,11 +44,11 @@ public class PesananPabrikController {
         int idStore = 0;
 
         if (store != null) {
-            if (store.equalsIgnoreCase("store a")) {
+            if (store.equalsIgnoreCase("1")) {
                 idStore = 1;
-            } else if (store.equalsIgnoreCase("store b")) {
+            } else if (store.equalsIgnoreCase("2")) {
                 idStore = 2;
-            } else if (store.equalsIgnoreCase("store c")) {
+            } else if (store.equalsIgnoreCase("3")) {
                 idStore = 3;
             }
         }
@@ -62,15 +62,21 @@ public class PesananPabrikController {
         }
 
         model.addAttribute("listPesanan", listStore);
-        return "/";
+        return "pesananPabrik/all";
     }
 
     @GetMapping("/detail/{id}")
     public String detailPesananInventory(@PathVariable Long id, Model model) {
         PesananInventory pesananInventory = pesananPabrikService.findPesananInventoryId(id);
         model.addAttribute("pesananInventory", pesananInventory);
-        return "/";
+        return "pesananPabrik/detail";
     }
 
     //Update Pesanan Pabrik --> Update Status
+    @GetMapping("/update/{id}")
+    public String updatePesananInventory(@PathVariable Long id, Model model) {
+        PesananInventory pesananInventory = pesananPabrikService.findPesananInventoryId(id);
+        model.addAttribute("pesananInventory", pesananInventory);
+        return "pesananPabrik/update";
+    }
 }
