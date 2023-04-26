@@ -1,11 +1,13 @@
 package propensi.sinuansa.SINuansa.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -21,6 +23,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/login", "/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -42,21 +45,21 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //Sementara buat superuser, need to be discussed later.
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder)
-                .withUser("superuser")
-                .password(encoder.encode("sinuansa"))
-                .roles("ADMIN");
-    }
-
-//    @Qualifier("userDetailsServiceImpl")
 //    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(encoder)
+//                .withUser("superuser")
+//                .password(encoder.encode("sinuansa"))
+//                .roles("SUPERUSER");
 //    }
+
+    // @Qualifier("userDetailsServiceImpl")
+    // @Autowired
+    // private UserDetailsService userDetailsService;
+
+    // @Autowired
+    // public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+    //     auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+    // }
 }

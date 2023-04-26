@@ -10,7 +10,6 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar(home)"></nav>
     <div class="flex">
         <button th:replace="fragments/sidebar :: sidebarhead"></button>
         <aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
