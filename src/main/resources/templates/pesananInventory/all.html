@@ -1,51 +1,126 @@
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="http://thymeleaf.org">-->
+<!--<head>-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Inventory</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+<!--    <object th:include="fragments/fragment :: css" th:remove="tag"></object>-->
+<!--    <object th:include="fragments/fragment :: js" th:remove="tag"></object>-->
+<!--</head>-->
+<!--<nav th:replace="fragments/fragment :: navbar(home)"></nav>-->
+<!--<body>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>-->
+
+<!--<div class="flex">-->
+<!--    <button th:replace="fragments/sidebar :: sidebarhead"></button>-->
+<!--    <aside th:replace="fragments/sidebar :: sidebar('Inventories')"></aside>-->
+<!--    <div class="sm:ml-64 bg-slate-200 h-screen w-full">-->
+<!--<div class="container">-->
+<!--    <br>-->
+<!--    <h2>List Inventory Order</h2>-->
+<!--    <br>-->
+<!--    <div>-->
+<!--        <a class="btn btn-primary" th:href="@{/orderinventory/create}">+ Create Order Inventory Request</a>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div th:if="*{listPesananInventory.size() != 0}">-->
+<!--        <table class="table">-->
+<!--            <thead class="thead-light">-->
+<!--            <tr>-->
+<!--                <th scope="col">Tanggal</th>-->
+<!--                <th scope="col">Kode</th>-->
+<!--                <th scope="col">Status</th>-->
+<!--                <th scope="col">Detail</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="pi, iterationStatus : ${listPesananInventory}">-->
+<!--                <td th:text="${pi.waktuPemesanan}"></td>-->
+<!--                <td th:text="${pi.kode}"></td>-->
+<!--                <td th:text="${pi.status}"></td>-->
+<!--                <td>-->
+<!--                    <a class="btn btn-primary" th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--    <div th:unless="*{listPesananInventory.size() != 0}">-->
+<!--        <h3 th:text="'No Order Has Been Made'"></h3>-->
+<!--    </div>-->
+<!--</div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-
 <head>
-    <title>SINUANSA</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
-
 <body>
-<!--<nav th:replace="fragments/fragment :: navbar"></nav>-->
-<div class="container">
-    <br>
-    <h2>List Inventory Order</h2>
-    <br>
-    <div>
-        <a class="btn btn-primary" th:href="@{/orderinventory/create}">+ Create Order Inventory Request</a>
+<nav th:replace="fragments/fragment :: navbar('Inventories')"></nav>
+<section class="container px-4 py-4 mx-auto">
+    <div class="sm:flex sm:items-center sm:justify-between m-5">
+        <div>
+            <div class="flex items-center gap-x-3">
+                <h2 class="text-xl font-bold text-gray-800">List Inventory Order</h2>
+            </div>
+        </div>
+
+        <div class="flex items-center mt-4 gap-x-3">
+            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
+                <a th:href="@{/orderinventory/all}">+ Create Order Inventory Request</a>
+            </button>
+        </div>
     </div>
-    <br>
-    <div th:if="*{listPesananInventory.size() != 0}">
-        <table class="table">
-            <thead class="thead-light">
+    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <thead class="bg-gray-50">
             <tr>
-                <th scope="col">Tanggal</th>
-                <th scope="col">Kode</th>
-                <th scope="col">Status</th>
-                <th scope="col">Detail</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Date</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Code</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status</th>
+                <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="pi, iterationStatus : ${listPesananInventory}">
-                <td th:text="${pi.waktuPemesanan}"></td>
-                <td th:text="${pi.kode}"></td>
-                <td th:text="${pi.status}"></td>
-                <td>
-                    <a class="btn btn-primary" th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>
+            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+            <tr th:each="pi, iterationStatus : ${listPesananInventory}" class="hover:bg-gray-50">
+                <td class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                    <div class="text-sm font-medium text-gray-700" th:text="${#temporals.format(pi.waktuPemesanan, 'dd MMMM yyyy')}"></div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-medium text-gray-700" th:text="${pi.kode}"></div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-medium text-gray-700" th:text="${pi.status}"></div>
+                </td>
+                <td class="px-6 py-4">
+                    <a class="text-sm font-medium text-gray-700" th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:unless="*{listPesananInventory.size() != 0}">
-        <h3 th:text="'No Order Has Been Made'"></h3>
+
+    <div class="flex items-center mt-4 gap-x-3">
+        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
+            <a th:href="@{/inventory/viewall}">Kembali ke Inventory</a>
+        </button>
     </div>
-</div>
 
+</section>
+<script>
+    $(document).ready(function () {
+        $('#SupplierTable').DataTable();
+    });
+</script>
 </body>
-
 </html>
