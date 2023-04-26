@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.repository.InventoryDb;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,19 @@ public class InventoryServiceImpl implements InventoryService{
         if(inventory.isPresent()){
             return inventory.get();
         }else return null;
+    }
+
+    @Override
+    public List<Inventory> getListInventoryBasedOnType(boolean isKopi) {
+        List<Inventory> res = new ArrayList<>();
+        List<Inventory> exists = getListInventory();
+
+        for (Inventory i : exists) {
+            if (i.isKopi() == isKopi) {
+                res.add(i);
+            }
+        }
+
+        return res;
     }
 }

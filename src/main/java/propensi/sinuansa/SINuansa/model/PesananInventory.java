@@ -42,9 +42,8 @@ public class PesananInventory {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime waktuPemesanan;
 
-    @NotNull
-    @Column(name = "bukti", nullable=false)
-    private String bukti;
+    @Column(name = "pin")
+    private String pin;
 
     @NotNull
     @Column(name = "harga", nullable=false)
@@ -54,7 +53,7 @@ public class PesananInventory {
     @Column(name = "kode", nullable=false)
     private String kode;
 
-    @OneToMany(mappedBy="pesananInventory")
+    @OneToMany(mappedBy="pesananInventory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EntryPI> entryPIList;
 
     @OneToOne

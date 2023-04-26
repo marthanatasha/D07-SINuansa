@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,15 +35,17 @@ public class EntryPI implements Serializable {
     @Column(name = "harga", nullable=false)
     private String harga;
 
-    @ManyToOne
-    @JoinColumn(name="id_inventory")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="id_inventory", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Inventory inventory;
 
     @ManyToOne
     @JoinColumn(name="id_supplier")
     private Supplier supplier;
 
-    @ManyToOne
-    @JoinColumn(name="id_pesanan_inventory")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="id_pesanan_inventory", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PesananInventory pesananInventory;
 }
