@@ -5,17 +5,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import propensi.sinuansa.SINuansa.DTO.EntryPesananInventoryDTO;
 import propensi.sinuansa.SINuansa.model.EntryPI;
-import propensi.sinuansa.SINuansa.model.Pembayaran;
 import propensi.sinuansa.SINuansa.model.Supplier;
 import propensi.sinuansa.SINuansa.model.PesananInventory;
 import propensi.sinuansa.SINuansa.model.Inventory;
+import propensi.sinuansa.SINuansa.DTO.PesananInventoryDTO;
 import propensi.sinuansa.SINuansa.service.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/orderinventory")
@@ -25,46 +24,90 @@ public class PesananInventoryController {
     @Autowired
     private PesananInventoryService pesananInventoryService;
 
+    @Qualifier("entryPIServiceImpl")
     @Autowired
     private EntryPIService entryPIService;
-    @Autowired
-    private PembayaranService pembayaranService;
 
+    @Qualifier("supplierServiceImpl")
     @Autowired
     private SupplierService supplierService;
 
+    @Qualifier("inventoryServiceImpl")
     @Autowired
     private InventoryService inventoryService;
 
     @GetMapping("/create")
-    public String createOrderInventory(Model model) {
-        PesananInventory pesananInventory = new PesananInventory();
+    public String createOrder() {
+        return "pesananInventory/create";
+    }
+    @GetMapping("/create/{isKopi}")
+    public String createOrderInventory(@PathVariable Long isKopi, Model model) {
+        PesananInventoryDTO pesananInventoryDTO = new PesananInventoryDTO();
+        EntryPI newEntry = new EntryPI();
 
-        List<EntryPI> listEntryPInew = new ArrayList<>();
+        boolean pesananPabrik = false;
+        if (isKopi != null && isKopi.equals(1)) {
+            pesananPabrik = true;
+        }
+        List<Inventory> listInventory = inventoryService.getListInventoryBasedOnType(pesananPabrik);
+
+        pesananInventoryDTO.setListInventory(listInventory);
+        pesananInventoryDTO.setKopi(pesananPabrik);
+        pesananInventoryDTO.setEntryPI(new ArrayList<>());
+
+        model.addAttribute("pesananInventoryDTO", pesananInventoryDTO);
+        model.addAttribute("entryPI", newEntry);
+        model.addAttribute("listInventory", listInventory);
+        return "pesananInventory/form-create";
+    }
+
+    @PostMapping(value="/create", params={"addInventory"})
+    private String addMultipleInventory(@ModelAttribute PesananInventoryDTO pesananInventoryDTO, Model model) {
         List<Inventory> listInventory = inventoryService.getListInventory();
+        if (pesananInventoryDTO.getEntryPI() == null || pesananInventoryDTO.getEntryPI().size() == 0) {
+            pesananInventoryDTO.setEntryPI(new ArrayList<>());
+        }
 
-        pesananInventory.setEntryPIList(listEntryPInew);
-        pesananInventory.getEntryPIList().add(new EntryPI());
-        
-        model.addAttribute("pesananInventory", pesananInventory);
+        pesananInventoryDTO.getEntryPI().add(new EntryPesananInventoryDTO());
+        List<EntryPI> listEntryPI = entryPIService.getListEntryPI();
+
+        model.addAttribute("pesananInventoryDTO", pesananInventoryDTO);
+        model.addAttribute("listEntryPIExisting", listEntryPI);
         model.addAttribute("listInventory", listInventory);
 
         return "pesananInventory/form-create";
     }
 
-    @PostMapping(value="/create", params={"addInventory"})
-    private String addMultipleInventory(@ModelAttribute PesananInventory pesananInventory, Model model) {
-        List<Inventory> listInventory = inventoryService.getListInventory();
-        if (pesananInventory.getEntryPIList() == null) {
-            pesananInventory.setEntryPIList(new ArrayList<>());
+    @PostMapping(value="/create", params={"preview"})
+    private String previewCart(@ModelAttribute PesananInventoryDTO pesananInventoryDTO, Model model) {
+        List<EntryPesananInventoryDTO> listEntryPI = new ArrayList<>();
+
+//        for (int i = 0; i < pesananInventoryDTO.getEntryPI().size(); i++) {
+//            EntryPI newEntry = new EntryPI();
+//            EntryPesananInventoryDTO entryPIDto= pesananInventoryDTO.getEntryPI().get(i);
+//
+//            newEntry.setNama(entryPIDto.getNamaInventory());
+//            newEntry.setKuantitas(entryPIDto.getJumlah());
+//            newEntry.setHarga(entryPIDto.getHargaItem().toString());
+//
+//            Inventory inv = inventoryService.getInventoryById(Long.valueOf(entryPIDto.getIdInventory()));
+//            newEntry.setInventory(inv);
+//
+//            if (pesananInventoryDTO.isKopi() == false) {
+//                newEntry.setSupplier(new Supplier()); //todo: ambil supplier dari setiap entry pesanan inventory non-kopi
+//            }
+//
+//            listEntryPI.add(newEntry);
+//        }
+
+        for (EntryPesananInventoryDTO entry : pesananInventoryDTO.getEntryPI()) {
+            entry.setNamaInventory(inventoryService.getInventoryById(Long.valueOf(entry.getIdInventory())).getNama());
+            listEntryPI.add(entry);
         }
 
-        pesananInventory.getEntryPIList().add(new EntryPI());
 
-        model.addAttribute("pesananInventory", pesananInventory);
-        model.addAttribute("listInventory", listInventory);
-
-        return "pesananInventory/form-create";
+        model.addAttribute("pesananInventoryDTO", listEntryPI);
+        return "pesananInventory/preview";
     }
 
     @PostMapping(value="/create", params={"save"})
@@ -77,7 +120,7 @@ public class PesananInventoryController {
             for (int i = 0; i < entryPIList.size(); i++) {
                 EntryPI entry = entryPIList.get(i);
                 entry.setPesananInventory(pesananInventory);
-                entry.setInventory(entry.getInventory());
+                entry.setInventory(pesananInventory.getEntryPIList().get(i).getInventory());
             }
 
             if (entryPIList.get(0).getInventory().isKopi() == true) {
@@ -96,13 +139,12 @@ public class PesananInventoryController {
             pesananInventory.setKode(kode);
 
             //retrieve status from order request
-            pesananInventory.setStatus("On Progress");
+            pesananInventory.setStatus("Waiting for Manager Approval");
 
             pesananInventoryService.addPesananInventory(pesananInventory);
             model.addAttribute("pesananInventory", pesananInventory);
-
         }
-        return "home";
+        return "redirect:/orderinventory/all";
     }
 
     @GetMapping("/all")
