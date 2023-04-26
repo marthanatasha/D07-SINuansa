@@ -11,12 +11,13 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class PesananInventoryServiceImpl implements PesananInventoryService{
+public class PesananPabrikServiceImpl implements PesananPabrikService {
     @Autowired
     PesananInventoryDb pesananInventoryDb;
 
+
     @Override
-    public PesananInventory findPesananInventoryId(Long id){
+    public PesananInventory findPesananInventoryId(Long id) {
         Optional<PesananInventory> pesananInventory = pesananInventoryDb.findById(id);
         if(pesananInventory.isPresent()){
             return pesananInventory.get();
@@ -24,13 +25,13 @@ public class PesananInventoryServiceImpl implements PesananInventoryService{
     }
 
     @Override
-    public PesananInventory addPesananInventory(PesananInventory pesananInventory) {
+    public PesananInventory updatePesanan(PesananInventory pesananInventory) {
         pesananInventoryDb.save(pesananInventory);
         return pesananInventory;
     }
 
     @Override
-    public List<PesananInventory> getListPesananInventory() {
+    public List<PesananInventory> getListPesanan() {
         return pesananInventoryDb.findAll();
     }
 }

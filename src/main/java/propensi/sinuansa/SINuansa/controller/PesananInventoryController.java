@@ -91,7 +91,7 @@ public class PesananInventoryController {
             String cabang = ""; //retrieve cabang dari user
             String noId = String.format("%03d", String.valueOf(pesananInventoryService.getListPesananInventory().size() - 1));
 
-            String kode = cabang+"-"+prefix+"-"+noId;
+            String kode = cabang + "-" + prefix + "-" + noId;
 
             pesananInventory.setKode(kode);
 
