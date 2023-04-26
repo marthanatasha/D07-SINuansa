@@ -27,4 +27,9 @@ public class ResepServiceImpl implements ResepService{
     public List<Resep> getListResep(){
         return resepDb.findAll();
     }
+
+    @Override
+    public void deleteResep(Resep resep){
+        resepDb.delete(resep);
+    }
 }
