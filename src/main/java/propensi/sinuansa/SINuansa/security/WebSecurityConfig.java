@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/login", "/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -44,14 +45,14 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //Sementara buat superuser, need to be discussed later.
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder)
-                .withUser("superuser")
-                .password(encoder.encode("sinuansa"))
-                .roles("ADMIN");
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(encoder)
+//                .withUser("superuser")
+//                .password(encoder.encode("sinuansa"))
+//                .roles("SUPERUSER");
+//    }
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
