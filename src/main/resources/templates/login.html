@@ -9,7 +9,7 @@
 <body class>
 <!--<div class = "bg-[url('../images/login-bg.png')] bg-no-repeat bg-cover bg-center"></div>-->
 <!--bg-[url('../images/login-bg.png')] bg-login-->
-    <div class="flex flex-col h-screen justify-center items-center ">
+    <div class="flex flex-col h-screen bg-[url('../images/login-bg.png')] bg-no-repeat bg-cover bg-center justify-center items-center ">
             <div class="w-full max-w-xs">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" th:action="@{/login}" method="POST">
                     <div th:if="${param.error}">
