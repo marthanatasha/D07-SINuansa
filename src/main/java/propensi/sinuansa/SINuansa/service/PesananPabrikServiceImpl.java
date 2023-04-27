@@ -44,4 +44,10 @@ public class PesananPabrikServiceImpl implements PesananPabrikService {
         }
         return res;
     }
+
+    @Override
+    public PesananInventory updateStatusPesanan(PesananInventory pesananInventory) {
+        pesananInventoryDb.save(pesananInventory);
+        return pesananInventory;
+    }
 }
