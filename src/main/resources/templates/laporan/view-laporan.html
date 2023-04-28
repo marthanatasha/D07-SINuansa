@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Financial Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+</head>
+<body>
+    <div class="flex">
+        <button th:replace="fragments/sidebar :: sidebarhead"></button>
+        <aside th:replace="fragments/sidebar :: sidebar('Report')"></aside>
+        <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
+            <div class="p-10">
+                <h1 class="text-3xl">Financial Report</h1>
+            </div>
+            <div>
+                <div>
+                    <select id="month">
+                        <option value="" disabled selected>Select month</option>
+                        <option th:each="months, iterationStatus: ${monthList}" th:text="${months}" th:value="${iterationStatus.count}"></option>
+                    </select>
+                </div>
+                <div>
+                    <select id="year">
+                        <option value="" disabled selected>Select year</option>
+                        <option th:each="years, iterationStatus2: ${yearList}" th:text="${years}"></option>
+                    </select>
+                </div>
+                <button onclick="getValue()">
+                    Cari
+                </button>
+            </div>
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="getPDF()">PDF</button>
+                    </li>
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false" onclick="getLine()">Line Chart</button>
+                    </li>
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false" onclick="getBar()">Bar Chart</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex justify-center pt-7">
+                <div id="myTabContent" class="block p-6 bg-white border rounded-lg shadow w-2/4 pt-15">
+                    <canvas id="lineChart" width="240px" height="120px"></canvas>
+
+                    <!-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="pdf" role="tabpanel" aria-labelledby="profile-tab">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+                    </div>
+                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="line" role="tabpanel" aria-labelledby="dashboard-tab">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+                    </div>
+                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="bar" role="tabpanel" aria-labelledby="settings-tab">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        function getValue(){
+            var yearSelect = document.getElementById("year").value;
+            var monthSelect = document.getElementById("month").value;
+            var today = new Date();
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemmber"];
+            console.log("fungsi");
+            if(today.getFullYear()==yearSelect){
+                console.log("if 1");
+                if(today.getMonth()+1<monthSelect){
+                    console.log("if 2");
+                    return alert(`Maksimal bulan yang dipilih untuk tahun ${yearSelect} adalah ${months[today.getMonth()]}`)
+                }
+            }
+            var url = window.location.href;
+            console.log(url);
+            var urlFixed = url.slice(0, 28);
+            console.log(urlFixed);
+            window.location.href = urlFixed + "/" + monthSelect + "/" + yearSelect;
+        }
+
+
+        function getPDF(){
+            var dataPDF = [[${laporanDTO}]]
+            var laporanItemPP ="";
+            var laporanItemHPP="";
+            var laporanItemBO ="";
+            var laporanItemBL = "";
+            for(let i =0; i<3; i++){
+                laporanItemPP += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                        <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
+            }
+            for(let i =3; i<5; i++){
+                laporanItemHPP += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                        <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
+            }
+            for(let i =5; i<12; i++){
+                laporanItemBO += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                        <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
+            }
+            for(let i =12; i<15; i++){
+                laporanItemBL += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                        <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
+            }
+            var content = document.getElementById("myTabContent");
+            console.log(dataPDF.cabang)
+            content.innerHTML = "";
+            content.innerHTML += `
+                <div id="pdf">
+                <p class="text-xl font-semibold text-center" th:text="${dataPDF.cabang}"></p>
+                <p class="text-xl font-semibold text-center">Laba Rugi</p>
+                <p class="text-center" th:text="${dataPDF.bulan} + @{ - } + ${dataPDF.tahun}"></p>
+                <p class="text-center">(dalam IDR)</p>
+                <hr>
+                <table style="width:100%">
+                    <tr>
+                        <td> <p class="font-bold">Pendapatan</p> </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Pendapatan dari Penjualan</p> </td>
+                        <td></td>
+                    </tr>
+                    ${laporanItemPP}
+                    <hr>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Total Pendapatan dari Penjualan</p> </td>
+                        <td>${dataPDF.totalPendapatanPenjualan}</td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td> <p class="font-semibold">Harga Pokok Penjualan</p> </td>
+                        <td></td>
+                    </tr>
+                    ${laporanItemHPP}
+                    <tr>
+                        <td> <p class="font-semibold">Total Harga Pokok Penjualan</p> </td>
+                        <td>${dataPDF.totalHargaPokokPenjualan}</td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Laba Kotor</p> </td>
+                        <td>${dataPDF.labaKotor}</td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Biaya Operasional</p> </td>
+                        <td></td>
+                    </tr>
+                    ${laporanItemBO}
+                    <tr>
+                        <td> <p class="font-semibold">Total Biaya</p> </td>
+                        <td>${dataPDF.totalBiaya}</td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Pendapatan Bersih Operasional</p> </td>
+                        <td>${dataPDF.pendapatanBersihOperasional}</td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Biaya Lainnya</p> </td>
+                        <td></td>
+                    </tr>
+                    ${laporanItemBL}
+                    <tr>
+                        <td> <p class="font-semibold">Total Biaya Lainnya</p> </td>
+                        <td>${dataPDF.totalBiayaLainnya}</td>
+                    </tr>
+                    <tr>
+                        <td> <p class="font-semibold">Pendapatan Bersih</p> </td>
+                        <td>${dataPDF.pendapatanBersih}</td>
+                    </tr>
+            </div>`
+        }
+
+        function getLine(){
+            var content = document.getElementById("myTabContent");
+            content.innerHTML = `<canvas id="lineChart" width="240px" height="120px"></canvas>`;
+            const lineChart = document.getElementById("lineChart");
+            var dataLine = [[${lineChart}]]
+            new Chart(lineChart, {
+                type: 'line',
+                data: {
+                    labels: dataLine.labels,
+                    datasets: [{
+                        label: "Pendapatan Bersih per Hari",
+                        borderColor: "rgb(75, 192, 192)",
+                        data: dataLine.data,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function getBar(){
+            var content = document.getElementById("myTabContent");
+            content.innerHTML = `<canvas id="lineChart" width="240px" height="120px"></canvas>`;
+            const barChart = document.getElementById("lineChart");
+            var dataBar = [[${barChart}]]
+            new Chart(barChart, {
+                type: 'bar',
+                data: {
+                    labels: dataBar.labels,
+                    datasets: [{
+                        label: "Jumlah Pembelian Bahan Baku Kopi",
+                        borderColor: "rgb(75, 192, 192)",
+                        backgroundColor: "rgb(75, 192, 192)",
+                        borderWidth: 1,
+                        data: dataBar.data,
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
