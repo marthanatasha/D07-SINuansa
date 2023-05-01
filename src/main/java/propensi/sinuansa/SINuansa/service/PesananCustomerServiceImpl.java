@@ -3,6 +3,7 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Menu;
 import propensi.sinuansa.SINuansa.model.PesananCustomer;
 import propensi.sinuansa.SINuansa.repository.PesananCustomerDb;
 
@@ -26,5 +27,10 @@ public class PesananCustomerServiceImpl implements PesananCustomerService{
         if(pesananCustomer.isPresent()){
             return pesananCustomer.get();
         }else return null;
+    }
+
+    @Override
+    public void addPesananCustomer (PesananCustomer pesananCustomer){
+        pesananCustomerDb.save(pesananCustomer);
     }
 }
