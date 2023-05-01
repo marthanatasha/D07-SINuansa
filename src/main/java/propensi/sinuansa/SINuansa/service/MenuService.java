@@ -8,4 +8,8 @@ public interface MenuService {
     Menu findMenuId(Long Id);
     List<Menu> getListMenu();
     void addMenu(Menu menu);
+    Boolean availabilityCheck(Menu menu);
+    Menu updateMenu (Menu menu);
+    void hideMenu (Long[] ids);
+
 }

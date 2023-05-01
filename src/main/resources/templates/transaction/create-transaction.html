@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>Create Transaction</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
-    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar(home)"></nav>
     <div class="flex">
         <button th:replace="fragments/sidebar :: sidebarhead"></button>
         <aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
@@ -39,7 +38,7 @@
                     <select th:field="*{refCode}" id="ref" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
                         <option value="4-40000 Pendapatan Makanan" selected>Pendapatan Makanan</option>
                         <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
-                        <option value="4-40200">Retur Penjualan</option>
+                        <option value="4-40200 Retur Penjualan">Retur Penjualan</option>
                     </select>
                     <label for="kuantitas">Quantity</label>
                     <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="number"
@@ -60,12 +59,10 @@
             var select = document.getElementById("kategori");
             var val = select.value;
             var PP = `<option value="4-40000 Pendapatan Makanan">Pendapatan Makanan</option>
-                        <option value="4-40001 Pendapatan Minuman">Pendapatan Minuman</option>
                         <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
                         <option value="4-40200">Retur Penjualan</option>`;
 
             var HPP = `<option value="5-50000 Beban Pokok Pendapatan Makanan">Beban Pokok Pendapatan Makanan</option>
-                        <option value="5-50001 Beban Pokok Pendapatan Minuman">Beban Pokok Pendapatan Minuman</option>
                         <option value="5-50500 Biaya Produksi">Biaya Produksi</option>`;
 
             var BO = `<option value="6-60000 Biaya Penjualan">Biaya Penjualan</option>
@@ -73,12 +70,12 @@
                         <option value="6-60100 Biaya Umum Dan Administrasi">Biaya Umum Dan Administrasi</option>
                         <option value="6-60101 Gaji">Gaji</option>
                         <option value="6-60217 Listrik">Listrik</option>
-                        <option value="6-60400 Biaya Kemitraan">Biaya Sewa Bangunan</option>
+                        <option value="6-60400 Biaya Sewa Bangunan">Biaya Sewa Bangunan</option>
                         <option value="6-60225 Biaya Internet">Biaya Internet</option>
                         `;
             
             var BL = `<option value="8-80003 Biaya Lain-Lain">Biaya Lain-Lain</option>
-                        <option value="8-80004 Biaya Depresiasi">Biaya Kemitraan</option>
+                        <option value="8-80004 Biaya Depresiasi">Biaya Depresiasi</option>
                         <option value="8-80999 Beban Lain-Lain">Beban Lain-Lain</option>`
             var choose = document.getElementById("ref");
             if(val=="Pendapatan Penjualan"){

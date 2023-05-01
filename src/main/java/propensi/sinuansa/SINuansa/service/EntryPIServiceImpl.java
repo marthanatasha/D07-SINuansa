@@ -6,6 +6,7 @@ import propensi.sinuansa.SINuansa.model.EntryPI;
 import propensi.sinuansa.SINuansa.repository.EntryPIDb;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,10 @@ public class EntryPIServiceImpl implements EntryPIService{
         if(entryPI.isPresent()){
             return entryPI.get();
         }else return null;
+    }
+
+    @Override
+    public List<EntryPI> getListEntryPI() {
+        return entryPIDb.findAll();
     }
 }

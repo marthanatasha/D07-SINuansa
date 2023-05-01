@@ -3,6 +3,7 @@ package propensi.sinuansa.SINuansa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import propensi.sinuansa.SINuansa.model.Admin;
+import propensi.sinuansa.SINuansa.model.Manajer;
 import propensi.sinuansa.SINuansa.repository.AdminDb;
 
 import javax.transaction.Transactional;
