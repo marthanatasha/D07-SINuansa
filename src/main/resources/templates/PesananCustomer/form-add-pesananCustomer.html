@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Order')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2 class="text-center text-3xl font-bold dark:text-black">Create New Order</h2>
+                <br>
+                <form th:action="@{/pesananCustomer/add}" th:object="${pesananCustomer}" method="POST">
+
+                    <table class="table">
+                        <thead>
+                        <th>Pesanan</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="menu, iterationStatus: *{menuPesananList}">
+                            <td>
+                                <select onchange="logologo(this)" th:id="'myselect-'+${iterationStatus.index}" name="id" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].menu.id}"
+                                        class="form-control">
+                                    <div th:each="menuEx, iterationStatus2 : ${listMenu}">
+                                        <option th:data-harga="${menuEx.harga}" th:value="${menuEx.id}" th:text="${menuEx.nama}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <input onchange="logologo(this)" th:id="'myinput-'+${iterationStatus.index}" class="form-control" type="number" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].jumlah}">
+                            </td>
+                            <td>
+                                <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
+                                        name="deleteRow">Delete</button>
+                            </td>
+                        </tr>
+                        <th>
+                            <button class="btn btn-info" type="submit" name="addRow">+ Add Menu Pesanan</button>
+                        </th>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary" type="submit" name="save">Save</button>
+                    <a class="btn-btn secondary" href="/menu">Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function loglog(that){
+        return(that.options[that.selectedIndex].getAttribute("data-harga"))
+        // console.log(that.getAttribute("data-iteridx"))
+    }
+    function logloglog(that){
+        return(that.value)
+        // console.log(that.getAttribute("data-iteridx"))
+    }
+    function logologo(that){
+        const index = (that.getAttribute("data-iteridx"))
+        const harga = (loglog(document.getElementById("myselect-"+that.getAttribute("data-iteridx"))))
+        const jumlah = (logloglog(document.getElementById("myinput-"+that.getAttribute("data-iteridx"))))
+        document.getElementById("myharga-"+index).textContent=harga*jumlah;
+    }
+    window.onload=function (){
+        const mypesanan = document.querySelectorAll('[id^="myharga-"]')
+        for(let i=0; i<mypesanan.length; i++){
+            const currharga=loglog(document.getElementById("myselect-"+mypesanan[i].getAttribute("data-iteridx")))
+            const currjumlah=logloglog(document.getElementById("myinput-"+mypesanan[i].getAttribute("data-iteridx")))
+            mypesanan[i].textContent = currharga *currjumlah;
+        }
+    }
+</script>
+</body>
+</html>
