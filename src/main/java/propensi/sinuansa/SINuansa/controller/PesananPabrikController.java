@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.EntryPI;
 import propensi.sinuansa.SINuansa.model.Pembayaran;
 import propensi.sinuansa.SINuansa.model.Supplier;
@@ -75,8 +76,25 @@ public class PesananPabrikController {
     //Update Pesanan Pabrik --> Update Status
     @GetMapping("/update/{id}")
     public String updatePesananInventory(@PathVariable Long id, Model model) {
+        String input = "";
         PesananInventory pesananInventory = pesananPabrikService.findPesananInventoryId(id);
         model.addAttribute("pesananInventory", pesananInventory);
+        model.addAttribute("input", input);
         return "pesananPabrik/update";
+    }
+
+    @PostMapping(value="/update/{inputPin}", params={"update"})
+    public String updateStatusPesanan(@PathVariable String inputPin,
+                                      @ModelAttribute PesananInventory pesananInventory,
+                                      Model model) {
+        String pin_pesanan = pesananInventory.getPin();
+        Long id = pesananInventory.getId();
+
+        if (pin_pesanan.equals(inputPin)) {
+            pesananInventory.setStatus("Done");
+        } else {
+            model.addAttribute("err_msg", "PIN doesn't match. Please try again!")
+        }
+        return "redirect:pesananPabrik/update/" + id;
     }
 }

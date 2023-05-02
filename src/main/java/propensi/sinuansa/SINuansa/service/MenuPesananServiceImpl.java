@@ -8,6 +8,7 @@ import propensi.sinuansa.SINuansa.repository.MenuPesananDb;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,17 @@ public class MenuPesananServiceImpl implements MenuPesananService{
             return menuPesanan.get();
         }else return null;
     }
+
+    @Override
+    public List<MenuPesanan> getListMenuPesanan(){
+        return menuPesananDb.findAll();
+    }
+
+    @Override
+    public void addMenuPesanan (MenuPesanan menuPesanan){
+        menuPesananDb.save(menuPesanan);
+    }
+
 
 
 }

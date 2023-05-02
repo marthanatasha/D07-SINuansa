@@ -124,7 +124,6 @@ public class MenuController {
         return "redirect:/menu";
     }
 
-
     //tambah resep
     @PostMapping(value = "/menu/add", params = {"addRow"})
     private String addRowResep(@ModelAttribute Menu menu, Model model){

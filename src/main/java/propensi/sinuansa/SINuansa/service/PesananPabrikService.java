@@ -8,4 +8,6 @@ public interface PesananPabrikService {
     PesananInventory findPesananInventoryId(Long id);
     public PesananInventory updatePesanan(PesananInventory pesananInventory);
     public List<PesananInventory> getListPesanan();
+
+    public PesananInventory updateStatusPesanan(PesananInventory pesananInventory);
 }
