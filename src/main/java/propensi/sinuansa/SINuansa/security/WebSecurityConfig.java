@@ -44,7 +44,7 @@ public class WebSecurityConfig {
 
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    //Sementara buat superuser, need to be discussed later.
+//    Sementara buat superuser, need to be discussed later.
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
 //        auth.inMemoryAuthentication()
