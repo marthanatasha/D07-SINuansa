@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.model.Menu;
 import propensi.sinuansa.SINuansa.model.Resep;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.repository.MenuDb;
 
 import javax.transaction.Transactional;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +30,24 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public List<Menu> getListMenu(){
-        return menuDb.findAll();
+        List<Menu> listMenu = new ArrayList<>();
+        for (Menu menu : menuDb.findAll()){
+            if (menu.getIsShow().equals(true)){
+                listMenu.add(menu);
+            }
+        }
+        return listMenu;
+    }
+
+    @Override
+    public  List<Menu> getListMenuByCabang(String cabang){
+        List<Menu> listMenu = new ArrayList<>();
+        for (Menu menu : menuDb.findAll()){
+            if (menu.getCabang().getNama().equals(cabang) && menu.getIsShow().equals(true)){
+                listMenu.add(menu);
+            }
+        }
+        return listMenu;
     }
 
     @Override
@@ -58,6 +78,30 @@ public class MenuServiceImpl implements MenuService{
         List<Menu> menu = menuDb.findByIdIn(ids);
         for (Menu hide : menu){
             hide.setIsShow(false);
+        }
+    }
+
+    @Override
+    public Boolean canEdit(LocalTime currentTime){
+        LocalTime opening = LocalTime.of(10,00,00);
+        LocalTime closing = LocalTime.of(22,00,00);
+        if (currentTime.compareTo(opening) <= 0 || currentTime.compareTo(closing) >= 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean canDelete(LocalTime currentTime){
+        LocalTime opening = LocalTime.of(10,00,00);
+        LocalTime closing = LocalTime.of(22,00,00);
+        if (currentTime.compareTo(opening) <= 0 || currentTime.compareTo(closing) >= 0){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }
