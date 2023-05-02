@@ -20,7 +20,7 @@ public class PesananInventoryServiceImpl implements PesananInventoryService{
         Optional<PesananInventory> pesananInventory = pesananInventoryDb.findById(id);
         if(pesananInventory.isPresent()){
             return pesananInventory.get();
-        }else return null;
+        } else return null;
     }
 
     @Override
