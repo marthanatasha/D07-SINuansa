@@ -5,18 +5,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import propensi.sinuansa.SINuansa.model.EntryPI;
-import propensi.sinuansa.SINuansa.model.Pembayaran;
-import propensi.sinuansa.SINuansa.model.Supplier;
 import propensi.sinuansa.SINuansa.model.PesananInventory;
-import propensi.sinuansa.SINuansa.model.Inventory;
-import propensi.sinuansa.SINuansa.service.*;
+import propensi.sinuansa.SINuansa.service.InventoryService;
+import propensi.sinuansa.SINuansa.service.PesananInventoryService;
+import propensi.sinuansa.SINuansa.service.PesananPabrikService;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/orderfactory")
@@ -93,7 +88,7 @@ public class PesananPabrikController {
         if (pin_pesanan.equals(inputPin)) {
             pesananInventory.setStatus("Done");
         } else {
-            model.addAttribute("err_msg", "PIN doesn't match. Please try again!")
+            model.addAttribute("err_msg", "PIN doesn't match. Please try again!");
         }
         return "redirect:pesananPabrik/update/" + id;
     }
