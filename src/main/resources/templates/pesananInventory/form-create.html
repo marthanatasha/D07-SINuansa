@@ -11,7 +11,7 @@
 <body>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
-    <aside th:replace="fragments/sidebar :: sidebar('Orders')"></aside>
+    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="card m-4 p-4">
@@ -22,63 +22,84 @@
                 </div>
                 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                     <br>
-                    <form th:action="@{/orderinventory/create}" th:object="${entryPI}" method="POST">
-<!--                        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">-->
-<!--                            <thead>-->
-<!--                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Order Inventory</th>-->
-<!--                            </thead>-->
-<!--                            <tbody>-->
-<!--                            <tr th:each="inv, iterationStatus : *{entryPI}">-->
-<!--                                <td>-->
-<!--                                    <select name="id" th:field="*{entryPI[__${iterationStatus.index}__].inv.idInventory}"-->
-<!--                                            class="form-control">-->
-<!--                                        <div th:each="invEx, iterationStatus2 : ${listInventory}">-->
-<!--                                            <option th:value="${invEx.id}" th:text="${invEx.nama}"></option>-->
-<!--                                        </div>-->
-<!--                                    </select>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <h4>Quantity</h4>-->
-<!--                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].jumlah}"/>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <h4>Price</h4>-->
-<!--                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].hargaItem}"/>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"-->
-<!--                                            name="deleteRow">Hapus</button>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <td>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <button class="btn btn-primary" type="submit" name="addInventory">Tambah Ke Keranjang</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
-<!--                            </tbody>-->
-<!--                        </table>-->
-<!--                        <div class="flex items-center mt-4 gap-x-3">-->
-<!--                            <button class="btn btn-primary" type="submit" name="preview">Preview Cart</button>-->
-<!--                            <a class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" href="/orderinventory/all">Back</a>-->
-<!--                        </div>-->
+                    <form th:action="@{/orderinventory/create/} + ${isKopi}" th:object="${pesananInventory}" method="POST">
+                        <!--                        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">-->
+                        <!--                            <thead>-->
+                        <!--                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Order Inventory</th>-->
+                        <!--                            </thead>-->
+                        <!--                            <tbody>-->
+                        <!--                            <tr th:each="inv, iterationStatus : *{entryPI}">-->
+                        <!--                                <td>-->
+                        <!--                                    <select name="id" th:field="*{entryPI[__${iterationStatus.index}__].inv.idInventory}"-->
+                        <!--                                            class="form-control">-->
+                        <!--                                        <div th:each="invEx, iterationStatus2 : ${listInventory}">-->
+                        <!--                                            <option th:value="${invEx.id}" th:text="${invEx.nama}"></option>-->
+                        <!--                                        </div>-->
+                        <!--                                    </select>-->
+                        <!--                                </td>-->
+                        <!--                                <td>-->
+                        <!--                                    <h4>Quantity</h4>-->
+                        <!--                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].jumlah}"/>-->
+                        <!--                                </td>-->
+                        <!--                                <td>-->
+                        <!--                                    <h4>Price</h4>-->
+                        <!--                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].hargaItem}"/>-->
+                        <!--                                </td>-->
+                        <!--                                <td>-->
+                        <!--                                    <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"-->
+                        <!--                                            name="deleteRow">Hapus</button>-->
+                        <!--                                </td>-->
+                        <!--                            </tr>-->
+                        <!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                <td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                    <button class="btn btn-primary" type="submit" name="addInventory">Tambah Ke Keranjang</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+                        <!--                            </tbody>-->
+                        <!--                        </table>-->
+                        <!--                        <div class="flex items-center mt-4 gap-x-3">-->
+                        <!--                            <button class="btn btn-primary" type="submit" name="preview">Preview Cart</button>-->
+                        <!--                            <a class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" href="/orderinventory/all">Back</a>-->
+                        <!--                        </div>-->
+
+                        <div th:each="inv, iterationStatus : *{entryPIList}">
                             <h2>Inventory List</h2>
-                            <select class="form-control" id="idInventory">
-                                <option th:each="inventory : ${listInventory}" th:value="${inventory}" th:text="${inventory.nama}"></option>
+                            <select name="id" th:field="*{entryPIList[__${iterationStatus.index}__].inventory.id}" class="form-control">
+                                <div th:each="inv, iterationStatus2 : ${listInventory}">
+                                    <option th:value="${inv.id}" th:text="${inv.nama}"></option>
+                                </div>
                             </select>
-                            <br><br>
+                            <br>
 
                             Quantity: <br>
-                            <input class="form-control" type="number" th:field="*{kuantitas}"/>
-                            <br><br>
+                            <input class="form-control" type="number" th:field="*{entryPIList[__${iterationStatus.index}__].kuantitas}"/>
+                            <br>
 
                             Price: <br>
-                            <input class="form-control" type="number" th:field="*{harga}"/>
+                            <input class="form-control" type="number" th:field="*{entryPIList[__${iterationStatus.index}__].harga}"/>
                             <br><br>
+                        </div>
+                        <!--                            <select class="form-control" id="idInventory">-->
+                        <!--                                <option th:each="inventory, iterationStatus : *{entryPIList}" th:value="${inventory}" th:text="${inventory.nama}"></option>-->
+                        <!--                            </select>-->
+                        <!--                            <br><br>-->
+
+                        <!--                            Quantity: <br>-->
+                        <!--                            <input class="form-control" type="number" th:field="*{kuantitas}"/>-->
+                        <!--                            <br><br>-->
+
+                        <!--                            Price: <br>-->
+                        <!--                            <input class="form-control" type="number" th:field="*{harga}"/>-->
+                        <!--                            <br><br>-->
+
+                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                type="submit" name="preview">Preview</button>
 
                     </form>
                 </div>
             </div>
         </section>
+
     </div>
 </div>
 </div>
