@@ -6,6 +6,8 @@ import propensi.sinuansa.SINuansa.model.Resep;
 
 import java.util.List;
 
+import java.time.LocalTime;
+
 public interface MenuPesananService {
     MenuPesanan findMenuPesananId(Long Id);
     List<MenuPesanan> getListMenuPesanan();

@@ -1,5 +1,6 @@
 package propensi.sinuansa.SINuansa.service;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.repository.UserDb;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -33,6 +35,17 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserModel> getListUser(){
         return userDb.findAll();
+    }
+
+    @Override
+    public  List<UserModel> getListUserByCabang(String cabang){
+        List<UserModel> listUser = new ArrayList<>();
+        for (UserModel user : userDb.findAll()){
+            if (user.getCabang().getNama().equals(cabang)){
+                listUser.add(user);
+            }
+        }
+        return listUser;
     }
 
     @Override
