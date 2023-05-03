@@ -44,7 +44,7 @@ public class MenuController {
 
         //manajer cm bisa liat menu di cabang msing2
         if (role.equals(Role.MANAJER)){
-            List<Menu> listMenu = menuService.getListMenuByCabang(cabang);
+            List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
 
             // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
             //Boolean editable = menuService.canEdit(LocalTime.now());
@@ -206,11 +206,6 @@ public class MenuController {
                 idx++;
             }
         }
-
-//        menu.setStatus(true);
-//        menu.setIsShow(true);
-//        menu.setStatus(status);
-//        menu.setIsShow(isShow);
         menu.setCabang(cabang);
         menuService.updateMenu(menu);
         model.addAttribute("id", menu.getId());
@@ -267,7 +262,7 @@ public class MenuController {
         List<Menu> listMenu = new ArrayList<>();
         //manajer cm bisa liat apus(hide) di cabang msing2
         if (role.equals(Role.MANAJER)){
-            listMenu = menuService.getListMenuByCabang(cabang);
+            listMenu = menuService.getListMenuByCabangToHide(cabang);
 
         }
         //admin karna diawal udh pilih cabang mana yg mau diatur, jd sama jg cm bisa hide menu di cbg yg dipilih
@@ -293,6 +288,51 @@ public class MenuController {
 
 
         menuService.hideMenu(ids);
+//        return deleteMenuForm(model);
+        return "redirect:/menu";
+    }
+
+
+    //show (add) menu
+    @GetMapping("/menu/show")
+    public String showMenuForm (Model model, Authentication authentication){
+        // versi seharusnya
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+        Role role = user.getRole();
+
+        List<Menu> listMenu = new ArrayList<>();
+        //manajer cm bisa liat apus(hide) di cabang msing2
+        if (role.equals(Role.MANAJER)){
+            listMenu = menuService.getListMenuByCabangToShow(cabang);
+
+        }
+        //admin karna diawal udh pilih cabang mana yg mau diatur, jd sama jg cm bisa hide menu di cbg yg dipilih
+        // tapi sementara karna admin blm bisa milih cabang di awal, admin bisa hide semua menu dlu
+        else{
+            listMenu = menuService.getListMenu();
+        }
+
+        model.addAttribute("listMenu", listMenu);
+
+        return "menu/form-show";
+
+
+        /** sebelum revisi
+         List<Menu> listMenu = menuService.getListMenu();
+         model.addAttribute("listMenu", listMenu);
+         return "menu/form-hide";
+         **/
+    }
+
+    @RequestMapping(value = "menu/show/{ids}", method = RequestMethod.GET)
+    public String showBatchHandler(@PathVariable Long[] ids, Model model) {
+
+
+        menuService.showMenu(ids);
 //        return deleteMenuForm(model);
         return "redirect:/menu";
     }

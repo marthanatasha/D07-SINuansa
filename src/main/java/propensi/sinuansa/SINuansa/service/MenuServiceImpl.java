@@ -40,10 +40,20 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
-    public  List<Menu> getListMenuByCabang(String cabang){
+    public  List<Menu> getListMenuByCabangToHide(String cabang){
         List<Menu> listMenu = new ArrayList<>();
         for (Menu menu : menuDb.findAll()){
             if (menu.getCabang().getNama().equals(cabang) && menu.getIsShow().equals(true)){
+                listMenu.add(menu);
+            }
+        }
+        return listMenu;
+    }
+    @Override
+    public  List<Menu> getListMenuByCabangToShow(String cabang){
+        List<Menu> listMenu = new ArrayList<>();
+        for (Menu menu : menuDb.findAll()){
+            if (menu.getCabang().getNama().equals(cabang) && menu.getIsShow().equals(false)){
                 listMenu.add(menu);
             }
         }
@@ -80,6 +90,15 @@ public class MenuServiceImpl implements MenuService{
             hide.setIsShow(false);
         }
     }
+
+    @Override
+    public void showMenu(Long[] ids){
+        List<Menu> menu = menuDb.findByIdIn(ids);
+        for (Menu show : menu){
+            show.setIsShow(true);
+        }
+    }
+
 
     @Override
     public Boolean canEdit(LocalTime currentTime){

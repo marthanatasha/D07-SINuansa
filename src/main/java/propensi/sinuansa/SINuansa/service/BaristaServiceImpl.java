@@ -3,6 +3,7 @@ package propensi.sinuansa.SINuansa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import propensi.sinuansa.SINuansa.model.Barista;
+import propensi.sinuansa.SINuansa.model.Manajer;
 import propensi.sinuansa.SINuansa.repository.BaristaDb;
 
 import javax.transaction.Transactional;
@@ -25,5 +26,10 @@ public class BaristaServiceImpl implements BaristaService{
     @Override
     public void addBarista (Barista barista){
         baristaDb.save(barista);
+    }
+
+    @Override
+    public Barista update(Barista barista){
+        return baristaDb.save(barista);
     }
 }
