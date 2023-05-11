@@ -93,7 +93,7 @@ public class PesananPabrikController {
         if (pin_pesanan.equals(inputPin)) {
             pesananInventory.setStatus("Done");
         } else {
-            model.addAttribute("err_msg", "PIN doesn't match. Please try again!")
+            model.addAttribute("err_msg", "PIN doesn't match. Please try again!");
         }
         return "redirect:pesananPabrik/update/" + id;
     }

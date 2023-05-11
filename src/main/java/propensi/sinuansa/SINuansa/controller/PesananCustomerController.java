@@ -43,7 +43,7 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+        return "pesananCustomer/tes";
     }
     @PostMapping(value ="/pesananCustomer/add", params = {"save"})
     public String addPesananCustomerSubmit(@ModelAttribute PesananCustomer pesananCustomer, Model model, RedirectAttributes redirectAttrs) {
@@ -99,7 +99,7 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+        return "pesananCustomer/tes";
     }
 
     //delete Row
@@ -114,7 +114,7 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+        return "pesananCustomer/tes";
     }
 
 }

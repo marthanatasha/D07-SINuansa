@@ -45,21 +45,21 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //Sementara buat superuser, need to be discussed later.
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(encoder)
-//                .withUser("superuser")
-//                .password(encoder.encode("sinuansa"))
-//                .roles("SUPERUSER");
-//    }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.inMemoryAuthentication()
+                .passwordEncoder(encoder)
+                .withUser("superuser")
+                .password(encoder.encode("sinuansa"))
+                .roles("SUPERUSER");
+    }
 
-     @Qualifier("userDetailsServiceImpl")
-     @Autowired
-     private UserDetailsService userDetailsService;
-
-     @Autowired
-     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-     }
+//     @Qualifier("userDetailsServiceImpl")
+//     @Autowired
+//     private UserDetailsService userDetailsService;
+//
+//     @Autowired
+//     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+//         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+//     }
 }
