@@ -5,4 +5,5 @@ import propensi.sinuansa.SINuansa.model.StaffInventory;
 public interface StaffInventoryService {
     StaffInventory findStaffInventoryId(Long Id);
     void addStaff(StaffInventory staff);
+    StaffInventory update(StaffInventory staff);
 }

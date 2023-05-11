@@ -5,5 +5,6 @@ import propensi.sinuansa.SINuansa.model.Barista;
 public interface BaristaService {
     Barista findBaristaId(Long Id);
     void addBarista (Barista barista);
+    Barista update(Barista barista);
 
 }
