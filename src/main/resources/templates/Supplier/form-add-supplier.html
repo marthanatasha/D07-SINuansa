@@ -21,17 +21,17 @@
         </div>
     </div>
     <form th:action="@{/supplier/add}" th:object="${supplier}" method="POST" >
-        <div class="form-group m-5">
+        <div class="form-group mx-5 my-3">
             <label class="block mb-2 text-base font-medium text-gray-900 ">Name</label>
             <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Name" th:field="*{nama}">
         </div>
-        <div class="form-group m-5">
+        <div class="form-group mx-5 my-3">
             <label class="block mb-2 text-base font-medium text-gray-900">Contact</label>
             <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Contact" th:field="*{link}">
         </div>
-        <div class="form-group m-5">
+        <div class="form-group mx-5 my-3">
             <label class="block mb-2 text-base font-medium text-gray-900">Material</label>
             <select name="id" th:field="*{material}"
                     class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
@@ -43,7 +43,17 @@
 <!--            <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white-->
 <!--             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Material" th:field="*{material}">-->
         </div>
-        <div class="form-group m-5">
+        <div class="form-group mx-5 my-3">
+            <label class="block mb-2 text-base font-medium text-gray-900">Status</label>
+            <select name="id" th:field="*{status}"
+                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Status">
+<!--                <option selected>Choose the status</option>-->
+                <option th:value="Active">Active</option>
+                <option th:value="Nonactive">Nonactive</option>
+            </select>
+        </div>
+        <div class="form-group mx-5 my-3">
             <label class="block mb-2 text-base font-medium text-gray-900">Cabang</label>
             <input type="text" class="form-control bg-gray-300 border border-gray-300 text-gray-900 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
              dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" th:value="${cabang}" disabled>
