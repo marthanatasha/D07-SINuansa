@@ -16,4 +16,7 @@ public class BaseController {
     public String login(){
         return "login";
     }
+
+    @GetMapping("/info")
+    public String info(){ return "error/error-pass";}
 }

@@ -12,8 +12,10 @@ public interface MenuService {
     Boolean availabilityCheck(Menu menu);
     Menu updateMenu (Menu menu);
     void hideMenu (Long[] ids);
+    void showMenu(Long[] ids);
     Boolean canEdit(LocalTime currentTime);
     Boolean canDelete(LocalTime currentTime);
-    List<Menu> getListMenuByCabang(String cabang);
+    List<Menu> getListMenuByCabangToHide(String cabang);
+    List<Menu> getListMenuByCabangToShow(String cabang);
 
 }
