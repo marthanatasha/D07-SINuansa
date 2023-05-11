@@ -30,10 +30,10 @@ public class MenuServiceImpl implements MenuService{
 
     // ini udh gaperlu
     @Override
-    public List<Menu> getListMenu(){
+    public List<Menu> getListMenu(String cabang){
         List<Menu> listMenu = new ArrayList<>();
-        for (Menu menu : menuDb.findAll()){
-            if (menu.getIsShow().equals(true)){
+        for (Menu menu : getListMenuByCabangToHide(cabang)){
+            if (menu.getStatus().equals(true)){
                 listMenu.add(menu);
             }
         }
