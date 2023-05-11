@@ -97,7 +97,6 @@ public class MenuController {
         menu.setCabang(user.getCabang());
 
         //to do: cek status availability
-        // menu.setStatus(menuService.availabilityCheck(menu));
         menu.setStatus(true);
         menu.setIsShow(true);
         menuService.addMenu(menu);
