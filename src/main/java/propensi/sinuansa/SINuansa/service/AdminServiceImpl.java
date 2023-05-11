@@ -27,4 +27,9 @@ public class AdminServiceImpl implements AdminService{
     public void addAdmin (Admin admin){
         adminDb.save(admin);
     }
+
+    @Override
+    public Admin updateCabang(Admin admin){
+        return adminDb.save(admin);
+    }
 }
