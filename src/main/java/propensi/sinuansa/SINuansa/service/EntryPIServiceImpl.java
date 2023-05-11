@@ -27,4 +27,9 @@ public class EntryPIServiceImpl implements EntryPIService{
     public List<EntryPI> getListEntryPI() {
         return entryPIDb.findAll();
     }
+
+    @Override
+    public EntryPI addEntryPI(EntryPI entryPI) {
+        return entryPIDb.save(entryPI);
+    }
 }
