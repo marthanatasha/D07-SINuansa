@@ -28,9 +28,18 @@ public class PesananInventoryServiceImpl implements PesananInventoryService{
         pesananInventoryDb.save(pesananInventory);
         return pesananInventory;
     }
-
+    @Override
+    public PesananInventory updatePesananInventory(PesananInventory pesananInventory) {
+        pesananInventoryDb.save(pesananInventory);
+        return pesananInventory;
+    }
     @Override
     public List<PesananInventory> getListPesananInventory() {
         return pesananInventoryDb.findAll();
+    }
+
+    @Override
+    public void deletePesananInventory (PesananInventory pesananInventory) {
+        pesananInventoryDb.delete(pesananInventory);
     }
 }

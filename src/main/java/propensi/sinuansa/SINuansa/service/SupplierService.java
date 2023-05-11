@@ -1,5 +1,6 @@
 package propensi.sinuansa.SINuansa.service;
 
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.model.Supplier;
 
@@ -11,6 +12,8 @@ public interface SupplierService {
     void addSupplier(Supplier supplier);
 
     List<Supplier> getListSupplier();
+
+    List<Supplier> getListSupplierByCabang(Cabang cabang);
 
     Supplier updateSupplier(Supplier supplier);
 

@@ -83,18 +83,22 @@ public class PesananPabrikController {
         return "pesananPabrik/update";
     }
 
-    @PostMapping(value="/update/{inputPin}", params={"update"})
-    public String updateStatusPesanan(@PathVariable String inputPin,
+    @RequestMapping("/update")
+    public String updateStatusPesanan(
+                                      @RequestParam(value="pin") String inputPin,
                                       @ModelAttribute PesananInventory pesananInventory,
                                       Model model) {
         String pin_pesanan = pesananInventory.getPin();
         Long id = pesananInventory.getId();
+        System.out.println(pin_pesanan);
+        System.out.println(inputPin);
 
         if (pin_pesanan.equals(inputPin)) {
             pesananInventory.setStatus("Done");
+            pesananInventoryService.updatePesananInventory(pesananInventory);
         } else {
             model.addAttribute("err_msg", "PIN doesn't match. Please try again!");
         }
-        return "redirect:pesananPabrik/update/" + id;
+        return "redirect:/orderfactory/detail/" + id;
     }
 }

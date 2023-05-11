@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body class>
+<!--<div class = "bg-[url('../images/login-bg.png')] bg-no-repeat bg-cover bg-center"></div>-->
+<!--bg-[url('../images/login-bg.png')] bg-login-->
+<div class="flex flex-col h-screen bg-[url('../images/login-bg.png')] bg-no-repeat bg-cover bg-center justify-center items-center ">
+  <div class="w-full max-w-xs">
+    <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Forgot your password?</h5>
+      <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">Contact the admin from your store to get the new password</p>
+      <a th:href="@{/login}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+        </svg>
+        Back
+      </a>
+    </div>
+
+    <p class="text-center text-gray-500 text-xs">
+      &copy;2023 Sinuansa Corp. All rights reserved.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

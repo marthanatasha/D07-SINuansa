@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.service.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +29,31 @@ public class MenuController {
     @Qualifier("resepServiceImpl")
     private ResepService resepService;
 
+    @Autowired
+    @Qualifier("userServiceImpl")
+    private UserService userService;
+
     @RequestMapping("/menu")
-    public String viewAllMenu(Model model) {
-        List<Menu> listMenu = menuService.getListMenu();
+    public String viewAllMenu(Model model, Authentication authentication) {
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+        Role role = user.getRole();
+
+        List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
+
+        // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
+        //Boolean editable = menuService.canEdit(LocalTime.now());
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+
+        //Boolean deleteable = menuService.canDelete(LocalTime.now());
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+
         model.addAttribute("listMenu", listMenu);
+        model.addAttribute("editable", editable);
+        model.addAttribute("deletable", deleteable);
         return "menu/view-all-menu";
     }
 
@@ -47,11 +71,17 @@ public class MenuController {
         model.addAttribute("listInventory", listInventory);
         model.addAttribute("listResepExisting", listResep);
 
+
         return "menu/form-add-menu";
     }
 
     @PostMapping(value = "/menu/add", params = {"save"})
-    public String addMenuSubmit (@ModelAttribute Menu menu, Model model, RedirectAttributes redirectAttrs){
+    public String addMenuSubmit (@ModelAttribute Menu menu, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
         if (menu.getResepList() == null) {
             menu.setResepList(new ArrayList<>());
         } else {
@@ -64,7 +94,7 @@ public class MenuController {
         }
 
         //to do: atur supaya cabang disimpen berdasarkan siapa yg lagi login
-        // sementara cabang jadi field dulu ketika add menu
+        menu.setCabang(user.getCabang());
 
         //to do: cek status availability
         // menu.setStatus(menuService.availabilityCheck(menu));
@@ -110,7 +140,12 @@ public class MenuController {
 
     //update menu
     @GetMapping("/menu/update/{id}")
-    public String updateMenuForm (@PathVariable Long id, Model model){
+    public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
         Menu menu = menuService.findMenuId(id);
         List<Inventory> listInventory = inventoryService.getListInventory();
         List<Resep> listResep = menu.getResepList();
@@ -118,15 +153,23 @@ public class MenuController {
         model.addAttribute("menu", menu);
         model.addAttribute("listInventory", listInventory);
         model.addAttribute("listResep", listResep);
+        model.addAttribute("status", menu.getStatus());
+        model.addAttribute("isShow", menu.getIsShow());
+        model.addAttribute("cabang", menu.getCabang());
 
         return "menu/form-update";
     }
 
     @PostMapping(value="menu/update", params = {"save"})
-    public String updateMenuSubmit(@ModelAttribute Menu menu, Model model){
+    public String updateMenuSubmit(@ModelAttribute Menu menu, Model model, Authentication authentication){
         Long id = menu.getId();
-        List<Resep> oldList = menuService.findMenuId(id).getResepList();
-        List<Resep> allResep = resepService.getListResep();
+
+        // cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        Cabang cabang = user.getCabang();
+
         if (menu.getResepList() == null){
             menu.setResepList(new ArrayList<>());
         }
@@ -139,15 +182,13 @@ public class MenuController {
             }
         }
 
-        menu.setStatus(true);
-        menu.setIsShow(true);
         menuService.updateMenu(menu);
         model.addAttribute("id", menu.getId());
         return "redirect:/menu";
     }
 
     //addRow untuk update
-    //tambah reseo
+    //tambah resep
     @PostMapping(value="/menu/update", params = {"addRowUpdate"})
     private String addRowUpdate(@ModelAttribute Menu menu, Model model){
         List<Inventory> listInventory = inventoryService.getListInventory();
@@ -184,10 +225,14 @@ public class MenuController {
 
     //hide (delete) menu
     @GetMapping("/menu/hide")
-    public String deleteMenuForm (Model model){
-        List<Menu> listMenu = menuService.getListMenu();
+    public String deleteMenuForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
 
-
+        List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-hide";
@@ -195,19 +240,30 @@ public class MenuController {
 
     @RequestMapping(value = "menu/hide/{ids}", method = RequestMethod.GET)
     public String hideBatchHandler(@PathVariable Long[] ids, Model model) {
-
-
         menuService.hideMenu(ids);
-//        return deleteMenuForm(model);
         return "redirect:/menu";
     }
 
-//    @GetMapping(value = "${hidebatch}/{ids}")
-//    public String hideBatch(@PathVariable Long[] ids, Model model) {
-//        menuService.hideMenu(ids);
-//        return deleteMenuForm(model);
-////        return "menu/view-all-menu";
-//    }
+    //show (add) menu
+    @GetMapping("/menu/show")
+    public String showMenuForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
+        List<Menu> listMenu = menuService.getListMenuByCabangToShow(cabang);
+        model.addAttribute("listMenu", listMenu);
+
+        return "menu/form-unhide";
+    }
+
+    @RequestMapping(value = "menu/show/{ids}", method = RequestMethod.GET)
+    public String showBatchHandler(@PathVariable Long[] ids, Model model) {
+        menuService.showMenu(ids);
+        return "redirect:/menu";
+    }
 
 }
 

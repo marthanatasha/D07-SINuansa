@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers("/login", "/validate-ticket").permitAll()
+                .antMatchers("/login", "/info","/dummy","/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -51,15 +51,16 @@ public class WebSecurityConfig {
                 .passwordEncoder(encoder)
                 .withUser("superuser")
                 .password(encoder.encode("sinuansa"))
-                .roles("SUPERUSER");
+                .roles("ADMIN");
     }
 
-//     @Qualifier("userDetailsServiceImpl")
-//     @Autowired
-//     private UserDetailsService userDetailsService;
-//
-//     @Autowired
-//     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-//         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-//     }
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+    }
+
 }
