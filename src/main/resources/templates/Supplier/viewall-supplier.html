@@ -2,18 +2,23 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+  <title>Supplier</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
-  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar(supplier)"></nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<div class="flex">
+  <button th:replace="fragments/sidebar :: sidebarhead"></button>
+  <aside th:replace="fragments/sidebar :: sidebar('Suppliers')"></aside>
+  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
 <section class="container px-4 py-4 mx-auto">
   <div class="sm:flex sm:items-center sm:justify-between m-5">
     <div>
       <div class="flex items-center gap-x-3">
-        <h2 class="text-xl font-bold text-gray-800">Supplier List</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Supplier List</h2>
       </div>
     </div>
 
@@ -24,12 +29,13 @@
     </div>
   </div>
 <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-  <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+  <table id ="SupplierTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500">
     <thead class="bg-gray-50">
     <tr>
       <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
       <th scope="col" class="px-6 py-4 font-medium text-gray-900">Contact</th>
       <th scope="col" class="px-6 py-4 font-medium text-gray-900">Materials</th>
+      <th scope="col" class="px-6 py-4 font-medium text-gray-900">Branch Name</th>
       <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
     </tr>
     </thead>
@@ -41,7 +47,12 @@
       <td class="px-6 py-4">
         <div class="text-sm font-medium text-gray-700" th:text="${supplier.link}"></div>
       </td>
-      <td class="px-6 py-4" th:text="${supplier.material}"></td>
+      <td class="px-6 py-4">
+        <div class="text-sm font-medium text-gray-700" th:text="${supplier.material}"></div>
+      </td>
+      <td class="px-6 py-4">
+        <div class="text-sm font-medium text-gray-700" th:text="${supplier.cabang.nama}"></div>
+      </td>
       <td class="px-6 py-4">
         <div class="flex justify-end gap-4">
           <a x-data="{ tooltip: 'Delete' }" th:href="@{/supplier/delete/} + ${supplier.id} ">
@@ -61,7 +72,7 @@
               />
             </svg>
           </a>
-          <a x-data="{ tooltip: 'Edite' }" href="#">
+          <a x-data="{ tooltip: 'Edite' }" th:href="@{/supplier/update/} + ${supplier.id} ">
             <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -85,10 +96,20 @@
   </table>
 </div>
 </section>
-<script>
-  $(document).ready(function () {
-    $('#SupplierTable').DataTable();
-  });
-</script>
+  </div>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<!--<script>-->
+<!--  $(document).ready(function() {-->
+<!--    // $('#SupplierTable').DataTable();-->
+<!--    var table = $('#SupplierTable').DataTable({-->
+<!--      responsive: true-->
+<!--    })-->
+<!--            .columns.adjust()-->
+<!--            .responsive.recalc();-->
+<!--  });-->
+<!--</script>-->
 </body>
 </html>

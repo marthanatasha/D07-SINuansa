@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/login", "/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -57,8 +58,8 @@ public class WebSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
-//    }
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
+    }
 }

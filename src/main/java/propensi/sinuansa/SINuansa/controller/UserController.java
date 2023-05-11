@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +45,7 @@ public class UserController {
     @Qualifier("staffPabrikServiceImpl")
     private StaffPabrikService staffPabrikService;
 
+
     @GetMapping("/dummy")
     public String addAdminDummy (Model model){
         Admin admin = new Admin();
@@ -61,27 +63,60 @@ public class UserController {
     }
 
     @RequestMapping("/user")
-    public String viewAllUser(Model model) {
-        List<UserModel> listUser = userService.getListUser();
-        model.addAttribute("listUser", listUser);
-        return "user/view-all-user";
+    public String viewAllUser(Model model, Authentication authentication) {
+        // get role
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        Role role = user.getRole();
+
+        if (role.equals(Role.ADMIN)){
+            List<UserModel> listUser = userService.getListUser();
+            model.addAttribute("listUser", listUser);
+            return "user/view-all-user";
+        }
+
+        else{
+            String cabang = user.getCabang().getNama();
+            List<UserModel> listUser = userService.getListUserByCabang(cabang);
+            model.addAttribute("listUser", listUser);
+            return "user/view-all-user";
+        }
+
+//        List<UserModel> listUser = userService.getListUser();
+//        model.addAttribute("listUser", listUser);
+//        return "user/view-all-user";
     }
 
     @GetMapping("/user/addmanajer")
-    public String addManajerForm (Model model){
+    public String addManajerForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
+
         Manajer manajer = new Manajer();
-//        manajer.setRole(Role.MANAJER);
         List<Cabang> listCabang = cabangService.getListCabang();
         model.addAttribute("manajer", manajer);
         model.addAttribute("listCabang", listCabang);
+        model.addAttribute("cabang", cabang);
         return "user/form-add-manajer";
     }
 
     @PostMapping(value = "/user/addmanajer")
-    public String addManajerSubmit(@ModelAttribute Manajer manajer, Model model, RedirectAttributes redirectAttrs) {
-        // to do: encrypt password
+    public String addManajerSubmit(@ModelAttribute Manajer manajer, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        //encrypt password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         manajer.setPassword(encoder.encode(manajer.getPassword()));
+
+        manajer.setCabang(user.getCabang());
         manajer.setRole(Role.MANAJER);
         manajerService.addManajer(manajer);
         List<UserModel> listUser = userService.getListUser();
@@ -93,19 +128,33 @@ public class UserController {
     }
 
     @GetMapping("/user/addbarista")
-    public String addBaristaForm (Model model){
+    public String addBaristaForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
         Barista barista = new Barista();
         List<Cabang> listCabang = cabangService.getListCabang();
         model.addAttribute("barista", barista);
         model.addAttribute("listCabang", listCabang);
+        model.addAttribute("cabang", cabang);
         return "user/form-add-barista";
     }
 
     @PostMapping(value = "/user/addbarista")
-    public String addBaristaSubmit(@ModelAttribute Barista barista, Model model, RedirectAttributes redirectAttrs) {
-        // to do: encrypt password
+    public String addBaristaSubmit(@ModelAttribute Barista barista, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        //encrypt password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         barista.setPassword(encoder.encode(barista.getPassword()));
+
+        barista.setCabang(user.getCabang());
         barista.setRole(Role.BARISTA);
         baristaService.addBarista(barista);
         List<UserModel> listUser = userService.getListUser();
@@ -117,19 +166,33 @@ public class UserController {
     }
 
     @GetMapping("/user/addstafinv")
-    public String addInventoryStaffForm (Model model){
+    public String addInventoryStaffForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
         StaffInventory staff = new StaffInventory();
         List<Cabang> listCabang = cabangService.getListCabang();
         model.addAttribute("staff", staff);
         model.addAttribute("listCabang", listCabang);
+        model.addAttribute("cabang", cabang);
         return "user/form-add-staff-inventory";
     }
 
     @PostMapping(value = "/user/addstafinv")
-    public String addInventoryStaffSubmit(@ModelAttribute StaffInventory staff, Model model, RedirectAttributes redirectAttrs) {
-        // to do: encrypt password
+    public String addInventoryStaffSubmit(@ModelAttribute StaffInventory staff, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        // encrypt password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         staff.setPassword(encoder.encode(staff.getPassword()));
+
+        staff.setCabang(user.getCabang());
         staff.setRole(Role.StaffInventory);
         staffInventoryService.addStaff(staff);
         List<UserModel> listUser = userService.getListUser();
@@ -141,19 +204,33 @@ public class UserController {
     }
 
     @GetMapping("/user/addstafpabrik")
-    public String addFactoryStaffForm (Model model){
+    public String addFactoryStaffForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
         StaffPabrik staff = new StaffPabrik();
         List<Cabang> listCabang = cabangService.getListCabang();
         model.addAttribute("staff", staff);
         model.addAttribute("listCabang", listCabang);
+        model.addAttribute("cabang", cabang);
         return "user/form-add-staff-pabrik";
     }
 
     @PostMapping(value = "/user/addstafpabrik")
-    public String addFactoryStaffSubmit(@ModelAttribute StaffPabrik staff, Model model, RedirectAttributes redirectAttrs) {
-        // to do: encrypt password
+    public String addFactoryStaffSubmit(@ModelAttribute StaffPabrik staff, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        // encrypt password
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         staff.setPassword(encoder.encode(staff.getPassword()));
+
+        staff.setCabang(user.getCabang());
         staff.setRole(Role.StaffPabrik);
         staffPabrikService.addStaff(staff);
         List<UserModel> listUser = userService.getListUser();
