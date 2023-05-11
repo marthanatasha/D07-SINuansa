@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface MenuService {
     Menu findMenuId(Long Id);
+    // getlistmenu udh gaperlu
     List<Menu> getListMenu();
     void addMenu(Menu menu);
     Boolean availabilityCheck(Menu menu);
