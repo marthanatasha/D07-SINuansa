@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.model.Supplier;
 import propensi.sinuansa.SINuansa.repository.SupplierDb;
@@ -32,6 +33,11 @@ public class SupplierServiceImpl implements SupplierService{
     @Override
     public List<Supplier> getListSupplier(){
         return supplierDb.findAll();
+    }
+
+    @Override
+    public List<Supplier> getListSupplierByCabang(Cabang cabang) {
+        return supplierDb.findAllByCabang(cabang);
     }
 
     @Override

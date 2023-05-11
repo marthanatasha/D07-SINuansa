@@ -65,4 +65,8 @@ public class BaseController {
     public String homePage() {
         return "home";
     }
+
+    @GetMapping("/info")
+    public String info(){ return "error/error-pass";}
+
 }

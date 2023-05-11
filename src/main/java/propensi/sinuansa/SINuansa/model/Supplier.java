@@ -1,9 +1,6 @@
 package propensi.sinuansa.SINuansa.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "supplier")
@@ -33,8 +31,12 @@ public class Supplier {
     @Column(name = "material", nullable=false)
     private String material;
 
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private  String status;
+
     @ManyToOne
-    @JoinColumn(name="id_cabang")
+    @JoinColumn(name="cabang")
     private Cabang cabang;
 
     @ManyToOne

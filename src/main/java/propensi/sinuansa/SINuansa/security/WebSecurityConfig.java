@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers("/login", "/validate-ticket").permitAll()
+                .antMatchers("/login", "/info","/dummy","/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
