@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf8"
+          src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<!--<nav th:replace="fragments/fragment :: navbar(home)"></nav>-->
+<div class="flex">
+  <button th:replace="fragments/sidebar :: sidebarhead"></button>
+  <aside th:replace="fragments/sidebar :: sidebar('Menus')"></aside>
+  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="p-10">
+      <h1 class="text-3xl">Add Menu</h1>
+      <br>
+      <br>
+    </div>
+    <div class="flex justify-center pt-7">
+      <div class="flex items-center">
+        <br><br>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="menu, iterationStatus : ${listMenu}">
+            <td>
+              <input type="checkbox" name="menuobj" class="menuobj" id="menuobj_${menu.id}" th:value="${menu.id}"/>
+            </td>
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${menu.nama}"></td>
+            <td th:text="${menu.harga}"></td>
+            <td class="text-center">
+              <p th:if="${menu.status} == false" th:text="'Out of Stock'"></p>
+              <p th:if="${menu.status} == true" th:text="'Available'"></p>
+            </td>
+          </tr>
+          <th>
+            <button class="btn btn-warning" type="submit" name="add" id="add" onclick="addrecords();">Add</button>
+          </th>
+          <th>
+            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
+              <a th:href="@{/menu/add}">Add New Menu</a>
+            </button>
+          </th>
+          <!--          <button class="btn btn-warning btn-sm glyphicon glyphicon-trash" type="button" name="delete" id="delete" onclick="deleterecords();">-->
+          <!--          </button>-->
+          </tbody>
+
+        </table>
+
+        <br><br>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+<script th:inline="javascript">
+  function addrecords(){
+    var ids = $('input:checkbox:checked.menuobj').map(function() {
+                  return this.value;
+                 }).get();
+
+    if (ids.length == 0){
+      alert("Please select at least one menu");
+        return false;
+    }
+
+    var x = window.confirm("Are you sure to want to show these records ?");
+    if (x && (ids.length > 0)) {
+      console.log(ids);
+      window.location = `show/${ids}`;
+    }
+  }
+</script>
+</body>
+</html>

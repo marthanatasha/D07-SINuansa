@@ -3,6 +3,7 @@ package propensi.sinuansa.SINuansa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import propensi.sinuansa.SINuansa.model.Manajer;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.repository.ManajerDb;
 
 import javax.transaction.Transactional;
@@ -25,5 +26,10 @@ public class ManajerServiceImpl implements ManajerService{
     @Override
     public void addManajer (Manajer manajer){
         manajerDb.save(manajer);
+    }
+
+    @Override
+    public Manajer update(Manajer manajer){
+        return manajerDb.save(manajer);
     }
 }

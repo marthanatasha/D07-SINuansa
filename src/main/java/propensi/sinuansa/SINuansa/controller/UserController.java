@@ -13,6 +13,7 @@ import propensi.sinuansa.SINuansa.model.Role;
 import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,7 +50,6 @@ public class UserController {
     @GetMapping("/dummy")
     public String addAdminDummy (Model model){
         Admin admin = new Admin();
-//        manajer.setRole(Role.MANAJER);
         admin.setNama("admin");
         admin.setUsername("admin");
         Cabang cb = cabangService.findCabangId(1L);
@@ -69,24 +69,73 @@ public class UserController {
         String username = authentication.getName();
         UserModel user = userService.findByUsername(username);
         Role role = user.getRole();
+        String cabang = user.getCabang().getNama();
 
         if (role.equals(Role.ADMIN)){
-            List<UserModel> listUser = userService.getListUser();
+            List<UserModel> listUser = userService.getListUser(role, cabang);
             model.addAttribute("listUser", listUser);
             return "user/view-all-user";
         }
 
         else{
-            String cabang = user.getCabang().getNama();
-            List<UserModel> listUser = userService.getListUserByCabang(cabang);
+            List<UserModel> listUser = userService.getListUser(role, cabang);
             model.addAttribute("listUser", listUser);
             return "user/view-all-user";
         }
-
-//        List<UserModel> listUser = userService.getListUser();
-//        model.addAttribute("listUser", listUser);
-//        return "user/view-all-user";
     }
+
+    //update menu
+    @GetMapping("/user/update/{id}")
+    public String updatePasswordForm (@PathVariable Long id, Model model, Authentication authentication){
+        UserModel user = userService.findUserId(id);
+
+        model.addAttribute("user", user);
+        System.out.println("getmap");
+
+        return "user/update";
+    }
+
+    @PostMapping(value="user/update")
+    public String updatePasswordSubmit(@ModelAttribute UserModel user, Model model, Authentication authentication){
+        Long id = user.getId();
+
+        if (user.getRole().equals(Role.MANAJER)){
+            Manajer manajer = manajerService.findManajerId(id);
+            //encrypt password
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            manajer.setPassword(encoder.encode(user.getPassword()));
+            manajerService.update(manajer);
+        }
+
+        if (user.getRole().equals(Role.BARISTA)){
+            Barista barista = baristaService.findBaristaId(id);
+            //encrypt password
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            barista.setPassword(encoder.encode(user.getPassword()));
+            baristaService.update(barista);
+        }
+
+        if (user.getRole().equals(Role.StaffInventory)){
+            StaffInventory staff= staffInventoryService.findStaffInventoryId(id);
+            //encrypt password
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            staff.setPassword(encoder.encode(user.getPassword()));
+            staffInventoryService.update(staff);
+        }
+
+        if (user.getRole().equals(Role.StaffPabrik)){
+            StaffPabrik staff= staffPabrikService.findStaffPabrikId(id);
+            //encrypt password
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            staff.setPassword(encoder.encode(user.getPassword()));
+            staffPabrikService.update(staff);
+        }
+
+        return "redirect:/user";
+    }
+
+    //update menu
+
 
     @GetMapping("/user/addmanajer")
     public String addManajerForm (Model model, Authentication authentication){
@@ -119,8 +168,6 @@ public class UserController {
         manajer.setCabang(user.getCabang());
         manajer.setRole(Role.MANAJER);
         manajerService.addManajer(manajer);
-        List<UserModel> listUser = userService.getListUser();
-        model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
                 String.format("%s dengan nama %s berhasil disimpan!", manajer.getRole(), manajer.getNama()));
@@ -157,8 +204,6 @@ public class UserController {
         barista.setCabang(user.getCabang());
         barista.setRole(Role.BARISTA);
         baristaService.addBarista(barista);
-        List<UserModel> listUser = userService.getListUser();
-        model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
                 String.format("%s dengan nama %s berhasil disimpan!", barista.getRole(), barista.getNama()));
@@ -195,8 +240,6 @@ public class UserController {
         staff.setCabang(user.getCabang());
         staff.setRole(Role.StaffInventory);
         staffInventoryService.addStaff(staff);
-        List<UserModel> listUser = userService.getListUser();
-        model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
                 String.format("%s dengan nama %s berhasil disimpan!", staff.getRole(), staff.getNama()));
@@ -230,11 +273,8 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         staff.setPassword(encoder.encode(staff.getPassword()));
 
-        staff.setCabang(user.getCabang());
         staff.setRole(Role.StaffPabrik);
         staffPabrikService.addStaff(staff);
-        List<UserModel> listUser = userService.getListUser();
-        model.addAttribute("listUser", listUser);
 
         redirectAttrs.addFlashAttribute("success",
                 String.format("%s dengan nama %s berhasil disimpan!", staff.getRole(), staff.getNama()));
