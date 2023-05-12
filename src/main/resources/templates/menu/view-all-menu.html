@@ -69,9 +69,9 @@
               <td class="px-6 py-4">
                 <div class="text-sm font-medium text-gray-700" th:text="${menu.harga}"></div>
               </td>
-              <td class="px-6 py-4">
-                <div class="text-sm font-medium text-gray-700" th:if="${menu.status}== false" th:text="'Out of Stock'"></div>
-                <div class="text-sm font-medium text-gray-700" th:if="${menu.status}== true" th:text="'Available'"></div>
+              <td th:switch="${menu.status}" class="px-6 py-4">
+                <a th:case="true" class="px-2 py-1 bg-green-200 text-green-600 rounded-full text-sm font-medium" th:if="${menu.status}== true" th:text="'Available'"></a>
+                <a th:case="false" class="px-2 py-1 bg-red-200 text-red-600 rounded-full text-sm font-medium" th:if="${menu.status}== false" th:text="'Out of Stock'"></a>
               </td>
               <td class="px-6 py-4">
                 <div class="flex justify-end gap-4" th:if="${editable}">
