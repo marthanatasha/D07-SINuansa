@@ -6,5 +6,6 @@ import java.util.List;
 public interface EntryPIService {
     EntryPI findEntryPIId(Long Id);
     List<EntryPI> getListEntryPI();
+    EntryPI addEntryPI(EntryPI entryPI);
 
 }
