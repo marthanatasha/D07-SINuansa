@@ -134,55 +134,55 @@ public class UserController {
         return "redirect:/user";
     }
 
-    //update menu
-    @GetMapping("/user/update/{id}")
-    public String updatePasswordForm (@PathVariable Long id, Model model, Authentication authentication){
-        UserModel user = userService.findUserId(id);
-
-        model.addAttribute("user", user);
-        System.out.println("getmap");
-
-        return "user/update";
-    }
-
-    @PostMapping(value="user/update")
-    public String updatePasswordSubmit(@ModelAttribute UserModel user, Model model, Authentication authentication){
-        Long id = user.getId();
-
-        if (user.getRole().equals(Role.MANAJER)){
-            Manajer manajer = manajerService.findManajerId(id);
-            //encrypt password
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            manajer.setPassword(encoder.encode(user.getPassword()));
-            manajerService.update(manajer);
-        }
-
-        if (user.getRole().equals(Role.BARISTA)){
-            Barista barista = baristaService.findBaristaId(id);
-            //encrypt password
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            barista.setPassword(encoder.encode(user.getPassword()));
-            baristaService.update(barista);
-        }
-
-        if (user.getRole().equals(Role.StaffInventory)){
-            StaffInventory staff= staffInventoryService.findStaffInventoryId(id);
-            //encrypt password
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            staff.setPassword(encoder.encode(user.getPassword()));
-            staffInventoryService.update(staff);
-        }
-
-        if (user.getRole().equals(Role.StaffPabrik)){
-            StaffPabrik staff= staffPabrikService.findStaffPabrikId(id);
-            //encrypt password
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            staff.setPassword(encoder.encode(user.getPassword()));
-            staffPabrikService.update(staff);
-        }
-
-        return "redirect:/user";
-    }
+//    //update menu
+//    @GetMapping("/user/update/{id}")
+//    public String updatePasswordForm (@PathVariable Long id, Model model, Authentication authentication){
+//        UserModel user = userService.findUserId(id);
+//
+//        model.addAttribute("user", user);
+//        System.out.println("getmap");
+//
+//        return "user/update";
+//    }
+//
+//    @PostMapping(value="user/update")
+//    public String updatePasswordSubmit(@ModelAttribute UserModel user, Model model, Authentication authentication){
+//        Long id = user.getId();
+//
+//        if (user.getRole().equals(Role.MANAJER)){
+//            Manajer manajer = manajerService.findManajerId(id);
+//            //encrypt password
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//            manajer.setPassword(encoder.encode(user.getPassword()));
+//            manajerService.update(manajer);
+//        }
+//
+//        if (user.getRole().equals(Role.BARISTA)){
+//            Barista barista = baristaService.findBaristaId(id);
+//            //encrypt password
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//            barista.setPassword(encoder.encode(user.getPassword()));
+//            baristaService.update(barista);
+//        }
+//
+//        if (user.getRole().equals(Role.StaffInventory)){
+//            StaffInventory staff= staffInventoryService.findStaffInventoryId(id);
+//            //encrypt password
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//            staff.setPassword(encoder.encode(user.getPassword()));
+//            staffInventoryService.update(staff);
+//        }
+//
+//        if (user.getRole().equals(Role.StaffPabrik)){
+//            StaffPabrik staff= staffPabrikService.findStaffPabrikId(id);
+//            //encrypt password
+//            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//            staff.setPassword(encoder.encode(user.getPassword()));
+//            staffPabrikService.update(staff);
+//        }
+//
+//        return "redirect:/user";
+//    }
 
     @GetMapping("/user/addmanajer")
     public String addManajerForm (Model model, Authentication authentication){

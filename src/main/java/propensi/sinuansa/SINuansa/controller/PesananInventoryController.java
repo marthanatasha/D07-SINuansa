@@ -56,7 +56,7 @@ public class PesananInventoryController {
 
     @GetMapping("/create")
     public String createOrder() {
-        return "pesananInventory/create";
+        return "PesananInventory/create";
     }
 
     public String generatePin() {
@@ -285,7 +285,7 @@ public class PesananInventoryController {
     public String createOrderInventory(@PathVariable Long isKopi,
                                        Model model) {
         PesananInventory pesananInventory = new PesananInventory();
-        List<Inventory> inventoryList = inventoryService.getListInventory();
+        List<Inventory> inventoryList = getListInventoryBasedOnType(isKopi);
         List<EntryPI> entryPIList = entryPIService.getListEntryPI();
         List<EntryPI> entryPIListNew = new ArrayList<>();
 
@@ -296,7 +296,7 @@ public class PesananInventoryController {
         model.addAttribute("listInventory", inventoryList);
         model.addAttribute("entryPIList", entryPIList);
         model.addAttribute("isKopi", isKopi);
-        return "pesananInventory/create";
+        return "PesananInventory/form-create";
     }
 
     @PostMapping(value="/create/{isKopi}", params={"save"})
@@ -326,30 +326,32 @@ public class PesananInventoryController {
         pesananInventory.setCabang(cabangService.findCabangId(1L));
         pesananInventory.setKopi(flag);
 
-        //Set for default pesananInventory
+        //todo: Set for default pesananInventory
         String prefix = "ORDER";
         String cabang = "A"; //todo: retrieve cabang dari user (authentication)
         String noId = String.format("%03d", (pesananInventoryService.getListPesananInventory().size() - 1));
-        String kode = cabang + "-" + prefix + "-" + noId;
+        String kode = cabang + "-" + prefix + "-" + noId; //todo: ini masih error
 
         pesananInventory.setKode(kode);
         pesananInventory.setStatus("Waiting for Manager Approval");
-        pesananInventory.setPin(generatePin());
+        pesananInventory.setPin("-");
         pesananInventory.setWaktuPemesanan(LocalDateTime.now());
         pesananInventory.setHarga(total_harga);
 
         //todo: create new transaction
 
         pesananInventoryService.addPesananInventory(pesananInventory);
-        model.addAttribute("pesananInventory", pesananInventory);
-        return "pesananInventory/all";
+
+        List<PesananInventory> lst = pesananInventoryService.getListPesananInventory();
+        model.addAttribute("listPesananInventory", lst);
+        return "PesananInventory/all";
     }
 
     @PostMapping(value="/create/{isKopi}", params={"addItem"})
     private String addRowInventory(@ModelAttribute PesananInventory pesananInventory,
                                    @PathVariable Long isKopi,
                                    Model model) {
-        List<Inventory> listInventory = inventoryService.getListInventory();
+        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi);
 
         if (pesananInventory.getEntryPIList() == null || pesananInventory.getEntryPIList().size() == 0) {
             pesananInventory.setEntryPIList(new ArrayList<>());
@@ -361,7 +363,7 @@ public class PesananInventoryController {
         model.addAttribute("entryPIListExisting", entryPIList);
         model.addAttribute("listInventory", listInventory);
 
-        return "pesananInventory/form-create";
+        return "PesananInventory/form-create";
     }
 
     @PostMapping(value="/create/{isKopi}", params={"deleteItem"})
@@ -369,7 +371,7 @@ public class PesananInventoryController {
                                       @RequestParam("deleteItem") Integer row,
                                       @PathVariable Long isKopi,
                                       Model model) {
-        List<Inventory> listInventory = inventoryService.getListInventory();
+        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi);
 
         final Integer rowInt = Integer.valueOf(row);
         pesananInventory.getEntryPIList().remove(rowInt.intValue());
@@ -380,28 +382,20 @@ public class PesananInventoryController {
         model.addAttribute("entryPIListExisting", entryPIList);
         model.addAttribute("listInventory", listInventory);
 
-        return "pesananInventory/form-create";
+        return "PesananInventory/form-create";
     }
 
     @GetMapping("/all")
     public String retrieveAllOrder(Model model) {
         List<PesananInventory> lst = pesananInventoryService.getListPesananInventory();
         model.addAttribute("listPesananInventory", lst);
-        return "pesananInventory/all";
+        return "PesananInventory/all";
     }
 
     @GetMapping("/detail/{id}")
     public String detailPesananInventory(@PathVariable Long id, Model model) {
         PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
         model.addAttribute("pesananInventory", pesananInventory);
-        return "pesananInventory/detail";
-    }
-
-    @GetMapping("/confirm/{id}")
-    public String confirmPesananInventory(@PathVariable Long id, Model model) {
-        PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
-        model.addAttribute("pesananInventory", pesananInventory);
-//        return "pesananInventory/confirm";
-        return "home";
+        return "PesananInventory/detail";
     }
 }
