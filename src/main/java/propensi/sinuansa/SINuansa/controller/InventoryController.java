@@ -6,11 +6,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.sinuansa.SINuansa.model.Cabang;
-import propensi.sinuansa.SINuansa.model.Inventory;
-import propensi.sinuansa.SINuansa.model.PesananInventory;
-import propensi.sinuansa.SINuansa.model.UserModel;
+import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.service.InventoryService;
+import propensi.sinuansa.SINuansa.service.MenuService;
+import propensi.sinuansa.SINuansa.model.Inventory;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.service.UserService;
 
 import java.security.Principal;
@@ -24,6 +24,10 @@ public class InventoryController {
     private InventoryService inventoryService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    @Qualifier("menuServiceImpl")
+    private MenuService menuService;
 
 //    @GetMapping("/inventory/add")
 //    public String addInventoryFormPage(Model model){
@@ -42,14 +46,13 @@ public class InventoryController {
     public String addInventoryModal(Model model,
                                     @RequestParam(value="is_kopi",required = false) Boolean is_kopi,
                                     @RequestParam(value="quantity1",required = false) Integer quantity1,
-                                    @RequestParam(value="kategori",required = false) String kategori,
+
                                     @RequestParam(value="name",required = false) String name,
                                     @RequestParam(value="temp",required = false) Long temp, Principal principal){
         Inventory inventory = new Inventory();
         inventory.setKopi(is_kopi);
-        System.out.println(quantity1);
         inventory.setJumlah(quantity1);
-        inventory.setKategori(kategori);
+        inventory.setKategori("none");
         inventory.setNama(name);
         UserModel user = userService.findByUsername(principal.getName());
         inventory.setCabang(user.getCabang());
@@ -61,12 +64,22 @@ public class InventoryController {
     @RequestMapping ("/inventory/update")
     public String updateInventoryModal(Model model,
                                         @RequestParam(value="quantity",required = false) Integer quantity,
-                                        @RequestParam(value="temp",required = false) Long temp){
+                                        @RequestParam(value="temp",required = false) Long temp, Authentication authentication){
+        UserModel user = userService.findByUsername(authentication.getName());
         Inventory inventory = inventoryService.getInventoryById(temp);
         inventory.setJumlah(quantity);
         Inventory updatedInventory = inventoryService.updateInventory(inventory);
         model.addAttribute("id", updatedInventory.getId());
-        System.out.print("masuk");
+        for(Menu menu : menuService.getAllMenu(user.getCabang().getNama())){
+            Boolean cekAvailable = menuService.availabilityCheck(menu);
+            if(!cekAvailable){
+                menu.setStatus(false);
+                menuService.updateMenu(menu);
+            }else{
+                menu.setStatus(true);
+                menuService.updateMenu(menu);
+            }
+        }
         return "redirect:/inventory/viewall";
     }
 
