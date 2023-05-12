@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,6 +30,11 @@ public class PesananCustomer {
     @NotNull
     @Column(name = "diskon", nullable=false)
     private Long diskon;
+
+    @NotNull
+    @Column(name = "waktu", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime waktu;
 
     @ManyToOne
     @JoinColumn(name="id_cabang")

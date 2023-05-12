@@ -41,6 +41,17 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
+    public List<Menu> getAllMenu(String cabang){
+        List<Menu> listMenu = new ArrayList<>();
+        for(Menu menu : menuDb.findAll()){
+            if(menu.getCabang().getNama().equals(cabang)){
+                listMenu.add(menu);
+            }
+        }
+       return listMenu;
+    }
+
+    @Override
     public  List<Menu> getListMenuByCabangToHide(String cabang){
         List<Menu> listMenu = new ArrayList<>();
         for (Menu menu : menuDb.findAll()){
@@ -73,6 +84,7 @@ public class MenuServiceImpl implements MenuService{
             System.out.println(resep.getInventory().getJumlah());
             if (resep.getInventory().getJumlah() < resep.getJumlah()){
                 status = false;
+                break;
             }
         }
         return status;
