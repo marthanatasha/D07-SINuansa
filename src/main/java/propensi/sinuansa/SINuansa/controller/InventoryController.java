@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.service.InventoryService;
 import propensi.sinuansa.SINuansa.service.MenuService;
+import propensi.sinuansa.SINuansa.model.Inventory;
+import propensi.sinuansa.SINuansa.model.UserModel;
 import propensi.sinuansa.SINuansa.service.UserService;
 
 import java.security.Principal;

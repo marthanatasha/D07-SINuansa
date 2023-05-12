@@ -1,0 +1,177 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>SINUANSA</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="flex">-->
+<!--    <button th:replace="fragments/sidebar :: sidebarhead"></button>-->
+<!--    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>-->
+<!--    <div class="sm:ml-64 bg-slate-200 h-screen w-full">-->
+<!--        <section class="container px-4 py-4 mx-auto">-->
+<!--            <div class="card m-4 p-4">-->
+<!--                <div class="card-body">-->
+<!--                    <div class="justify-content-center">-->
+<!--                        <h2 class="text-2xl text-gray-900 flex-auto">Create Order</h2>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">-->
+<!--                    <br>-->
+<!--                    <form th:action="@{/orderinventory/create/} + ${isKopi}" th:object="${pesananInventory}" method="POST">-->
+<!--                        &lt;!&ndash;                        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <thead>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Order Inventory</th>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </thead>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <tbody>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <tr th:each="inv, iterationStatus : *{entryPI}">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <select name="id" th:field="*{entryPI[__${iterationStatus.index}__].inv.idInventory}"&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                            class="form-control">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                        <div th:each="invEx, iterationStatus2 : ${listInventory}">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                            <option th:value="${invEx.id}" th:text="${invEx.nama}"></option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                        </div>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    </select>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <h4>Quantity</h4>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].jumlah}"/>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <h4>Price</h4>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <input class="form-control" type="number" th:field="*{entryPI[__${iterationStatus.index}__].hargaItem}"/>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                    <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                            name="deleteRow">Hapus</button>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;                            <tr>&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;                                <td>&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;                                    <button class="btn btn-primary" type="submit" name="addInventory">Tambah Ke Keranjang</button>&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;                                </td>&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;                            </tr>&ndash;&gt;&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </tbody>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </table>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <div class="flex items-center mt-4 gap-x-3">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <button class="btn btn-primary" type="submit" name="preview">Preview Cart</button>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <a class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" href="/orderinventory/all">Back</a>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
+
+<!--                        <div th:each="inv, iterationStatus : *{entryPIList}">-->
+<!--                            <h2>Inventory List</h2>-->
+<!--                            <select name="id" th:field="*{entryPIList[__${iterationStatus.index}__].inventory.id}" class="form-control">-->
+<!--                                <div th:each="inv, iterationStatus2 : ${listInventory}">-->
+<!--                                    <option th:value="${inv.id}" th:text="${inv.nama}"></option>-->
+<!--                                </div>-->
+<!--                            </select>-->
+<!--                            <br>-->
+
+<!--                            Quantity: <br>-->
+<!--                            <input class="form-control" type="number" th:field="*{entryPIList[__${iterationStatus.index}__].kuantitas}"/>-->
+<!--                            <br>-->
+
+<!--                            Price: <br>-->
+<!--                            <input class="form-control" type="number" th:field="*{entryPIList[__${iterationStatus.index}__].harga}"/>-->
+<!--                            <br><br>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash;                            <select class="form-control" id="idInventory">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <option th:each="inventory, iterationStatus : *{entryPIList}" th:value="${inventory}" th:text="${inventory.nama}"></option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </select>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <br><br>&ndash;&gt;-->
+
+<!--                        &lt;!&ndash;                            Quantity: <br>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <input class="form-control" type="number" th:field="*{kuantitas}"/>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <br><br>&ndash;&gt;-->
+
+<!--                        &lt;!&ndash;                            Price: <br>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <input class="form-control" type="number" th:field="*{harga}"/>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            <br><br>&ndash;&gt;-->
+
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"-->
+<!--                                type="submit" name="preview">Preview</button>-->
+
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+
+<!--    </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+        <section class="container px-4 py-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <h2 class="text-2xl font-bold text-gray-800 ">Create Order Inventory</h2>
+                    </div>
+                </div>
+            </div>
+            <form th:action="@{/orderinventory/create/} + ${isKopi}" th:object="${pesananInventory}" method="POST" >
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Ingredients</label>
+                    <div th:each="inventory, iterationStatus: *{entryPIList}">
+                        <select name="id" th:field="*{entryPIList[__${iterationStatus.index}__].inventory.id}"
+                                class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Inventory">
+                            <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
+                                <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+                            </div>
+                        </select>
+
+                        <div class="form-group m-3">
+                            <input type="text" value="-" th:field="*{entryPIList[__${iterationStatus.index}__].nama} " hidden>
+
+                            <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Quantity" th:field="*{entryPIList[__${iterationStatus.index}__].kuantitas}">
+                        </div>
+
+                        <div class="form-group m-3">
+                            <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Price" th:field="*{entryPIList[__${iterationStatus.index}__].harga}">
+                        </div>
+
+                        <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="addItem">
+                            +
+                        </button>
+                        <button th:value="${iterationStatus.index}" class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">
+                            -
+                        </button>
+                    </div>
+                    <div class="form-group flex items-center justify-center">
+                        <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+                            <a th:href="@{/orderinventory/all}">Cancel</a>
+                        </button>
+                        <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+</body>
+</html>

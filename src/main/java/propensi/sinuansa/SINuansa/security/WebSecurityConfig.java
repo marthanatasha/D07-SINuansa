@@ -25,6 +25,22 @@ public class WebSecurityConfig {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/login", "/info","/dummy","/validate-ticket").permitAll()
+                .antMatchers("/user").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addmanajer").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addbarista").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addstafinv").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addstafpabrik").hasAuthority("ADMIN")
+                .antMatchers("/user/update/{id}").hasAuthority("ADMIN")
+                .antMatchers("/menu").hasAnyAuthority("ADMIN", "MANAJER", "BARISTA", "StaffInventory")
+                .antMatchers("/menu/add").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/hide").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/show").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/update/{id}").hasAnyAuthority("ADMIN", "MANAJER", "BARISTA")
+                .antMatchers("/inventory/add").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/inventory/update").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/inventory/delete/{id}").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/inventory/viewall").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/pesananCustomer/add").hasAnyAuthority("ADMIN", "BARISTA")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -44,7 +60,9 @@ public class WebSecurityConfig {
 
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+
 //    Sementara buat superuser, need to be discussed later.
+
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
 //        auth.inMemoryAuthentication()
