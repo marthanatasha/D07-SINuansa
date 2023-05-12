@@ -1,0 +1,134 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>SINUANSA</title>-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">-->
+<!--    &lt;!&ndash;    <script src="https://cdn.tailwindcss.com"></script>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <object th:include="fragments/sidebar :: css" th:remove="tag"></object>&ndash;&gt;-->
+<!--    &lt;!&ndash;    <object th:include="fragments/sidebar :: js" th:remove="tag"></object>&ndash;&gt;-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="card m-4 p-4">-->
+<!--        <div class="card-body">-->
+<!--            <div class="justify-content-center">-->
+<!--                <h2>Factory Order Detail</h2>-->
+<!--                <br>-->
+<!--                <div> &lt;!&ndash; mau dikiriin yang ini !&ndash;&gt;-->
+<!--                    <a class="btn btn-dark" th:href="@{/orderfactory/all}">Back</a>-->
+<!--                </div>-->
+<!--                <br>-->
+<!--                <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>-->
+<!--                <p th:text="'Status        : ' + ${pesananInventory.status}"></p>-->
+<!--                <p th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            <div th:if="${pesananInventory.getEntryPIList().size() != 0}">-->
+<!--                <table class="table">-->
+<!--                    <thead class="thead-light">-->
+<!--                    <tr>-->
+<!--                        <th scope="col">No</th>-->
+<!--                        <th scope="col">Product Name</th>-->
+<!--                        <th scope="col">Quantity</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="entry, iterationStatus : ${pesananInventory.getEntryPIList()}">-->
+<!--                        <td th:text="${iterationStatus.count}"}></td>-->
+<!--                        <td th:text="${entry.getInventory().getNama()}"></td>-->
+<!--                        <td th:text="${entry.getInventory().getJumlah()}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <a class="btn btn-primary" th:href="@{/orderinventory/confirm/} + ${pesananInventory.id}">Confirm</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </section>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SINUANSA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+        <section class="container px-4 py-4 mx-auto">
+            <div class="container">
+                <div class="card m-4 p-4">
+                    <div class="card-body">
+                        <div class="justify-content-center">
+                            <h2 class="text-xl font-bold text-gray-900">Inventory Order Detail</h2>
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >
+                            <a th:href="@{/orderinventory/all}">Back</a>
+                        </button>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <p th:text="'PIN         : ' + ${pesananInventory.pin}"></p>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <p th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
+                    </div>
+                    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="${pesananInventory.getEntryPIList().size() != 0}">
+                        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">No</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Product Name</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900">Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                            <tr th:each="entry, iterationStatus : ${pesananInventory.getEntryPIList()}">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-600" th:text="${iterationStatus.count}"></div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory.getNama()}"></div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <a class="btn btn-primary" th:href="@{/orderinventory/all/}">Back</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
