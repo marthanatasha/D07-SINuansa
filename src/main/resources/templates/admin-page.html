@@ -14,9 +14,9 @@
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 <div class="flex">
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="bg-slate-200 h-screen w-full">
         <h1 class="text-3xl font-bold underline m-10">
-            Welcome to SINuansa!
+            Pilih Cabang
         </h1>
         <form th:action="@{/}" th:object="${user}" method="POST">
             <input type="hidden" th:field="*{id}"/>
@@ -40,7 +40,7 @@
                 </button>
             </div>
         </form>
-        <h2 class="text-xl font-normal m-10" th:if="${#httpServletRequest.remoteUser != null}" th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'">Login as</h2>
+
     </div>
 </div>
 </body>
