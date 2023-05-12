@@ -44,6 +44,11 @@
                                 <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
                             </td>
                             <td>
+
+
+
+
+
                                 <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
                                         name="deleteRow">Delete</button>
                             </td>
@@ -55,7 +60,7 @@
                     </table>
 
                     <button class="btn btn-primary" type="submit" name="save">Save</button>
-                    <a class="btn-btn secondary" href="/menu">Cancel</a>
+                    <a class="btn-btn secondary" href="/">Cancel</a>
 
                 </form>
             </div>

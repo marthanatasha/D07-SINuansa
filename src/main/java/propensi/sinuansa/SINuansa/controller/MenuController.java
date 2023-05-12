@@ -100,6 +100,7 @@ public class MenuController {
         // menu.setStatus(menuService.availabilityCheck(menu));
         menu.setStatus(true);
         menu.setIsShow(true);
+        menu.setDiskon(0L);
         menuService.addMenu(menu);
         model.addAttribute("menu", menu);
         return "redirect:/menu";
