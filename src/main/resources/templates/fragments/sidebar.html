@@ -46,20 +46,25 @@
                 </ul>
             </li>
             <div>
-                <li th:classappend="${activeTab == 'Order'} ?  bg-blue-500: '' ">
+                <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA')" th:classappend="${activeTab == 'Order'} ?  bg-blue-500: '' ">
                     <a href="/pesananCustomer/add" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                         <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Orders</span>
                     </a>
                 </li>
             </div>
-            <li th:classappend="${activeTab == 'Menus'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Menus'} ?  bg-blue-500: '' ">
                 <a href="/menu" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Menus</span>
                 </a>
             </li>
-            <li th:classappend="${activeTab == 'Inventories'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Inventories'} ?  bg-blue-500: '' ">
                 <a href="/inventory/viewall" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Inventories</span>
+                </a>
+            </li>
+            <li sec:authorize="hasAnyAuthority('ADMIN','StaffPabrik')" class="" th:classappend="${activeTab == 'Factory'} ?  bg-blue-500: '' ">
+                <a href="/orderfactory/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
+                    <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Factory</span>
                 </a>
             </li>
             <li sec:authorize="hasAuthority('ADMIN')" th:classappend="${activeTab == 'Suppliers'} ?  bg-blue-500: '' ">
@@ -67,22 +72,22 @@
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Suppliers</span>
                 </a>
             </li>
-            <li th:classappend="${activeTab == 'Requests'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Requests'} ?  bg-blue-500: '' ">
                 <a href="/orderinventory/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Requests</span>
                 </a>
             </li>
-            <li th:classappend="${activeTab == 'Approvals'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" th:classappend="${activeTab == 'Approvals'} ?  bg-blue-500: '' ">
                 <a href="/approval/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Approvals</span>
                 </a>
             </li>
-            <li class="" th:classappend="${activeTab == 'Transaction'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" class="" th:classappend="${activeTab == 'Transaction'} ?  bg-blue-500: '' ">
                 <a href="/transaction/history" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Transactions</span>
                 </a>
             </li>
-            <li class="" th:classappend="${activeTab == 'Report'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" class="" th:classappend="${activeTab == 'Report'} ?  bg-blue-500: '' ">
                 <a href="/report" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Reports</span>
                 </a>

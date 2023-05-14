@@ -9,6 +9,8 @@ public interface MenuService {
     Menu findMenuId(Long Id);
     // getlistmenu udh gaperlu
     List<Menu> getListMenu(String cabang);
+
+    List<Menu> getAllMenu(String cabang);
     void addMenu(Menu menu);
     Boolean availabilityCheck(Menu menu);
     Menu updateMenu (Menu menu);

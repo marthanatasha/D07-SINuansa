@@ -30,6 +30,10 @@ public class Menu {
     private Long harga;
 
     @NotNull
+    @Column(name = "diskon", columnDefinition = "Long default 0")
+    private Long diskon;
+
+    @NotNull
     @Column(name = "kategori", nullable=false)
     private String kategori;
 
