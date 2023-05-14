@@ -71,17 +71,10 @@ public class UserController {
         Role role = user.getRole();
         String cabang = user.getCabang().getNama();
 
-        if (role.equals(Role.ADMIN)){
-            List<UserModel> listUser = userService.getListUser(role, cabang);
-            model.addAttribute("listUser", listUser);
-            return "user/view-all-user";
-        }
+        List<UserModel> listUser = userService.getListUser(role, cabang);
+        model.addAttribute("listUser", listUser);
+        return "user/view-all-user";
 
-        else{
-            List<UserModel> listUser = userService.getListUser(role, cabang);
-            model.addAttribute("listUser", listUser);
-            return "user/view-all-user";
-        }
     }
 
     //update menu

@@ -41,19 +41,24 @@ public class MenuController {
         UserModel user = userService.findByUsername(username);
         String cabang = user.getCabang().getNama();
         Role role = user.getRole();
+        boolean isAdminOrManajer = false;
+        if (role.equals(Role.ADMIN) || role.equals(Role.MANAJER)){
+            isAdminOrManajer = true;
+        }
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
         //Boolean editable = menuService.canEdit(LocalTime.now());
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
 
         //Boolean deleteable = menuService.canDelete(LocalTime.now());
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
         model.addAttribute("deletable", deleteable);
+        model.addAttribute("role", isAdminOrManajer);
         return "menu/view-all-menu";
     }
 
@@ -141,6 +146,14 @@ public class MenuController {
     //update menu
     @GetMapping("/menu/update/{id}")
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
+        //cek jam
+        //Boolean editable = menuService.canEdit(LocalTime.now());
+        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
+        if (!editable){
+            // return page error
+            return "redirect:/user";
+        }
+
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -226,6 +239,14 @@ public class MenuController {
     //hide (delete) menu
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
+        // cek jam
+        //Boolean deleteable = menuService.canDelete(LocalTime.now());
+        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
+        if (!deleteable){
+            // return page error
+            return "redirect:/user";
+        }
+
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
