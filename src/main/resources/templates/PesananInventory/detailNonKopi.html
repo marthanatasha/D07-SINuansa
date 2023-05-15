@@ -18,16 +18,19 @@
                 <div class="card m-4 p-4">
                     <div class="card-body">
                         <div class="justify-content-center">
-                            <h2 class="text-xl font-bold text-gray-900">Factory Order Detail</h2>
+                            <h2 class="text-xl font-bold text-gray-900">Inventory Order Detail</h2>
                         </div>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >
-                            <a th:href="@{/orderfactory/all}">Back</a>
+                            <a th:href="@{/orderinventory/all}">Back</a>
                         </button>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
+                    </div>
+                    <div class="flex items-center mt-4 gap-x-3">
+                        <p th:text="'PIN         : ' + ${pesananInventory.pin}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
@@ -42,6 +45,7 @@
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">No</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Product Name</th>
                                 <th scope="col" class="px-6 py-4 font-medium text-gray-900">Quantity</th>
+                                <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
@@ -50,21 +54,24 @@
                                     <div class="text-sm font-medium text-gray-600" th:text="${iterationStatus.count}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getNama()}"></div>
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory.getNama()}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getJumlah()}"></div>
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a class="text-sm font-medium text-blue-500"  th:href="@{/orderinventory/supplier/} + ${entry.id}">Contact Supplier</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center mt-4 gap-x-3">
-                        <a class="btn btn-primary" th:href="@{/orderfactory/update/} + ${pesananInventory.id}">Update Status</a>
+                    <div class="flex items-center mt-4 gap-x-3" th:if="${flag}">
+                        <a class="btn btn-primary" th:href="@{/orderinventory/update/} + ${pesananInventory.id}">Update Status</a>
                     </div>
                 </div>
             </div>
-    </section>
+        </section>
     </div>
 </div>
 </div>

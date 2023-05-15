@@ -11,7 +11,7 @@
 <body>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
-    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
+    <aside th:replace="fragments/sidebar :: sidebar('Factory')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="container">
@@ -60,26 +60,15 @@
                         </table>
                     </div>
 
-                    <form th:action="@{/orderfactory/update}" th:object="${pesananInventory}" method="POST">
-                        <div>
-                            <input hidden th:field="*{id}"/>
-                            <input hidden th:field="*{waktuPemesanan}"/>
-                            <input hidden th:field="*{pin}"/>
-                            <input hidden th:field="*{cabang}"/>
-                            <input hidden th:field="*{kode}"/>
-                            <input hidden th:field="*{harga}"/>
-
-                            Input:
-                            <input class="form-control" name="pin" type="text"/>
-                            <br>
-
+                    <form th:action="@{/orderfactory/update/} + ${id}" method="POST">
+                        <label for="inputPin">Input PIN: </label>
+                        <input placeholder="Enter 5-digit PIN" th:name="inputPin" class="form-control" id="inputPin" type="text"/>
+                        <br>
+                        <div class="flex items-center mt-4 gap-x-3">
+                            <button type="submit" class="btn btn-primary" name="update">Update</button>
                         </div>
-
-                <div class="flex items-center mt-4 gap-x-3">
-                    <button class="btn btn-primary" type="submit" name="update">Update</button>
-                </div>
+                        <div th:if="${error}" th:text="${error}" class="invalid-feedback flex items-center mt-2 gap-x-2"></div>
                     </form>
-
                 </div>
             </div>
         </section>

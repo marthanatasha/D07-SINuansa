@@ -81,4 +81,10 @@ public class PembayaranController {
         model.addAttribute("invoice", invoiceDTO);
         return "/invoice/view-invoice";
     }
+
+    //todo: generate QRIS
+    @GetMapping("/{custId}")
+    public String generateQRIS(Model model) {
+        return "home";
+    }
 }

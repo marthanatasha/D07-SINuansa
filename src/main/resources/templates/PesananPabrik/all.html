@@ -65,13 +65,7 @@
     </div>
 
     <div class="flex items-center gap-x-3 mt-0 py-8" th:unless="*{listPesanan.size() != 0}">
-        <h3 class="text-l font-bold text-gray-800" th:text="'No Order Found in This Store'"></h3>
-    </div>
-
-    <div class="flex items-center mt-4 gap-x-3">
-        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
-            <a th:href="@{/orderfactory/all}">Back to Factory Order</a>
-        </button>
+        <h3 class="text-l font-bold text-gray-800" th:text="'No Factory Order Found in This Store'"></h3>
     </div>
 
 </section>

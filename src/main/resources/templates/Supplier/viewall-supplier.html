@@ -46,7 +46,7 @@
           <div class="text-sm font-medium text-gray-700" th:text="${supplier.nama}"></div>
       </td>
       <td class="px-6 py-4">
-        <div class="text-sm font-medium text-gray-700" th:text="${supplier.link}"></div>
+        <a class="text-sm font-medium text-blue-600" th:text="${supplier.link}" th:href="'https://' + ${supplier.link}"></a>
       </td>
       <td class="px-6 py-4">
         <div class="text-sm font-medium text-gray-700" th:text="${supplier.material}"></div>
