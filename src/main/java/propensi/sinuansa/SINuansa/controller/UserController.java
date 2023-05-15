@@ -58,6 +58,7 @@ public class UserController {
         admin.setPassword("admin");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         admin.setPassword(encoder.encode(admin.getPassword()));
+        admin.setKontak("081211223344");
         adminService.addAdmin(admin);
         return "redirect:/";
     }
@@ -71,17 +72,10 @@ public class UserController {
         Role role = user.getRole();
         String cabang = user.getCabang().getNama();
 
-        if (role.equals(Role.ADMIN)){
-            List<UserModel> listUser = userService.getListUser(role, cabang);
-            model.addAttribute("listUser", listUser);
-            return "user/view-all-user";
-        }
+        List<UserModel> listUser = userService.getListUser(role, cabang);
+        model.addAttribute("listUser", listUser);
+        return "user/view-all-user";
 
-        else{
-            List<UserModel> listUser = userService.getListUser(role, cabang);
-            model.addAttribute("listUser", listUser);
-            return "user/view-all-user";
-        }
     }
 
     //update menu
@@ -104,6 +98,7 @@ public class UserController {
             //encrypt password
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             manajer.setPassword(encoder.encode(user.getPassword()));
+            manajer.setKontak(user.getKontak());
             manajerService.update(manajer);
         }
 
@@ -112,6 +107,7 @@ public class UserController {
             //encrypt password
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             barista.setPassword(encoder.encode(user.getPassword()));
+            barista.setKontak(user.getKontak());
             baristaService.update(barista);
         }
 
@@ -120,6 +116,7 @@ public class UserController {
             //encrypt password
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             staff.setPassword(encoder.encode(user.getPassword()));
+            staff.setKontak(user.getKontak());
             staffInventoryService.update(staff);
         }
 
@@ -128,6 +125,7 @@ public class UserController {
             //encrypt password
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             staff.setPassword(encoder.encode(user.getPassword()));
+            staff.setKontak(user.getKontak());
             staffPabrikService.update(staff);
         }
 
