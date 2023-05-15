@@ -77,17 +77,20 @@
             var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemmber"];
             console.log("fungsi");
             if(today.getFullYear()==yearSelect){
-                console.log("if 1");
-                if(today.getMonth()+1<monthSelect){
+                console.log(today.getMonth());
+                console.log(monthSelect);
+                if(today.getMonth()+1<=monthSelect){
                     console.log("if 2");
-                    return alert(`Maksimal bulan yang dipilih untuk tahun ${yearSelect} adalah ${months[today.getMonth()]}`)
+                    alert(`Maksimal bulan yang dipilih untuk tahun ${yearSelect} adalah ${months[today.getMonth()]}`)
+                }
+                else{
+                    var url = window.location.href;
+                    console.log(url);
+                    var urlFixed = url.slice(0, 28);
+                    console.log(urlFixed);
+                    window.location.href = urlFixed + "/" + monthSelect + "/" + yearSelect;
                 }
             }
-            var url = window.location.href;
-            console.log(url);
-            var urlFixed = url.slice(0, 28);
-            console.log(urlFixed);
-            window.location.href = urlFixed + "/" + monthSelect + "/" + yearSelect;
         }
 
 

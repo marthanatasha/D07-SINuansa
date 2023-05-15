@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import propensi.sinuansa.SINuansa.DTO.TransaksiDTO;
 import propensi.sinuansa.SINuansa.model.Transaksi;
 import propensi.sinuansa.SINuansa.service.TransaksiService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,8 +24,13 @@ public class TransaksiController {
     @GetMapping("/history")
     public String lihatTransaksi(Model model){
         List<Transaksi> listTransaksi = transaksiService.getTransaksiList();
-        System.out.print(listTransaksi.size());
-        model.addAttribute("listTransaksi", listTransaksi);
+        List<TransaksiDTO> listTransaksiDTO = new ArrayList<TransaksiDTO>();
+        for(Transaksi transaksi : listTransaksi){
+            TransaksiDTO transaksiDTO = new TransaksiDTO(transaksi.getId(), transaksi.getNama(), transaksi.getAkun(), transaksi.getRefCode(), transaksi.getKategori(),
+                    transaksi.getNominal(), transaksi.getKuantitas(), transaksi.getWaktuTransaksi());
+            listTransaksiDTO.add(transaksiDTO);
+        }
+        model.addAttribute("listTransaksi", listTransaksiDTO);
         return  "transaction/view-transaction";
     }
 
