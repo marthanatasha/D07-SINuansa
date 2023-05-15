@@ -148,7 +148,7 @@ public class MenuController {
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
         //cek jam
         //Boolean editable = menuService.canEdit(LocalTime.now());
-        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
             return "redirect:/user";

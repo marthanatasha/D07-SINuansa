@@ -41,4 +41,8 @@ public class UserModel {
     @ManyToOne
     @JoinColumn(name="id_cabang")
     private Cabang cabang;
+
+    @NotNull
+    @Column(name = "kontak", nullable=false)
+    private String kontak;
 }

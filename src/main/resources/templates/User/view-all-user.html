@@ -28,6 +28,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
                         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Role</th>
+                        <th scope="col" class="px-6 py-4 font-medium text-gray-900">Contact</th>
                         <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
                     </tr>
                     </thead>
@@ -38,6 +39,9 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm font-medium text-gray-700" th:text="${user.role}"></div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-700" th:text="${user.kontak}"></div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center mt-4 gap-x-3">
