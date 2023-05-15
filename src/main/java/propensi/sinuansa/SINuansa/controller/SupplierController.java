@@ -65,6 +65,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
+        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
         supplierService.addSupplier(supplier);
         model.addAttribute("supplier", supplier);
 
@@ -104,6 +105,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
+        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
         Supplier updateSupplier = supplierService.updateSupplier(supplier);
 
         return "redirect:/supplier/viewall";

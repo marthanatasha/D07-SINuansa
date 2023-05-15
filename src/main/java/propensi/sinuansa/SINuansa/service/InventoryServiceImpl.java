@@ -48,6 +48,14 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
+    public Inventory getInventoryByNama(String nama){
+        Optional<Inventory> inventory = inventoryDb.findByNama(nama);
+        if(inventory.isPresent()){
+            return inventory.get();
+        }else return null;
+    }
+
+    @Override
     public List<Inventory> getListInventoryBasedOnType(boolean isKopi) {
         List<Inventory> res = new ArrayList<>();
         List<Inventory> exists = getListInventory();
