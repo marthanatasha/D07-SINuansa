@@ -42,38 +42,19 @@ public class MenuController {
         String cabang = user.getCabang().getNama();
         Role role = user.getRole();
 
-        //manajer cm bisa liat menu di cabang msing2
-        if (role.equals(Role.MANAJER)){
-            List<Menu> listMenu = menuService.getListMenuByCabang(cabang);
+        List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
 
-            // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-            //Boolean editable = menuService.canEdit(LocalTime.now());
-            Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
+        //Boolean editable = menuService.canEdit(LocalTime.now());
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-            //Boolean deleteable = menuService.canDelete(LocalTime.now());
-            Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        //Boolean deleteable = menuService.canDelete(LocalTime.now());
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
-            model.addAttribute("listMenu", listMenu);
-            model.addAttribute("editable", editable);
-            model.addAttribute("deletable", deleteable);
-            return "menu/view-all-menu";
-
-        }
-
-        //admin karna diawal udh pilih cabang mana yg mau diatur, jd sama jg cm bisa liat menu di cbg yg dipilih
-        // tapi sementara karna admin blm bisa milih cabang di awal, admin bisa liat semua menu dlu
-        else{
-            List<Menu> listMenu = menuService.getListMenu();
-
-            // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-            Boolean editable = menuService.canEdit(LocalTime.now());
-            Boolean deleteable = menuService.canDelete(LocalTime.now());
-
-            model.addAttribute("listMenu", listMenu);
-            model.addAttribute("editable", editable);
-            model.addAttribute("deletable", deleteable);
-            return "menu/view-all-menu";
-        }
+        model.addAttribute("listMenu", listMenu);
+        model.addAttribute("editable", editable);
+        model.addAttribute("deletable", deleteable);
+        return "menu/view-all-menu";
     }
 
     @GetMapping("/menu/add")
@@ -95,7 +76,7 @@ public class MenuController {
     }
 
     @PostMapping(value = "/menu/add", params = {"save"})
-    public String addMenuSubmit (@ModelAttribute Menu menu, Model model, RedirectAttributes redirectAttrs, Authentication authentication){
+    public String addMenuSubmit (@ModelAttribute Menu menu, Model model, Authentication authentication){
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -116,9 +97,9 @@ public class MenuController {
         menu.setCabang(user.getCabang());
 
         //to do: cek status availability
-        // menu.setStatus(menuService.availabilityCheck(menu));
         menu.setStatus(true);
         menu.setIsShow(true);
+        menu.setDiskon(0L);
         menuService.addMenu(menu);
         model.addAttribute("menu", menu);
         return "redirect:/menu";
@@ -189,12 +170,6 @@ public class MenuController {
         UserModel user = userService.findByUsername(username);
         Cabang cabang = user.getCabang();
 
-        // status, isShow
-        Boolean status = menu.getStatus();
-        Boolean isShow = menu.getIsShow();
-
-        List<Resep> oldList = menuService.findMenuId(id).getResepList();
-        List<Resep> allResep = resepService.getListResep();
         if (menu.getResepList() == null){
             menu.setResepList(new ArrayList<>());
         }
@@ -207,18 +182,13 @@ public class MenuController {
             }
         }
 
-//        menu.setStatus(true);
-//        menu.setIsShow(true);
-//        menu.setStatus(status);
-//        menu.setIsShow(isShow);
-        menu.setCabang(cabang);
         menuService.updateMenu(menu);
         model.addAttribute("id", menu.getId());
         return "redirect:/menu";
     }
 
     //addRow untuk update
-    //tambah reseo
+    //tambah resep
     @PostMapping(value="/menu/update", params = {"addRowUpdate"})
     private String addRowUpdate(@ModelAttribute Menu menu, Model model){
         List<Inventory> listInventory = inventoryService.getListInventory();
@@ -256,44 +226,42 @@ public class MenuController {
     //hide (delete) menu
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
-        // versi seharusnya
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
         UserModel user = userService.findByUsername(username);
         String cabang = user.getCabang().getNama();
-        Role role = user.getRole();
 
-        List<Menu> listMenu = new ArrayList<>();
-        //manajer cm bisa liat apus(hide) di cabang msing2
-        if (role.equals(Role.MANAJER)){
-            listMenu = menuService.getListMenuByCabang(cabang);
-
-        }
-        //admin karna diawal udh pilih cabang mana yg mau diatur, jd sama jg cm bisa hide menu di cbg yg dipilih
-        // tapi sementara karna admin blm bisa milih cabang di awal, admin bisa hide semua menu dlu
-        else{
-            listMenu = menuService.getListMenu();
-        }
-
+        List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-hide";
-
-
-        /** sebelum revisi
-        List<Menu> listMenu = menuService.getListMenu();
-        model.addAttribute("listMenu", listMenu);
-        return "menu/form-hide";
-        **/
     }
 
     @RequestMapping(value = "menu/hide/{ids}", method = RequestMethod.GET)
     public String hideBatchHandler(@PathVariable Long[] ids, Model model) {
-
-
         menuService.hideMenu(ids);
-//        return deleteMenuForm(model);
+        return "redirect:/menu";
+    }
+
+    //show (add) menu
+    @GetMapping("/menu/show")
+    public String showMenuForm (Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        String cabang = user.getCabang().getNama();
+
+        List<Menu> listMenu = menuService.getListMenuByCabangToShow(cabang);
+        model.addAttribute("listMenu", listMenu);
+
+        return "menu/form-unhide";
+    }
+
+    @RequestMapping(value = "menu/show/{ids}", method = RequestMethod.GET)
+    public String showBatchHandler(@PathVariable Long[] ids, Model model) {
+        menuService.showMenu(ids);
         return "redirect:/menu";
     }
 

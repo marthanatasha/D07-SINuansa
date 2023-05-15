@@ -6,10 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.model.Supplier;
@@ -35,8 +32,10 @@ public class SupplierController {
     InventoryService inventoryService;
 
     @GetMapping("/supplier/viewall")
-    public String listSupplier(Model model){
-        List<Supplier> listSupplier = supplierService.getListSupplier();
+    public String listSupplier(Model model, Authentication authentication){
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+        List<Supplier> listSupplier = supplierService.getListSupplierByCabang(user.getCabang());
         model.addAttribute("listSupplier", listSupplier);
         return "supplier/viewall-supplier";
     }
@@ -66,6 +65,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
+        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
         supplierService.addSupplier(supplier);
         model.addAttribute("supplier", supplier);
 
@@ -75,9 +75,10 @@ public class SupplierController {
         return "redirect:/supplier/viewall";
     }
 
-    @GetMapping("/supplier/delete/{id}")
-    public String deleteSupplierSubmitPage(@PathVariable Long id, Model model){
-        Supplier supplier = supplierService.findSupplierId(id);
+    @RequestMapping("/supplier/delete")
+    public String deleteSupplierSubmitPage(Model model,
+                                           @RequestParam(value="temp",required = false) Long temp){
+        Supplier supplier = supplierService.findSupplierId(temp);
         Supplier deleteSupplier = supplierService.deleteSupplier(supplier);
         model.addAttribute("id", supplier.getId());
         return "redirect:/supplier/viewall";
@@ -104,6 +105,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
+        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
         Supplier updateSupplier = supplierService.updateSupplier(supplier);
 
         return "redirect:/supplier/viewall";

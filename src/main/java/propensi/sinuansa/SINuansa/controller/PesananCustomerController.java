@@ -2,19 +2,16 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import propensi.sinuansa.SINuansa.model.Inventory;
-import propensi.sinuansa.SINuansa.model.Menu;
-import propensi.sinuansa.SINuansa.model.MenuPesanan;
-import propensi.sinuansa.SINuansa.model.PesananCustomer;
-import propensi.sinuansa.SINuansa.service.MenuPesananService;
-import propensi.sinuansa.SINuansa.service.MenuService;
-import propensi.sinuansa.SINuansa.service.PesananCustomerService;
+import propensi.sinuansa.SINuansa.model.*;
+import propensi.sinuansa.SINuansa.service.*;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Controller
@@ -30,10 +27,17 @@ public class PesananCustomerController {
     @Autowired
     private MenuPesananService menuPesananService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
     @GetMapping("/pesananCustomer/add")
-    public String addPesananCustomerForm(Model model){
+    public String addPesananCustomerForm(Model model, Authentication authentication){
+        UserModel user = userService.findByUsername(authentication.getName());
         PesananCustomer pesananCustomer = new PesananCustomer();
-        List<Menu> listMenu = menuService.getListMenu();
+        List<Menu> listMenu = menuService.getListMenu(user.getCabang().getNama());
         List<MenuPesanan> listMenuPesanan = menuPesananService.getListMenuPesanan();
         List<MenuPesanan> listMenuPesananNew = new ArrayList<>();
 
@@ -43,10 +47,13 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+
+        return "pesananCustomer/tes";
+
     }
     @PostMapping(value ="/pesananCustomer/add", params = {"save"})
-    public String addPesananCustomerSubmit(@ModelAttribute PesananCustomer pesananCustomer, Model model, RedirectAttributes redirectAttrs) {
+    public String addPesananCustomerSubmit(@ModelAttribute PesananCustomer pesananCustomer, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+        UserModel user = userService.findByUsername(authentication.getName());
         ArrayList<String> namaMenu = new ArrayList<String>( );
         ArrayList<Long> jumlahMenu = new ArrayList<Long>( );
         ArrayList<Long> hargaMenu = new ArrayList<Long>( );
@@ -58,6 +65,7 @@ public class PesananCustomerController {
             int idx =0;
             pesananCustomer.setDiskon(0L);
             pesananCustomer.setHarga(0L);
+            pesananCustomer.setWaktu(LocalDateTime.now());
             pesananCustomerService.addPesananCustomer(pesananCustomer);
             for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
                 menuPesanan.setPesananCustomer(pesananCustomer);
@@ -75,6 +83,7 @@ public class PesananCustomerController {
             pesananCustomer.setHarga(total_harga);
         }
         pesananCustomerService.addPesananCustomer(pesananCustomer);
+
         Long id = pesananCustomer.getId();
         model.addAttribute("id", id);
         model.addAttribute("namaMenu", namaMenu);
@@ -83,13 +92,32 @@ public class PesananCustomerController {
         model.addAttribute("totalHargaMenu", totalHargaMenu);
         model.addAttribute("total_harga", total_harga);
 
+        for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
+            Menu menuNow = menuPesanan.getMenu();
+            for(Resep resep : menuNow.getResepList()){
+                Inventory inventoryNow = resep.getInventory();
+                Long temp = menuPesanan.getJumlah()*resep.getJumlah();
+                Long longInvent = (long)(int)inventoryNow.getJumlah()-temp;
+                inventoryNow.setJumlah((int)(long)longInvent);
+                inventoryService.addInventory(inventoryNow);
+            }
+        }
+
+        for(Menu menu : menuService.getAllMenu(user.getCabang().getNama())){
+            Boolean cekAvailable = menuService.availabilityCheck(menu);
+            if(!cekAvailable){
+                menu.setStatus(false);
+                menuService.updateMenu(menu);
+            }
+        }
         return "pesananCustomer/summary-pesananCustomer";
     }
 
     //add Row
     @PostMapping(value ="/pesananCustomer/add", params = {"addRow"})
-    public String addRowPesananCustomer(@ModelAttribute PesananCustomer pesananCustomer, Model model) {
-        List<Menu> listMenu = menuService.getListMenu();
+    public String addRowPesananCustomer(@ModelAttribute PesananCustomer pesananCustomer, Model model, Authentication authentication) {
+        UserModel user = userService.findByUsername(authentication.getName());
+        List<Menu> listMenu = menuService.getListMenu(user.getCabang().getNama());
         if(pesananCustomer.getMenuPesananList() == null || pesananCustomer.getMenuPesananList().size()==0){
             pesananCustomer.setMenuPesananList(new ArrayList<>());
         }
@@ -99,13 +127,16 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+
+        return "pesananCustomer/tes";
+
     }
 
     //delete Row
     @PostMapping(value ="/pesananCustomer/add", params = {"deleteRow"})
-    public String deleteRowPesananCustomer(@ModelAttribute PesananCustomer pesananCustomer, @RequestParam("deleteRow") Integer row, Model model) {
-        List<Menu> listMenu = menuService.getListMenu();
+    public String deleteRowPesananCustomer(@ModelAttribute PesananCustomer pesananCustomer, @RequestParam("deleteRow") Integer row, Model model, Authentication authentication) {
+        UserModel user = userService.findByUsername(authentication.getName());
+        List<Menu> listMenu = menuService.getListMenu(user.getCabang().getNama());
         final Integer rowInt = Integer.valueOf(row);
         pesananCustomer.getMenuPesananList().remove(rowInt.intValue());
 
@@ -114,7 +145,9 @@ public class PesananCustomerController {
         model.addAttribute("pesananCustomer", pesananCustomer);
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("listMenuPesanan", listMenuPesanan);
-        return "pesananCustomer/form-add-pesananCustomer";
+
+        return "pesananCustomer/tes";
+
     }
 
 }

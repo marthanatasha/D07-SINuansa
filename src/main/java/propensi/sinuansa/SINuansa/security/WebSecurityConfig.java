@@ -24,7 +24,21 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers("/login", "/validate-ticket").permitAll()
+                .antMatchers("/login", "/info","/dummy","/validate-ticket").permitAll()
+                .antMatchers("/user").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addmanajer").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addbarista").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addstafinv").hasAnyAuthority("MANAJER", "ADMIN")
+                .antMatchers("/user/addstafpabrik").hasAuthority("ADMIN")
+                .antMatchers("/user/update/**").hasAuthority("ADMIN")
+                .antMatchers("/supplier/**").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/menu").hasAnyAuthority("ADMIN", "MANAJER", "BARISTA", "StaffInventory")
+                .antMatchers("/menu/add").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/hide").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/show").hasAnyAuthority("ADMIN", "MANAJER")
+                .antMatchers("/menu/update/**").hasAnyAuthority("ADMIN", "MANAJER", "BARISTA")
+                .antMatchers("/inventory/**").hasAnyAuthority("ADMIN", "MANAJER", "StaffInventory")
+                .antMatchers("/pesananCustomer/add").hasAnyAuthority("ADMIN", "BARISTA")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -44,15 +58,17 @@ public class WebSecurityConfig {
 
     public BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    //Sementara buat superuser, need to be discussed later.
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder)
-                .withUser("superuser")
-                .password(encoder.encode("sinuansa"))
-                .roles("ADMIN");
-    }
+
+//    Sementara buat superuser, need to be discussed later.
+
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(encoder)
+//                .withUser("superuser")
+//                .password(encoder.encode("sinuansa"))
+//                .roles("ADMIN");
+//    }
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
@@ -62,4 +78,5 @@ public class WebSecurityConfig {
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
     }
+
 }

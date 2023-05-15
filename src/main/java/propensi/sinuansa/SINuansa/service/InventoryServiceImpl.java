@@ -18,6 +18,7 @@ public class InventoryServiceImpl implements InventoryService{
 
     @Override
     public List<Inventory> getListInventory(){
+
         return inventoryDb.findAll();
     }
 
@@ -41,6 +42,14 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public Inventory getInventoryById(Long id){
         Optional<Inventory> inventory = inventoryDb.findById(id);
+        if(inventory.isPresent()){
+            return inventory.get();
+        }else return null;
+    }
+
+    @Override
+    public Inventory getInventoryByNama(String nama){
+        Optional<Inventory> inventory = inventoryDb.findByNama(nama);
         if(inventory.isPresent()){
             return inventory.get();
         }else return null;

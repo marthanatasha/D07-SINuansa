@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+<div class="flex">
+  <button th:replace="fragments/sidebar :: sidebarhead"></button>
+  <aside th:replace="fragments/sidebar :: sidebar('Order')"></aside>
+
+  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <section class="container px-4 py-4 mx-auto">
+      <div class="sm:flex sm:items-center sm:justify-between m-5">
+        <div>
+          <div class="flex items-center gap-x-3">
+            <h2 class="text-2xl font-bold text-gray-800 ">Create New Order</h2>
+          </div>
+        </div>
+      </div>
+      <form th:action="@{/pesananCustomer/add}" th:object="${pesananCustomer}" method="POST" >
+        <div class="form-group m-5">
+          <label class="block mb-2 text-base font-medium text-gray-900">Pesanan</label>
+          <div th:each="menu, iterationStatus: *{menuPesananList}">
+            <select onchange="logologo(this)" th:id="'myselect-'+${iterationStatus.index}" name="id" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].menu.id}"
+                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingredients">
+              <div th:each="menuEx, iterationStatus2 : ${listMenu}">
+                <option th:data-harga="${menuEx.harga}" th:value="${menuEx.id}" th:text="${menuEx.nama}"></option>
+              </div>
+            </select>
+            <input onchange="logologo(this)" th:id="'myinput-'+${iterationStatus.index}" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " type="number" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].jumlah}">
+            <td>
+              <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
+            </td>
+            <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteRow">
+              Delete
+            </button>
+
+          </div>
+          <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="addRow">
+            Add Menu Pesanan
+          </button>
+          <div class="form-group flex items-center justify-center">
+            <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+              <a th:href="@{/}">Cancel</a>
+            </button>
+            <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+<script>
+  function loglog(that){
+    return(that.options[that.selectedIndex].getAttribute("data-harga"))
+    // console.log(that.getAttribute("data-iteridx"))
+  }
+  function logloglog(that){
+    return(that.value)
+    // console.log(that.getAttribute("data-iteridx"))
+  }
+  function logologo(that){
+    const index = (that.getAttribute("data-iteridx"))
+    const harga = (loglog(document.getElementById("myselect-"+that.getAttribute("data-iteridx"))))
+    const jumlah = (logloglog(document.getElementById("myinput-"+that.getAttribute("data-iteridx"))))
+    document.getElementById("myharga-"+index).textContent=harga*jumlah;
+  }
+  window.onload=function (){
+    const mypesanan = document.querySelectorAll('[id^="myharga-"]')
+    for(let i=0; i<mypesanan.length; i++){
+      const currharga=loglog(document.getElementById("myselect-"+mypesanan[i].getAttribute("data-iteridx")))
+      const currjumlah=logloglog(document.getElementById("myinput-"+mypesanan[i].getAttribute("data-iteridx")))
+      mypesanan[i].textContent = currharga *currjumlah;
+    }
+  }
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Manajer;
 import propensi.sinuansa.SINuansa.model.StaffInventory;
 import propensi.sinuansa.SINuansa.repository.StaffInventoryDb;
 
@@ -25,5 +26,10 @@ public class StaffInventoryServiceImpl implements StaffInventoryService{
     @Override
     public void addStaff(StaffInventory staff){
         staffInventoryDb.save(staff);
+    }
+
+    @Override
+    public StaffInventory update(StaffInventory staff){
+        return staffInventoryDb.save(staff);
     }
 }

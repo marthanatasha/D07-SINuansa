@@ -9,6 +9,7 @@
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
@@ -43,6 +44,11 @@
                                 <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
                             </td>
                             <td>
+
+
+
+
+
                                 <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
                                         name="deleteRow">Delete</button>
                             </td>
@@ -54,7 +60,7 @@
                     </table>
 
                     <button class="btn btn-primary" type="submit" name="save">Save</button>
-                    <a class="btn-btn secondary" href="/menu">Cancel</a>
+                    <a class="btn-btn secondary" href="/">Cancel</a>
 
                 </form>
             </div>

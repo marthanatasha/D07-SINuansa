@@ -28,11 +28,12 @@ public class MenuServiceImpl implements MenuService{
         }else return null;
     }
 
+    // ini udh gaperlu
     @Override
-    public List<Menu> getListMenu(){
+    public List<Menu> getListMenu(String cabang){
         List<Menu> listMenu = new ArrayList<>();
-        for (Menu menu : menuDb.findAll()){
-            if (menu.getIsShow().equals(true)){
+        for (Menu menu : getListMenuByCabangToHide(cabang)){
+            if (menu.getStatus().equals(true)){
                 listMenu.add(menu);
             }
         }
@@ -40,10 +41,31 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
-    public  List<Menu> getListMenuByCabang(String cabang){
+    public List<Menu> getAllMenu(String cabang){
+        List<Menu> listMenu = new ArrayList<>();
+        for(Menu menu : menuDb.findAll()){
+            if(menu.getCabang().getNama().equals(cabang)){
+                listMenu.add(menu);
+            }
+        }
+       return listMenu;
+    }
+
+    @Override
+    public  List<Menu> getListMenuByCabangToHide(String cabang){
         List<Menu> listMenu = new ArrayList<>();
         for (Menu menu : menuDb.findAll()){
             if (menu.getCabang().getNama().equals(cabang) && menu.getIsShow().equals(true)){
+                listMenu.add(menu);
+            }
+        }
+        return listMenu;
+    }
+    @Override
+    public  List<Menu> getListMenuByCabangToShow(String cabang){
+        List<Menu> listMenu = new ArrayList<>();
+        for (Menu menu : menuDb.findAll()){
+            if (menu.getCabang().getNama().equals(cabang) && menu.getIsShow().equals(false)){
                 listMenu.add(menu);
             }
         }
@@ -62,6 +84,7 @@ public class MenuServiceImpl implements MenuService{
             System.out.println(resep.getInventory().getJumlah());
             if (resep.getInventory().getJumlah() < resep.getJumlah()){
                 status = false;
+                break;
             }
         }
         return status;
@@ -80,6 +103,15 @@ public class MenuServiceImpl implements MenuService{
             hide.setIsShow(false);
         }
     }
+
+    @Override
+    public void showMenu(Long[] ids){
+        List<Menu> menu = menuDb.findByIdIn(ids);
+        for (Menu show : menu){
+            show.setIsShow(true);
+        }
+    }
+
 
     @Override
     public Boolean canEdit(LocalTime currentTime){

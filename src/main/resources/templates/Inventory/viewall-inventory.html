@@ -34,19 +34,18 @@
                                 <form class="space-y-6" th:action="@{/inventory/add}">
                                     <div>
                                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Name</label>
-                                        <input type="text" id="name" th:name="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
-
-                                        <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Category</label>
-                                        <input type="text" id="kategori" th:name="kategori"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <input type="text" id="name" th:name="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
 
                                         <label for="is_kopi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is That Coffee?</label>
-                                        <input type="number" id="is_kopi" th:name="is_kopi"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
-
-                                        <label for="id_cabang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Inventory's Branch</label>
-                                        <input type="number" id="id_cabang" th:name="id_cabang"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+<!--                                        <input type="number" id="is_kopi" th:name="is_kopi"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required>-->
+                                        <select name="is_kopi" id="is_kopi"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                                            <option th:value="1" th:text="Coffee"></option>
+                                            <option th:value="0" th:text="Non-Coffee"></option>
+                                        </select>
 
                                         <label for="quantity1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
-                                        <input type="number" id="quantity1" th:name="quantity1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new quantity" required>
+                                        <input type="number" id="quantity1" th:name="quantity1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
 
                                     </div>
                                     <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Inventory</button>

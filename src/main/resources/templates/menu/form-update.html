@@ -1,85 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Menus')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
-        <div class="p-10">
-            <h1 class="text-3xl">Update Menu</h1>
-            <br>
-        </div>
-        <div class="flex justify-center pt-7">
-            <div class="flex items-center">
-                <br><br>
-                <form th:action="@{/menu/update}" th:object="${menu}" method="POST">
-
-                    <input type="hidden" th:field="*{id}" />
-                    <input type="hidden" th:field="*{status}"/>
-                    <input type="hidden" th:field="*{isShow}"/>
-                    <input type="hidden" th:field="*{cabang}"/>
-
-                    Name: <br>
-                    <input class="form-control" type="text" th:field="*{nama}"/>
-                    <br><br>
-
-                    Price: <br>
-                    <input class="form-control" type="number" th:field="*{harga}"/>
-                    <br><br>
-
-                    Category: <br>
-                    <select th:field="*{kategori}" class="form-control">
-                        <option th:value="'Coffee'" th:text="Coffee"></option>
-                        <option th:value="'Non-Coffee'" th:text="Non-Coffee"></option>
-                    </select>
-
-                    <table class="table">
-                        <thead>
-                        <th>Ingredients</th>
-                        </thead>
-                        <tbody>
-                        <tr th:each="inventory, iterationStatus : *{resepList}">
-                            <td>
-                                <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
-                                        class="form-control">
-                                    <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
-                                        <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
-                                    </div>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="hidden" name="id" th:field="*{resepList[__${iterationStatus.index}__].id}" class="form-control">
-                                <input class="form-control" type="number" th:field="*{resepList[__${iterationStatus.index}__].jumlah}">
-                            </td>
-                            <td>
-                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
-                                        name="deleteRowUpdate">Delete</button>
-                            </td>
-                        </tr>
-                        <th>
-                            <button class="btn btn-info" type="submit" name="addRowUpdate">+ Add Ingredient</button>
-                        </th>
-                        </tbody>
-                    </table>
-
-                    <button class="btn btn-primary" type="submit" name="save">Save</button>
-                    <a class="btn btn-secondary" href="/menu">Cancel</a>
-                </form>
-                <br><br>
+        <section class="container px-4 py-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <h2 class="text-2xl font-bold text-gray-800 ">Update Menu</h2>
+                    </div>
+                </div>
             </div>
+            <form th:action="@{/menu/update}" th:object="${menu}" method="POST" >
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{status}"/>
+                <input type="hidden" th:field="*{isShow}"/>
+                <input type="hidden" th:field="*{cabang}"/>
+                <input type="hidden" th:field="*{nama}"/>
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900 ">Name</label>
+                    <input type="text" required class="form-control bg-gray-300 border border-gray-300 text-gray-900 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+             dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" th:field="*{nama}" disabled>
+                </div>
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Price</label>
+                    <input type="number" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Price" th:field="*{harga}">
+                </div>
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Discount</label>
+                    <input type="number" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Price" th:field="*{diskon}">
+                </div>
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Category</label>
+                    <select name="id" th:field="*{kategori}"
+                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Category">
+                        <option th:value="'Coffee'" th:text="Coffee"></option>
+                        <option th:value="'Non-Coffee'" th:text="Non-Coffee">
+                    </select>
+                </div>
+                <div class="form-group m-5">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Ingredients</label>
+                    <div th:each="inventory, iterationStatus: *{resepList}">
+                        <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
+                                class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingredients">
+                            <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
+                                <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+                            </div>
+                        </select>
+                        <input type="hidden" name="id" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " th:field="*{resepList[__${iterationStatus.index}__].id}">
+                        <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Quantity" th:field="*{resepList[__${iterationStatus.index}__].jumlah}">
+                        <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteRowUpdate">
+                            -
+                        </button>
+                        <button th:value="${iterationStatus.index}" class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="addRowUpdate">
+                            +
+                        </button>
+                    </div>
+                    <div class="form-group flex items-center justify-center">
+                        <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+                            <a th:href="@{/menu}">Cancel</a>
+                        </button>
+                        <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">
+                            Submit
+                        </button>
+                    </div>
+                </div>
 
 
-        </div>
-
+            </form>
+        </section>
     </div>
 </div>
 </body>
