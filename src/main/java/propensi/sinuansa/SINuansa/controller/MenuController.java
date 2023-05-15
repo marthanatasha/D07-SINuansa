@@ -99,6 +99,7 @@ public class MenuController {
         //to do: cek status availability
         menu.setStatus(true);
         menu.setIsShow(true);
+        menu.setDiskon(0L);
         menuService.addMenu(menu);
         model.addAttribute("menu", menu);
         return "redirect:/menu";

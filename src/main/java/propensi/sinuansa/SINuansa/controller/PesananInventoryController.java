@@ -196,8 +196,8 @@ public class PesananInventoryController {
         List<Supplier> supplierList = supplierService.getListSupplier();
         List<Supplier> result = new ArrayList<>();
         for (Supplier i : supplierList) {
-            //todo: sementara masih ambil dari materials cuma lagi diusahain pake id inventory
-            if (i.getMaterial().equals(entry.getInventory().getNama()) && i.getStatus().equalsIgnoreCase("Active")) {
+            //todo: sementara masih ambil dari materials cuma lagi diusahain pake id inventory (udah pake inventory nanti coba lagi)
+            if (i.getInventory().equals(entry.getInventory()) && i.getStatus().equalsIgnoreCase("Active")) {
                 result.add(i);
             }
         }

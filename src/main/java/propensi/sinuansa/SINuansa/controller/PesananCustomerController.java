@@ -11,6 +11,7 @@ import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.service.*;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Controller
@@ -64,6 +65,7 @@ public class PesananCustomerController {
             int idx =0;
             pesananCustomer.setDiskon(0L);
             pesananCustomer.setHarga(0L);
+            pesananCustomer.setWaktu(LocalDateTime.now());
             pesananCustomerService.addPesananCustomer(pesananCustomer);
             for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
                 menuPesanan.setPesananCustomer(pesananCustomer);
@@ -81,6 +83,7 @@ public class PesananCustomerController {
             pesananCustomer.setHarga(total_harga);
         }
         pesananCustomerService.addPesananCustomer(pesananCustomer);
+
         Long id = pesananCustomer.getId();
         model.addAttribute("id", id);
         model.addAttribute("namaMenu", namaMenu);
@@ -100,6 +103,13 @@ public class PesananCustomerController {
             }
         }
 
+        for(Menu menu : menuService.getAllMenu(user.getCabang().getNama())){
+            Boolean cekAvailable = menuService.availabilityCheck(menu);
+            if(!cekAvailable){
+                menu.setStatus(false);
+                menuService.updateMenu(menu);
+            }
+        }
         return "pesananCustomer/summary-pesananCustomer";
     }
 
