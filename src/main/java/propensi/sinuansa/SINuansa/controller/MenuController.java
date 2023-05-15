@@ -151,7 +151,7 @@ public class MenuController {
         Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
-            return "redirect:/user";
+            return "error/403";
         }
 
         //cabang
@@ -244,7 +244,7 @@ public class MenuController {
         Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
         if (!deleteable){
             // return page error
-            return "redirect:/user";
+            return "error/403";
         }
 
         //cabang
