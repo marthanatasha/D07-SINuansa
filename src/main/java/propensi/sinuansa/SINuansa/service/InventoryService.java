@@ -8,6 +8,7 @@ public interface InventoryService {
     Inventory updateInventory (Inventory inventory);
     Inventory deleteInventory (Inventory inventory);
     Inventory getInventoryById (Long id);
+    Inventory getInventoryByNama(String nama);
     List<Inventory> getListInventory();
     List<Inventory> getListInventoryBasedOnType(boolean isKopi);
 }
