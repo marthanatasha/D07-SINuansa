@@ -42,13 +42,18 @@ public class PembayaranController {
         pembayaran.setHarga(pemesanan.getHarga());
 
         boolean metbool;
-        if(method.equals("Tunai")) metbool = true;
+        if(method.equalsIgnoreCase("Tunai")) metbool = true;
         else metbool = false;
+        //todo
         String id = "INV-" + pemesanan.getId() + "/" + pemesanan.getCabang().getNama() +"/" + LocalDateTime.now().getYear();
+
+        //bulan
         if(LocalDateTime.now().getMonthValue()<10)id+="0"+LocalDateTime.now().getMonthValue();
         else id+= LocalDateTime.now().getMonthValue();
+        //tanggal
         if(LocalDateTime.now().getDayOfMonth()<10) id+="0" + LocalDateTime.now().getDayOfMonth();
         else id+=LocalDateTime.now().getDayOfMonth();
+
         pembayaran.setId(id);
         pembayaran.setMetode(metbool);
         pembayaran.setSumber(source);
@@ -76,13 +81,14 @@ public class PembayaranController {
         String namaCab = pemesanan.getCabang().getNama();
         String alamat = pemesanan.getCabang().getAlamat();
         String noTelp = "0"+pemesanan.getCabang().getNoTelp();
+        //kalau Tunai, source-nya Tunai juga (mapping: payment/success/{idPesananCust}/Tunai/Tunai)
         InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar(), pembayaran.getId(), listItem, source, pemesanan.getHarga());
 
         model.addAttribute("invoice", invoiceDTO);
         return "/invoice/view-invoice";
     }
 
-    //todo: generate QRIS
+    //todo: generate QRIS (nontunai) dan kembalian Tunai (form input trus return hasil kembaliannya berapa)
     @GetMapping("/{custId}")
     public String generateQRIS(Model model) {
         return "home";
