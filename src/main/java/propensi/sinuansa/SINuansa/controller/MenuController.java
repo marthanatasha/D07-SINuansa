@@ -50,10 +50,10 @@ public class MenuController {
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
         //Boolean editable = menuService.canEdit(LocalTime.now());
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
 
         //Boolean deleteable = menuService.canDelete(LocalTime.now());
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
