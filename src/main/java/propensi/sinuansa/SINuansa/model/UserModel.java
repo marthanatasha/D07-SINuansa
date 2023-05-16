@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserModel {
     @Id
@@ -22,7 +22,7 @@ public class UserModel {
     private Long id;
 
     @NotNull
-    @Column(name = "username", nullable=false)
+    @Column(name = "username", nullable=false, unique = true)
     private String username;
 
     @NotNull
