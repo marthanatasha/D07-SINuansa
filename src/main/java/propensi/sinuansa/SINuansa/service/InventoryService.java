@@ -11,4 +11,5 @@ public interface InventoryService {
     Inventory getInventoryByNama(String nama);
     List<Inventory> getListInventory();
     List<Inventory> getListInventoryBasedOnType(boolean isKopi);
+    List<Inventory> getListInventoryByCabang(String cabang);
 }
