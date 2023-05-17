@@ -12,8 +12,8 @@
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Approvals')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
-        <section class="container px-4 py-4 mx-auto">
+    <div class="flex-auto sm:ml-64 bg-slate-200 h-auto w-full">
+        <section class="container px-6 py-6 mx-auto">
             <div class="container">
                 <div class="card m-4 p-4">
                     <div class="card-body">
@@ -70,7 +70,7 @@
                         <input th:field="*{kode}" hidden>
                         <input th:field="*{harga}" hidden>
                         <input th:field="*{cabang}" hidden>
-                        <p>Are you sure want to confirm this order?</p>
+                        <p class="text-blue-900 font-semibold text-l"> Are you sure want to confirm this order? </p>
                         <br>
                         <button class="bg-green-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
                             Approved

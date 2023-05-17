@@ -12,7 +12,7 @@
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Factory')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="sm:ml-64 bg-slate-200 h-auto w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="container">
                 <div class="card m-4 p-4">
@@ -53,7 +53,7 @@
                                     <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getNama()}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getJumlah()}"></div>
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
                                 </td>
                             </tr>
                             </tbody>
@@ -63,13 +63,12 @@
                     <form th:action="@{/orderfactory/update/} + ${id}" method="POST">
                         <label for="inputPin">Input PIN: </label>
                         <input placeholder="Enter 5-digit PIN" th:name="inputPin" class="form-control" id="inputPin" type="text"/>
-                        <br>
                         <div class="flex items-center mt-4 gap-x-3">
                             <button type="submit"
                                     class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
                                     name="update"> Update </button>
                         </div>
-                        <div th:if="${error}" th:text="${error}" class="invalid-feedback flex items-center mt-2 gap-x-2"></div>
+                        <div th:if="${error}" th:text="${error}" class="invalid-feedback font-semibold flex items-center mt-2 gap-x-2"></div>
                     </form>
                 </div>
             </div>
