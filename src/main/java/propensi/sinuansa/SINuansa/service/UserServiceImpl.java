@@ -34,6 +34,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<String> getAllUser(){
+        List<String> username = new ArrayList<>();
+        for (UserModel i : userDb.findAll()){
+            username.add(i.getUsername());
+        }
+        return username;
+    }
+
+    @Override
     public List<UserModel> getListUser(Role role, String cabang){
         List<UserModel> listUser = new ArrayList<>();
         if (role.equals(Role.ADMIN)){

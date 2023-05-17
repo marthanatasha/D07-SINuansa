@@ -10,6 +10,7 @@ public interface UserService {
     UserModel addUser(UserModel user);
     String encrypt(String password);
     List<UserModel> getListUser(Role role, String cabang);
+    List<String> getAllUser();
 
 
     }
