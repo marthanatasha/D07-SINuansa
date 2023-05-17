@@ -29,7 +29,7 @@
         </div>
         <div class="form-group m-5">
           <label class="block mb-2 text-base font-medium text-gray-900">Username</label>
-          <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+          <input type="text" id="username" onblur="checkUsername()" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="username" th:field="*{username}">
         </div>
         <div class="form-group m-5">
@@ -64,4 +64,20 @@
   </div>
 </div>
 </body>
+<script th:inline="javascript">
+
+    function checkUsername(){
+        var temp3 = document.getElementById("username").value;
+        console.log(temp3);
+        var allUser = [[${listUser}]]
+        var check = true;
+        for(let i =0; i<allUser.length; i++){
+            if(temp3 == allUser[i]){
+                alert("That username is taken. Try another");
+                check = false;
+                return false;
+            }
+        }
+    }
+</script>
 </html>
