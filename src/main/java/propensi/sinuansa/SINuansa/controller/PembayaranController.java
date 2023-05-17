@@ -34,7 +34,7 @@ public class PembayaranController {
     @Autowired
     private TransaksiService transaksiService;
 
-    @GetMapping("/success/{pesanan}/{method}/{source}")
+    @GetMapping("/success/{method}/{source}/{pesanan}")
     public String postPayment(@PathVariable Long pesanan, @PathVariable String method, @PathVariable String source,Model model,
                               Map<String, Object> modell){
         PesananCustomer pemesanan = pesananCustomerService.findPesananCustomerId(pesanan);
@@ -88,9 +88,34 @@ public class PembayaranController {
         return "/invoice/view-invoice";
     }
 
+    @GetMapping("/option/{custId}")
+    public String optionPayment(@PathVariable Long custId, Model model) {
+        PesananCustomer pCust = pesananCustomerService.findPesananCustomerId(custId);
+        model.addAttribute("pesananCustomer", pCust);
+        model.addAttribute("custId", pCust.getId());
+        return "Payment/option";
+    }
+
     //todo: generate QRIS (nontunai) dan kembalian Tunai (form input trus return hasil kembaliannya berapa)
-    @GetMapping("/{custId}")
-    public String generateQRIS(Model model) {
-        return "home";
+    @GetMapping("/nontunai/{source}/{custId}")
+    public String generateQRIS(@PathVariable Long custId,
+                               @PathVariable String source,
+                               Model model) {
+        PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
+        model.addAttribute("pesananCustomer", pc);
+        model.addAttribute("source", source.toUpperCase());
+        return "Payment/nontunai";
+    }
+
+    @GetMapping("/tunai/{custId}")
+    public String inputTunai(@PathVariable Long custId,
+                             Model model) {
+        PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
+        Long inputCash = 0L;
+        model.addAttribute("inputCash", inputCash);
+        model.addAttribute("pesananCustomer", pc);
+        //todo: pakai ajax kah untuk retrieve function ngitung kembalian? alt: javascript
+
+        return "Payment/tunai";
     }
 }

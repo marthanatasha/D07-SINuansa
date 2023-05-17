@@ -70,10 +70,12 @@
                         <input th:field="*{kode}" hidden>
                         <input th:field="*{harga}" hidden>
                         <input th:field="*{cabang}" hidden>
-                        <button class="bg-green-600 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
+                        <p>Are you sure want to confirm this order?</p>
+                        <br>
+                        <button class="bg-green-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
                             Approved
                         </button>
-                        <button class="bg-red-500 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="decline">
+                        <button class="bg-red-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="decline">
                             Decline
                         </button>
                     </div>

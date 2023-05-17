@@ -65,7 +65,9 @@
                         <input placeholder="Enter 5-digit PIN" th:name="inputPin" class="form-control" id="inputPin" type="text"/>
                         <br>
                         <div class="flex items-center mt-4 gap-x-3">
-                            <button type="submit" class="btn btn-primary" name="update">Update</button>
+                            <button type="submit"
+                                    class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                    name="update"> Update </button>
                         </div>
                         <div th:if="${error}" th:text="${error}" class="invalid-feedback flex items-center mt-2 gap-x-2"></div>
                     </form>

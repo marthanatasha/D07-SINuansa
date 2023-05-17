@@ -44,15 +44,18 @@
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Price" th:field="*{entryPIList[__${iterationStatus.index}__].harga}">
                         </div>
 
-                        <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="addItem">
-                            +
+                        <button th:value="${iterationStatus.index}" class="bg-blue-700 mx-2 hover:bg-blue-500 text-white font-normal py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="addItem">
+                            Add More
                         </button>
-                        <button th:value="${iterationStatus.index}" class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">
-                            -
+<!--                        <button th:value="${iterationStatus.index}" class="bg-red-700 mx-2 hover:bg-red-500 text-white font-normal py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">-->
+<!--                            Delete-->
+<!--                        </button>-->
+                        <button th:value="${iterationStatus.index}" class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-normal hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">
+                            Delete
                         </button>
                     </div>
                     <div class="form-group flex items-center justify-center">
-                        <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+                        <button class="bg-red-700 mx-2 hover:bg-red-500 text-white font-semibold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="button">
                             <a th:href="@{/orderinventory/all}">Cancel</a>
                         </button>
                         <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">

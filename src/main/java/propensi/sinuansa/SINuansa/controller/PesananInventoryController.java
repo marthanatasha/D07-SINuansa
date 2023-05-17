@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,13 +42,29 @@ public class PesananInventoryController {
     @Autowired
     private TransaksiService transaksiService;
 
-    public List<Inventory> getListInventoryBasedOnType(Long isKopi) {
+    @Autowired
+    @Qualifier("userServiceImpl")
+    private UserService userService;
+
+    public List<Inventory> getListInventoryBasedOnType(Long isKopi, Authentication auth) {
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
+
         boolean pesananPabrik = false;
         if (isKopi.equals(Long.valueOf(1))) {
             pesananPabrik = true;
         }
         List<Inventory> listInventory = inventoryService.getListInventoryBasedOnType(pesananPabrik);
-        return listInventory;
+
+        List<Inventory> res = new ArrayList<>();
+
+        for (Inventory i : listInventory) {
+            if (i.getCabang().equals(user.getCabang())) {
+                res.add(i);
+            }
+        }
+
+        return res;
     }
 
     @GetMapping("/create")
@@ -62,9 +79,12 @@ public class PesananInventoryController {
 
     @GetMapping("/create/{isKopi}")
     public String createOrderInventory(@PathVariable Long isKopi,
+                                       Authentication auth,
                                        Model model) {
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
         PesananInventory pesananInventory = new PesananInventory();
-        List<Inventory> inventoryList = getListInventoryBasedOnType(isKopi);
+        List<Inventory> inventoryList = getListInventoryBasedOnType(isKopi, auth);
         List<EntryPI> entryPIList = entryPIService.getListEntryPI();
         List<EntryPI> entryPIListNew = new ArrayList<>();
 
@@ -81,7 +101,11 @@ public class PesananInventoryController {
     @PostMapping(value="/create/{isKopi}", params={"save"})
     public String createOrderInventorySubmit (@ModelAttribute PesananInventory pesananInventory,
                                               @PathVariable Long isKopi,
+                                              Authentication auth,
                                               Model model) {
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
+
         Long total_harga = 0L;
         //todo: authorities
         if (pesananInventory.getEntryPIList() == null) {
@@ -101,15 +125,25 @@ public class PesananInventoryController {
         if (isKopi.equals(0L)) {
             flag = false;
         }
-
-        pesananInventory.setCabang(cabangService.findCabangId(1L));
+        //auth: retrieve Cabang information from authentication
+        Cabang cabang = user.getCabang();
+        pesananInventory.setCabang(cabang);
         pesananInventory.setKopi(flag);
 
         //todo: Set for default pesananInventory
         String prefix = "ORDER";
-        String cabang = "A"; //todo: retrieve cabang dari user (authentication)
-        String noId = String.format("%03d", (pesananInventoryService.getListPesananInventory().size() - 1));
-        String kode = cabang + "-" + prefix + "-" + noId; //todo: ini masih error
+        String cabangKode = "";
+
+        if (cabang.getId().equals(1L)) {
+            cabangKode = "A";
+        } else if (cabang.getId().equals(2L)) {
+            cabangKode = "B";
+        } else {
+            cabangKode = "C";
+        }
+
+        String noId = String.format("%03d", (pesananInventoryService.getListPesananInventory().size() + 1));
+        String kode = cabangKode + "-" + prefix + "-" + noId; //todo: ini masih error
 
         pesananInventory.setKode(kode);
         pesananInventory.setStatus("Waiting for Manager Approval");
@@ -129,8 +163,11 @@ public class PesananInventoryController {
     @PostMapping(value="/create/{isKopi}", params={"addItem"})
     private String addRowInventory(@ModelAttribute PesananInventory pesananInventory,
                                    @PathVariable Long isKopi,
+                                   Authentication auth,
                                    Model model) {
-        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi);
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
+        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi, auth);
 
         if (pesananInventory.getEntryPIList() == null || pesananInventory.getEntryPIList().size() == 0) {
             pesananInventory.setEntryPIList(new ArrayList<>());
@@ -149,8 +186,11 @@ public class PesananInventoryController {
     private String deleteRowInventory(@ModelAttribute PesananInventory pesananInventory,
                                       @RequestParam("deleteItem") Integer row,
                                       @PathVariable Long isKopi,
+                                      Authentication auth,
                                       Model model) {
-        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi);
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
+        List<Inventory> listInventory = getListInventoryBasedOnType(isKopi, auth);
 
         final Integer rowInt = Integer.valueOf(row);
         pesananInventory.getEntryPIList().remove(rowInt.intValue());
@@ -165,9 +205,20 @@ public class PesananInventoryController {
     }
 
     @GetMapping("/all")
-    public String retrieveAllOrder(Model model) {
+    public String retrieveAllOrder(Model model, Authentication auth) {
+        String username = auth.getName();
+        UserModel user = userService.findByUsername(username);
+
         List<PesananInventory> lst = pesananInventoryService.getListPesananInventory();
-        model.addAttribute("listPesananInventory", lst);
+        List<PesananInventory> res = new ArrayList<>();
+
+        for (PesananInventory i : lst) {
+            if (i.getCabang().equals(user.getCabang())) {
+                res.add(i);
+            }
+        }
+
+        model.addAttribute("listPesananInventory", res);
         return "PesananInventory/all";
     }
 
@@ -176,7 +227,7 @@ public class PesananInventoryController {
         PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
         boolean flag = true;
 
-        if (pesananInventory.getStatus().equalsIgnoreCase("Done") || pesananInventory.getStatus().equalsIgnoreCase("Declined")) {
+        if (!pesananInventory.getStatus().equalsIgnoreCase("On Process")) {
             flag = false;
         }
 
@@ -241,15 +292,15 @@ public class PesananInventoryController {
         transaksiService.saveTransaksi(tr);
 
         //Set done
+        pesananInventory.setTransaksi(tr);
         pesananInventory.setStatus("Done");
         pesananInventoryService.updatePesananInventory(pesananInventory);
 
         boolean flag = true;
 
-        if (pesananInventory.getStatus().equalsIgnoreCase("Done") || pesananInventory.getStatus().equalsIgnoreCase("Declined")) {
+        if (!pesananInventory.getStatus().equalsIgnoreCase("On Process")) {
             flag = false;
         }
-
         model.addAttribute("flag", flag);
         return "redirect:/orderinventory/detail/" + id;
     }

@@ -121,6 +121,7 @@ public class PesananPabrikController {
 
             //Set done
             pesananInventory.setStatus("Done");
+            pesananInventory.setTransaksi(tr);
             pesananInventoryService.updatePesananInventory(pesananInventory);
 
             boolean flag = true;
