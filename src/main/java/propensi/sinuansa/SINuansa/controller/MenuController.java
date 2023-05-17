@@ -63,9 +63,14 @@ public class MenuController {
     }
 
     @GetMapping("/menu/add")
-    public String addMenuForm(Model model){
+    public String addMenuForm(Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
         Menu menu = new Menu();
-        List<Inventory> listInventory = inventoryService.getListInventory();
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         List<Resep> listResep = resepService.getListResep();
         List<Resep> listResepNew = new ArrayList<>();
 
@@ -112,8 +117,13 @@ public class MenuController {
 
     //tambah resep
     @PostMapping(value = "/menu/add", params = {"addRow"})
-    private String addRowResep(@ModelAttribute Menu menu, Model model){
-        List<Inventory> listInventory = inventoryService.getListInventory();
+    private String addRowResep(@ModelAttribute Menu menu, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         if (menu.getResepList() == null || menu.getResepList().size() == 0){
             menu.setResepList(new ArrayList<>());
         }
@@ -129,8 +139,13 @@ public class MenuController {
 
     // delete row resep
     @PostMapping(value = "/menu/add", params = {"deleteRowResep"})
-    private String deleteRowResep (@ModelAttribute Menu menu, @RequestParam("deleteRowResep") Integer row, Model model){
-        List<Inventory> listInventory = inventoryService.getListInventory();
+    private String deleteRowResep (@ModelAttribute Menu menu, @RequestParam("deleteRowResep") Integer row, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         final Integer rowInt = Integer.valueOf(row);
         menu.getResepList().remove(rowInt.intValue());
 
@@ -160,7 +175,7 @@ public class MenuController {
         UserModel user = userService.findByUsername(username);
 
         Menu menu = menuService.findMenuId(id);
-        List<Inventory> listInventory = inventoryService.getListInventory();
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         List<Resep> listResep = menu.getResepList();
 
         model.addAttribute("menu", menu);
@@ -203,8 +218,13 @@ public class MenuController {
     //addRow untuk update
     //tambah resep
     @PostMapping(value="/menu/update", params = {"addRowUpdate"})
-    private String addRowUpdate(@ModelAttribute Menu menu, Model model){
-        List<Inventory> listInventory = inventoryService.getListInventory();
+    private String addRowUpdate(@ModelAttribute Menu menu, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         if (menu.getResepList() == null || menu.getResepList().size() == 0){
             menu.setResepList(new ArrayList<>());
         }
@@ -220,8 +240,13 @@ public class MenuController {
 
     //deleteRow untuk update
     @PostMapping(value="/menu/update", params = {"deleteRowUpdate"})
-    private String deleteRowUpdate (@ModelAttribute Menu menu, @RequestParam("deleteRowUpdate") Integer row, Model model){
-        List<Inventory> listInventry = inventoryService.getListInventory();
+    private String deleteRowUpdate (@ModelAttribute Menu menu, @RequestParam("deleteRowUpdate") Integer row, Model model, Authentication authentication){
+        //cabang
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
+
+        List<Inventory> listInventory = inventoryService.getListInventoryByCabang(user.getCabang().getNama());
         final Integer rowInt = Integer.valueOf(row);
         Resep resep = menu.getResepList().get(rowInt.intValue());
         menu.getResepList().remove(rowInt.intValue());
@@ -231,7 +256,7 @@ public class MenuController {
 
         model.addAttribute("menu", menu);
         model.addAttribute("listResepExisting", listResep);
-        model.addAttribute("listInventory", listInventry);
+        model.addAttribute("listInventory", listInventory);
 
         return "menu/form-update";
     }
@@ -241,7 +266,7 @@ public class MenuController {
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
         //Boolean deleteable = menuService.canDelete(LocalTime.now());
-        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error
             return "error/403";
