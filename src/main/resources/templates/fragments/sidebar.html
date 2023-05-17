@@ -26,78 +26,78 @@
                     </a>
             </li>
             <div>
-                <li th:classappend="${activeTab == 'Dashboard'} ?  bg-blue-500: '' ">
+                <li class="rounded-md" th:classappend="${activeTab == 'Dashboard'} ?  bg-blue-500: '' ">
                     <a href="/" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                         <span class="flex-1 ml-1 text-left whitespace-nowrap text-gray-200 font-bold">Dashboard</span>
                     </a>
                 </li>
             </div>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" th:classappend="${activeTab == 'Users'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" class="rounded-md" th:classappend="${activeTab == 'Users'} ?  bg-blue-500: '' ">
                 <button type="button" class="flex items-center w-full p-2 mt-1 transition duration-75 rounded-md px-4 group hover:bg-blue-500 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
                     <span class="flex-1 ml-1 text-left whitespace-nowrap text-gray-200 font-bold" sidebar-toggle-item>Users</span>
                     <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </button>
                 <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                    <li>
+                    <li class="rounded-md" th:classappend="${activeTab == 'UsersAll'} ?  bg-blue-500: '' ">
                         <a href="/user" class="flex items-center w-full p-2 text-base font-bold text-gray-200 transition duration-75 rounded-lg pl-11 group hover:bg-gray-500 dark:text-white dark:hover:bg-gray-700">All User</a>
                     </li>
-                    <li>
+                    <li class="rounded-md" th:classappend="${activeTab == 'UsersManajer'} ?  bg-blue-500: '' ">
                         <a href="/user/addmanajer" class="flex items-center w-full p-2 text-base font-bold text-gray-200 transition duration-75 rounded-lg pl-11 group hover:bg-blue-500 dark:text-white dark:hover:bg-gray-700">Manajer</a>
                     </li>
-                    <li>
+                    <li class="rounded-md" th:classappend="${activeTab == 'UsersBarista'} ?  bg-blue-500: '' ">
                         <a href="/user/addbarista" class="flex items-center w-full p-2 text-base font-bold text-gray-200 transition duration-75 rounded-lg pl-11 group hover:bg-blue-500 dark:text-white dark:hover:bg-gray-700">Barista</a>
                     </li>
-                    <li>
+                    <li class="rounded-md" th:classappend="${activeTab == 'UsersInventory'} ?  bg-blue-500: '' ">
                         <a href="/user/addstafinv" class="flex items-center w-full p-2 text-base font-bold text-gray-200 transition duration-75 rounded-lg pl-11 group hover:bg-blue-500 dark:text-white dark:hover:bg-gray-700">Staff Inventory</a>
                     </li>
-                    <li sec:authorize="hasAuthority('ADMIN')">
+                    <li sec:authorize="hasAuthority('ADMIN')" class="rounded-md" th:classappend="${activeTab == 'UsersPabrik'} ?  bg-blue-500: '' ">
                         <a href="/user/addstafpabrik" class="flex items-center w-full p-2 text-base font-bold text-gray-200 transition duration-75 rounded-lg pl-11 group hover:bg-blue-500 dark:text-white dark:hover:bg-gray-700">Staff Pabrik</a>
                     </li>
                 </ul>
             </li>
             <div>
-                <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA')" th:classappend="${activeTab == 'Order'} ?  bg-blue-500: '' ">
+                <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA')" class="rounded-md" th:classappend="${activeTab == 'Order'} ?  bg-blue-500: '' ">
                     <a href="/pesananCustomer/add" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                         <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Orders</span>
                     </a>
                 </li>
             </div>
-            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Menus'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" class="rounded-md" th:classappend="${activeTab == 'Menus'} ?  bg-blue-500: '' ">
                 <a href="/menu" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Menus</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Inventories'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" class="rounded-md" th:classappend="${activeTab == 'Inventories'} ?  bg-blue-500: '' ">
                 <a href="/inventory/viewall" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Inventories</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','StaffPabrik')" class="" th:classappend="${activeTab == 'Factory'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','StaffPabrik')" class="rounded-md" th:classappend="${activeTab == 'Factory'} ?  bg-blue-500: '' ">
                 <a href="/orderfactory/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Factory</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Suppliers'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" class="rounded-md "th:classappend="${activeTab == 'Suppliers'} ? bg-blue-500: '' ">
                 <a href="/supplier/viewall" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Suppliers</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" th:classappend="${activeTab == 'Requests'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER', 'StaffInventory')" class="rounded-md" th:classappend="${activeTab == 'Requests'} ?  bg-blue-500: '' ">
                 <a href="/orderinventory/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Requests</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" th:classappend="${activeTab == 'Approvals'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" class="rounded-md" th:classappend="${activeTab == 'Approvals'} ?  bg-blue-500: '' ">
                 <a href="/approval/all" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Approvals</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" class="" th:classappend="${activeTab == 'Transaction'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','BARISTA', 'MANAJER', 'StaffInventory')" class="rounded-md" th:classappend="${activeTab == 'Transaction'} ?  bg-blue-500: '' ">
                 <a href="/transaction/history" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Transactions</span>
                 </a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" class="" th:classappend="${activeTab == 'Report'} ?  bg-blue-500: '' ">
+            <li sec:authorize="hasAnyAuthority('ADMIN','MANAJER')" class="rounded-md" th:classappend="${activeTab == 'Report'} ?  bg-blue-500: '' ">
                 <a href="/report" class="p-2 mt-1 flex items-center rounded-md px-4 duration-300 cursor-pointer dark:text-white hover:bg-blue-500 dark:hover:bg-gray-700">
                     <span class="flex-1 ml-1 whitespace-nowrap text-gray-200 font-bold">Reports</span>
                 </a>

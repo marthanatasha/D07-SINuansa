@@ -49,8 +49,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
         String cabang = user.getCabang().getNama();
         //listInvent
-        List<Inventory> listInventory = inventoryService.getListInventory();
-
+        List<Inventory> listInventory = inventoryService.getInventoryByCabangQuery(user.getCabang());
         model.addAttribute("supplier", supplier);
         model.addAttribute("cabang", cabang);
         model.addAttribute("listInventory", listInventory);
@@ -65,10 +64,9 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
-        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
+        supplier.setMaterial(supplier.getInventory().getNama());
         supplierService.addSupplier(supplier);
         model.addAttribute("supplier", supplier);
-
 
         List<Supplier> listSupplier = supplierService.getListSupplier();
         model.addAttribute("listSupplier", listSupplier);
@@ -86,10 +84,13 @@ public class SupplierController {
     }
 
     @GetMapping("/supplier/update/{id}")
-    public String updateSupplierFormPage(@PathVariable Long id, Model model){
+    public String updateSupplierFormPage(@PathVariable Long id, Model model, Authentication authentication){
         Supplier supplier = supplierService.findSupplierId(id);
+        //cabang
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
         //listInvent
-        List<Inventory> listInventory = inventoryService.getListInventory();
+        List<Inventory> listInventory = inventoryService.getInventoryByCabangQuery(user.getCabang());
         model.addAttribute("listInventory", listInventory);
         model.addAttribute("supplier", supplier);
 
@@ -105,7 +106,7 @@ public class SupplierController {
         UserModel user = userService.findByUsername(username);
 
         supplier.setCabang(user.getCabang());
-        supplier.setInventory(inventoryService.getInventoryByNama(supplier.getMaterial()));
+        supplier.setMaterial(supplier.getInventory().getNama());
         Supplier updateSupplier = supplierService.updateSupplier(supplier);
 
         return "redirect:/supplier/viewall";

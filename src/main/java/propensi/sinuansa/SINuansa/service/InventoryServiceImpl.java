@@ -3,6 +3,7 @@ package propensi.sinuansa.SINuansa.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import propensi.sinuansa.SINuansa.repository.InventoryDb;
 
@@ -80,5 +81,10 @@ public class InventoryServiceImpl implements InventoryService{
             }
         }
         return res;
+    }
+
+    @Override
+    public List<Inventory> getInventoryByCabangQuery(Cabang cabang){
+        return inventoryDb.findAllByCabang(cabang);
     }
 }
