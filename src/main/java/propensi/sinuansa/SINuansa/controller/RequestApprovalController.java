@@ -2,20 +2,14 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import propensi.sinuansa.SINuansa.DTO.EntryPesananInventoryDTO;
 import propensi.sinuansa.SINuansa.model.*;
-import propensi.sinuansa.SINuansa.DTO.PesananInventoryDTO;
 import propensi.sinuansa.SINuansa.service.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -77,6 +71,8 @@ public class RequestApprovalController {
     @GetMapping("/update/{id}")
     public String updatePesananInventory(@PathVariable Long id, Model model) {
         PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
+        //boolean flagKopi = pesananInventory.isKopi()
+        //model.addAttribute("flag", flagKopi);
         model.addAttribute("pesananInventory", pesananInventory);
         return "ApprovalRequest/update";
     }

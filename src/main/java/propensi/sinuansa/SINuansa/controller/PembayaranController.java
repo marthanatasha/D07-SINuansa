@@ -34,7 +34,7 @@ public class PembayaranController {
     @Autowired
     private TransaksiService transaksiService;
 
-    @GetMapping("/success/{pesanan}/{method}/{source}")
+    @GetMapping("/success/{method}/{source}/{pesanan}")
     public String postPayment(@PathVariable Long pesanan, @PathVariable String method, @PathVariable String source,Model model,
                               Map<String, Object> modell){
         PesananCustomer pemesanan = pesananCustomerService.findPesananCustomerId(pesanan);
@@ -42,13 +42,18 @@ public class PembayaranController {
         pembayaran.setHarga(pemesanan.getHarga());
 
         boolean metbool;
-        if(method.equals("Tunai")) metbool = true;
+        if(method.equalsIgnoreCase("Tunai")) metbool = true;
         else metbool = false;
+        //todo
         String id = "INV-" + pemesanan.getId() + "/" + pemesanan.getCabang().getNama() +"/" + LocalDateTime.now().getYear();
+
+        //bulan
         if(LocalDateTime.now().getMonthValue()<10)id+="0"+LocalDateTime.now().getMonthValue();
         else id+= LocalDateTime.now().getMonthValue();
+        //tanggal
         if(LocalDateTime.now().getDayOfMonth()<10) id+="0" + LocalDateTime.now().getDayOfMonth();
         else id+=LocalDateTime.now().getDayOfMonth();
+
         pembayaran.setId(id);
         pembayaran.setMetode(metbool);
         pembayaran.setSumber(source);
@@ -76,9 +81,41 @@ public class PembayaranController {
         String namaCab = pemesanan.getCabang().getNama();
         String alamat = pemesanan.getCabang().getAlamat();
         String noTelp = "0"+pemesanan.getCabang().getNoTelp();
+        //kalau Tunai, source-nya Tunai juga (mapping: payment/success/{idPesananCust}/Tunai/Tunai)
         InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar(), pembayaran.getId(), listItem, source, pemesanan.getHarga());
 
         model.addAttribute("invoice", invoiceDTO);
         return "/invoice/view-invoice";
+    }
+
+    @GetMapping("/option/{custId}")
+    public String optionPayment(@PathVariable Long custId, Model model) {
+        PesananCustomer pCust = pesananCustomerService.findPesananCustomerId(custId);
+        model.addAttribute("pesananCustomer", pCust);
+        model.addAttribute("custId", pCust.getId());
+        return "Payment/option";
+    }
+
+    //todo: generate QRIS (nontunai) dan kembalian Tunai (form input trus return hasil kembaliannya berapa)
+    @GetMapping("/nontunai/{source}/{custId}")
+    public String generateQRIS(@PathVariable Long custId,
+                               @PathVariable String source,
+                               Model model) {
+        PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
+        model.addAttribute("pesananCustomer", pc);
+        model.addAttribute("source", source.toUpperCase());
+        return "Payment/nontunai";
+    }
+
+    @GetMapping("/tunai/{custId}")
+    public String inputTunai(@PathVariable Long custId,
+                             Model model) {
+        PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
+        Long inputCash = 0L;
+        model.addAttribute("inputCash", inputCash);
+        model.addAttribute("pesananCustomer", pc);
+        //todo: pakai ajax kah untuk retrieve function ngitung kembalian? alt: javascript
+
+        return "Payment/tunai";
     }
 }
