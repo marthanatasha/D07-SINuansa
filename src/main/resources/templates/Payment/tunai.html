@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex">
+    <button th:replace="fragments/sidebar :: sidebarhead"></button>
+    <aside th:replace="fragments/sidebar :: sidebar('Order')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+        <section class="container px-4 py-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <h2 class="text-2xl font-bold text-blue-900">Payment Order</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <p class="font-bold text-gray-800" th:text="'Date      : ' + ${#temporals.format(pesananCustomer.waktu, 'dd MMMM yyyy')}"></p>
+            </div>
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <p class="font-bold text-gray-800"th:text="'Nominal    : ' + ${pesananCustomer.harga}"></p>
+            </div>
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <form id="calculation">
+                    <div class="sm:flex sm:items-center sm:justify-between m-5">
+                        <p class="font-semibold text-gray-800">Input Cash: </p>
+                    </div>
+                    <div class="sm:flex sm:items-center sm:justify-between m-5">
+                        <input type="text" id="inputCash"/>
+                        <input type="text" id="totalHarga" th:value="${pesananCustomer.harga}" hidden/>
+                    </div>
+
+                    <div class="sm:flex sm:items-center sm:justify-between m-5">
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-green-200 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-400 dark:hover:bg-green-400 dark:bg-green-400"
+                                type="submit">Check Changes</button>
+                    </div>
+
+                    <div class="sm:flex sm:items-center sm:justify-between m-5">
+                        <p id="res" class="font-semibold text-red-700"></p>
+                    </div>
+                </form>
+
+            </div>
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                    <a th:href="@{/payment/success/tunai/Tunai/} + ${pesananCustomer.id}">Confirm</a>
+                </button>
+            </div>
+        </section>
+        <script>
+            document.getElementById('calculation').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var inputCash = document.getElementById('inputCash').value;
+                var totalHarga = document.getElementById('totalHarga').value;
+                var res = eval('inputCash - totalHarga');
+
+                if (res < 0) {
+                    document.getElementById('res').textContent = 'Insufficient cash. Check your input or try with bigger amount of cash!'
+                } else {
+                    document.getElementById('res').textContent = 'Changes: ' + res;
+                }
+            })
+        </script>
+    </div>
+</div>
+</body>
+</html>

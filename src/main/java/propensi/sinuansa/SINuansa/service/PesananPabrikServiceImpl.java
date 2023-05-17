@@ -38,7 +38,7 @@ public class PesananPabrikServiceImpl implements PesananPabrikService {
         List<PesananInventory> data = pesananInventoryDb.findAll();
 
         for (PesananInventory pi : data) {
-            if (pi.isKopi()){
+            if (pi.isKopi() && pi.getStatus().equals("On Process")){
                 res.add(pi);
             }
         }
