@@ -117,71 +117,74 @@
                         <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
             }
             var content = document.getElementById("myTabContent");
-            console.log(dataPDF.cabang)
+            console.log(dataPDF.cabang);
             content.innerHTML = "";
             content.innerHTML += `
                 <div id="pdf">
-                <p class="text-xl font-semibold text-center" th:text="${dataPDF.cabang}"></p>
-                <p class="text-xl font-semibold text-center">Laba Rugi</p>
-                <p class="text-center" th:text="${dataPDF.bulan} + @{ - } + ${dataPDF.tahun}"></p>
-                <p class="text-center">(dalam IDR)</p>
-                <hr>
-                <table style="width:100%">
-                    <tr>
-                        <td> <p class="font-bold">Pendapatan</p> </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Pendapatan dari Penjualan</p> </td>
-                        <td></td>
-                    </tr>
-                    ${laporanItemPP}
+                <div>
+                    <p class="text-xl font-semibold text-center">${dataPDF.cabang}</p>
+                    <p class="text-xl font-semibold text-center">Laba Rugi</p>
+                    <p class="text-center">${dataPDF.bulan}  -  ${dataPDF.tahun}</p>
+                    <p class="text-center">(dalam IDR)</p>
                     <hr>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Total Pendapatan dari Penjualan</p> </td>
-                        <td>${dataPDF.totalPendapatanPenjualan}</td>
-                    </tr>
-                    <br>
-                    <tr>
-                        <td> <p class="font-semibold">Harga Pokok Penjualan</p> </td>
-                        <td></td>
-                    </tr>
-                    ${laporanItemHPP}
-                    <tr>
-                        <td> <p class="font-semibold">Total Harga Pokok Penjualan</p> </td>
-                        <td>${dataPDF.totalHargaPokokPenjualan}</td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Laba Kotor</p> </td>
-                        <td>${dataPDF.labaKotor}</td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Biaya Operasional</p> </td>
-                        <td></td>
-                    </tr>
-                    ${laporanItemBO}
-                    <tr>
-                        <td> <p class="font-semibold">Total Biaya</p> </td>
-                        <td>${dataPDF.totalBiaya}</td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Pendapatan Bersih Operasional</p> </td>
-                        <td>${dataPDF.pendapatanBersihOperasional}</td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Biaya Lainnya</p> </td>
-                        <td></td>
-                    </tr>
-                    ${laporanItemBL}
-                    <tr>
-                        <td> <p class="font-semibold">Total Biaya Lainnya</p> </td>
-                        <td>${dataPDF.totalBiayaLainnya}</td>
-                    </tr>
-                    <tr>
-                        <td> <p class="font-semibold">Pendapatan Bersih</p> </td>
-                        <td>${dataPDF.pendapatanBersih}</td>
-                    </tr>
+                    <table style="width:100%">
+                        <tr>
+                            <td> <p class="font-bold">Pendapatan</p> </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Pendapatan dari Penjualan</p> </td>
+                            <td></td>
+                        </tr>
+                        ${laporanItemPP}
+                        <hr>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Total Pendapatan dari Penjualan</p> </td>
+                            <td>${dataPDF.totalPendapatanPenjualan}</td>
+                        </tr>
+                        <br>
+                        <tr>
+                            <td> <p class="font-semibold">Harga Pokok Penjualan</p> </td>
+                            <td></td>
+                        </tr>
+                        ${laporanItemHPP}
+                        <tr>
+                            <td> <p class="font-semibold">Total Harga Pokok Penjualan</p> </td>
+                            <td>${dataPDF.totalHargaPokokPenjualan}</td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Laba Kotor</p> </td>
+                            <td>${dataPDF.labaKotor}</td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Biaya Operasional</p> </td>
+                            <td></td>
+                        </tr>
+                        ${laporanItemBO}
+                        <tr>
+                            <td> <p class="font-semibold">Total Biaya</p> </td>
+                            <td>${dataPDF.totalBiaya}</td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Pendapatan Bersih Operasional</p> </td>
+                            <td>${dataPDF.pendapatanBersihOperasional}</td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Biaya Lainnya</p> </td>
+                            <td></td>
+                        </tr>
+                        ${laporanItemBL}
+                        <tr>
+                            <td> <p class="font-semibold">Total Biaya Lainnya</p> </td>
+                            <td>${dataPDF.totalBiayaLainnya}</td>
+                        </tr>
+                        <tr>
+                            <td> <p class="font-semibold">Pendapatan Bersih</p> </td>
+                            <td>${dataPDF.pendapatanBersih}</td>
+                        </tr>
+                    </div>
+                    <button class="rounded-full bg-cyan-900 text-slate-100 px-5 py-2 text-lg mr-3" onclick="download()">Print</button>
             </div>`
         }
 
@@ -225,7 +228,14 @@
                         backgroundColor: "rgb(75, 192, 192)",
                         borderWidth: 1,
                         data: dataBar.data,
-                    }]
+                    },{
+                        label: "Jumlah Pemesanan Bahan Baku Kopi",
+                        borderColor: "rgb(255, 153, 255)",
+                        backgroundColor: "rgb(255, 153, 255)",
+                        borderWidth: 1,
+                        data: dataBar.data2,
+                    }
+                    ]
                 },
                 options: {
                     scales: {
@@ -238,6 +248,94 @@
                 }
             });
         }
+
+        var data = [[${laporanDTO}]]
+
+        function download() {
+
+            var pdf = new jsPDF('p', 'mm', 'a4');
+            var width = pdf.internal.pageSize.width;
+            var height = pdf.internal.pageSize.height;
+            pdf.setFont('Helvetica');
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'bold');
+            pdf.text(data.cabang, 80, 20, {align:'center'})
+            pdf.setFontSize(10);
+            pdf.setFont(undefined, 'normal');
+            pdf.text('Laba Rugi', 94, 25, {align:'center'});
+            pdf.text(data.bulan + " " + data.tahun, 92, 30, {align:'center'});
+            pdf.setLineWidth(1);
+            pdf.line(width/8, 35, width*7/8, 35);
+            pdf.setFont(undefined, 'bold');
+            pdf.text('Pendapatan', width/8, 40);
+            pdf.setFont(undefined, 'normal');
+            pdf.text('Pendapatan dari Penjualan', width/8, 45);
+            let pp = 3;
+            let hpp = 2;
+            let bo = 7;
+            let bl = 3;
+            for(let i =0; i<pp; i++){
+                pdf.text(data.listTransaksi[i].ref, width/8+5, 50+i*5);
+                pdf.text(""+data.listTransaksi[i].total, 170, 50+i*5);
+                pdf.setLineWidth(0.1);
+                pdf.line(width/8, 50+i*5+1.5, width*7/8, 50+i*5+1.5);
+            }
+            pdf.setFont(undefined, 'bold');
+            pdf.text('Total Pendapatan dari Penjualan', width/8, 50+pp*5);
+            pdf.text(""+data.totalPendapatanPenjualan, 170, 50+pp*5);
+            pdf.setFont(undefined, 'normal');
+            pdf.text('Harga Pokok Penjualan', width/8, 60+pp*5);
+             for(let i =3; i<hpp+pp; i++){
+                pdf.text(data.listTransaksi[i].ref, width/8+5, 65+pp*5+(i-3)*5);
+                pdf.text(""+data.listTransaksi[i].total, 170, 65+pp*5+(i-3)*5);
+                pdf.setLineWidth(0.1);
+                pdf.line(width/8, 65+pp*5+(i-3)*5+1.5, width*7/8, 65+pp*5+(i-3)*5+1.5);
+            }
+            pdf.setFont(undefined, 'bold');
+            pdf.setTextColor(255,0,0);
+            pdf.text('Total Harga Pokok Penjualan', width/8, 65+pp*5+hpp*5);
+            pdf.setTextColor(0,0,0);
+            pdf.text(""+data.totalHargaPokokPenjualan, 170, 65+pp*5+hpp*5);
+            pdf.setLineWidth(0.1);
+            pdf.line(width/8, 65+pp*5+hpp*5+1.5, width*7/8, 65+pp*5+hpp*5+1.5);
+            pdf.text('Laba Kotor', width/8, 70+pp*5+hpp*5);
+            pdf.text(""+data.labaKotor, 170, 70+pp*5+hpp*5);
+            pdf.setFont(undefined, 'normal');
+            pdf.text('Biaya Operasional', width/8, 80+pp*5+hpp*5);
+            for(let i =5; i<hpp+pp+bo; i++){
+                pdf.text(data.listTransaksi[i].ref, width/8+5, 85+pp*5+hpp*5+(i-5)*5);
+                pdf.text(""+data.listTransaksi[i].total, 170, 85+pp*5+hpp*5+(i-5)*5);
+                pdf.setLineWidth(0.1);
+                pdf.line(width/8, 85+pp*5+(i-3)*5+1.5, width*7/8, 85+pp*5+hpp*5+(i-5)*5+1.5);
+            }
+            pdf.setFont(undefined, 'bold');
+            pdf.setTextColor(255,0,0);
+            pdf.text('Total Biaya', width/8, 85+pp*5+hpp*5+bo*5);
+            pdf.setTextColor(0,0,0);
+            pdf.text(""+data.totalBiaya, 170, 85+pp*5+hpp*5+bo*5);
+            pdf.setLineWidth(0.1);
+            pdf.line(width/8, 85+pp*5+hpp*5+bo*5+1.5, width*7/8, 85+pp*5+hpp*5+bo*5+1.5);
+            pdf.text('Pendapatan Bersih Operasional', width/8, 90+pp*5+hpp*5+bo*5);
+            pdf.text(""+data.pendapatanBersihOperasional, 170, 90+pp*5+hpp*5+bo*5);
+            pdf.setFont(undefined, 'normal');
+            pdf.text('Biaya Lainnya', width/8, 100+pp*5+hpp*5+bo*5);
+            for(let i =12; i<hpp+pp+bo+bl; i++){
+                pdf.text(data.listTransaksi[i].ref, width/8+5, 105+pp*5+hpp*5+bo*5+(i-12)*5);
+                pdf.text(""+data.listTransaksi[i].total, 170, 105+pp*5+hpp*5+bo*5+(i-12)*5);
+                pdf.setLineWidth(0.1);
+                pdf.line(width/8, 105+pp*5+hpp*5+bo*5+(i-12)*5+1.5, width*7/8, 105+pp*5+hpp*5+bo*5+(i-12)*5+1.5);
+            }
+            pdf.setFont(undefined, 'bold');
+            pdf.setTextColor(255,0,0);
+            pdf.text('Total Biaya Lainnya', width/8, 105+pp*5+hpp*5+bo*5+bl*5);
+            pdf.setTextColor(0,0,0);
+            pdf.text(""+data.totalBiayaLainnya, 170, 105+pp*5+hpp*5+bo*5+bl*5);
+            pdf.setLineWidth(0.1);
+            pdf.line(width/8,105+pp*5+hpp*5+bo*5+bl*5+1.5, width*7/8, 105+pp*5+hpp*5+bo*5+bl*5+1.5);
+            pdf.text('Pendapatan Bersih', width/8, 110+pp*5+hpp*5+bo*5+bl*5);
+            pdf.text(""+data.pendapatanBersihOperasional, 170, 110+pp*5+hpp*5+bo*5+bl*5);
+            pdf.save(`Laporan keuangan ${data.cabang} ${data.bulan} ${data.tahun}`);
+    }
     </script>
 </body>
 </html>

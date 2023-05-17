@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Laporan;
 import propensi.sinuansa.SINuansa.model.Transaksi;
 import propensi.sinuansa.SINuansa.repository.LaporanDb;
@@ -40,13 +41,13 @@ public class TransaksiServiceImpl implements TransaksiService{
     }
 
     @Override
-    public List<Transaksi> getTransaksiLaporanList(int bulan, int tahun, Laporan laporan) {
+    public void getTransaksiLaporanList(int bulan, int tahun, Laporan laporan, Cabang cabang) {
         List<Transaksi> allTransaksi = transaksiDb.findAll();
         List<Transaksi> specTransaksi = new ArrayList<Transaksi>();
         for(Transaksi eachTransaksi : allTransaksi){
-            System.out.println(eachTransaksi.getWaktuTransaksi().getMonthValue());
             if(eachTransaksi.getWaktuTransaksi().getMonthValue() == bulan
-                    && eachTransaksi.getWaktuTransaksi().getYear() == tahun){
+                    && eachTransaksi.getWaktuTransaksi().getYear() == tahun
+                    && eachTransaksi.getCabang().getId() == cabang.getId()){
                 specTransaksi.add(eachTransaksi);
                 eachTransaksi.setLaporan(laporan);
                 transaksiDb.save(eachTransaksi);
@@ -54,6 +55,5 @@ public class TransaksiServiceImpl implements TransaksiService{
         }
         laporan.setTransaksiList(specTransaksi);
         laporanDb.save(laporan);
-        return specTransaksi;
     }
 }
