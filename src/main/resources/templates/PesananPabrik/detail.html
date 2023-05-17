@@ -11,7 +11,7 @@
 <body>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
-    <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
+    <aside th:replace="fragments/sidebar :: sidebar('Factory')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="container">
@@ -53,18 +53,18 @@
                                     <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getNama()}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getJumlah()}"></div>
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center mt-4 gap-x-3">
+                    <div class="flex items-center mt-4 gap-x-3" th:if="${flag}">
                         <a class="btn btn-primary" th:href="@{/orderfactory/update/} + ${pesananInventory.id}">Update Status</a>
                     </div>
                 </div>
             </div>
-    </section>
+        </section>
     </div>
 </div>
 </div>
