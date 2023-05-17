@@ -149,11 +149,15 @@ public class UserController {
         model.addAttribute("manajer", manajer);
         model.addAttribute("listCabang", listCabang);
         model.addAttribute("cabang", cabang);
+
+        List<String> listUser = userService.getAllUser();
+        model.addAttribute("listUser", listUser);
+//        return "user/form-add-manajer";
         return "user/form-add-manajer";
     }
 
     @PostMapping(value = "/user/addmanajer")
-    public String addManajerSubmit(@ModelAttribute Manajer manajer, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+    public String addManajerSubmit(@ModelAttribute Manajer manajer, Model model, Authentication authentication) {
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -167,8 +171,6 @@ public class UserController {
         manajer.setRole(Role.MANAJER);
         manajerService.addManajer(manajer);
 
-        redirectAttrs.addFlashAttribute("success",
-                String.format("%s dengan nama %s berhasil disimpan!", manajer.getRole(), manajer.getNama()));
         return "redirect:/user";
     }
 
@@ -185,11 +187,14 @@ public class UserController {
         model.addAttribute("barista", barista);
         model.addAttribute("listCabang", listCabang);
         model.addAttribute("cabang", cabang);
+
+        List<String> listUser = userService.getAllUser();
+        model.addAttribute("listUser", listUser);
         return "user/form-add-barista";
     }
 
     @PostMapping(value = "/user/addbarista")
-    public String addBaristaSubmit(@ModelAttribute Barista barista, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+    public String addBaristaSubmit(@ModelAttribute Barista barista, Model model, Authentication authentication) {
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -203,8 +208,6 @@ public class UserController {
         barista.setRole(Role.BARISTA);
         baristaService.addBarista(barista);
 
-        redirectAttrs.addFlashAttribute("success",
-                String.format("%s dengan nama %s berhasil disimpan!", barista.getRole(), barista.getNama()));
         return "redirect:/user";
     }
 
@@ -221,11 +224,14 @@ public class UserController {
         model.addAttribute("staff", staff);
         model.addAttribute("listCabang", listCabang);
         model.addAttribute("cabang", cabang);
+
+        List<String> listUser = userService.getAllUser();
+        model.addAttribute("listUser", listUser);
         return "user/form-add-staff-inventory";
     }
 
     @PostMapping(value = "/user/addstafinv")
-    public String addInventoryStaffSubmit(@ModelAttribute StaffInventory staff, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+    public String addInventoryStaffSubmit(@ModelAttribute StaffInventory staff, Model model, Authentication authentication) {
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -239,8 +245,6 @@ public class UserController {
         staff.setRole(Role.StaffInventory);
         staffInventoryService.addStaff(staff);
 
-        redirectAttrs.addFlashAttribute("success",
-                String.format("%s dengan nama %s berhasil disimpan!", staff.getRole(), staff.getNama()));
         return "redirect:/user";
     }
 
@@ -257,11 +261,14 @@ public class UserController {
         model.addAttribute("staff", staff);
         model.addAttribute("listCabang", listCabang);
         model.addAttribute("cabang", cabang);
+
+        List<String> listUser = userService.getAllUser();
+        model.addAttribute("listUser", listUser);
         return "user/form-add-staff-pabrik";
     }
 
     @PostMapping(value = "/user/addstafpabrik")
-    public String addFactoryStaffSubmit(@ModelAttribute StaffPabrik staff, Model model, RedirectAttributes redirectAttrs, Authentication authentication) {
+    public String addFactoryStaffSubmit(@ModelAttribute StaffPabrik staff, Model model, Authentication authentication) {
         //cabang
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
@@ -274,8 +281,6 @@ public class UserController {
         staff.setRole(Role.StaffPabrik);
         staffPabrikService.addStaff(staff);
 
-        redirectAttrs.addFlashAttribute("success",
-                String.format("%s dengan nama %s berhasil disimpan!", staff.getRole(), staff.getNama()));
         return "redirect:/user";
     }
 
