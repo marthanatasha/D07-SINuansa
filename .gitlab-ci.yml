@@ -13,8 +13,9 @@ deploy-railway:
   stage: deploy
   image: ubuntu
   only:
-    - master
+    - development
   script:
     - apt-get update && apt-get install -y curl
     - curl -fsSL https://railway.app/install.sh | sh
+    - railway link e0ce4af9-72ef-4f47-a7b4-e06dfdc5e871 --environment=production
     - railway up --service=$RAILWAY_SERVICE_NAME -d
