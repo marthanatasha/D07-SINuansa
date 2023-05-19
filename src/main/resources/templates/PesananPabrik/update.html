@@ -60,18 +60,6 @@
                         </table>
                     </div>
 
-<<<<<<< HEAD:src/main/resources/templates/pesananPabrik/update.html
-                    <form th:action="@{/orderfactory/updateStatus/}" th:object="${pesananInventory}">
-                        <div>
-                            Enter Your PIN:
-                            <input class="form-control" name="input" type="text"/>
-                            <br>
-                        </div>
-
-                <div class="flex items-center mt-4 gap-x-3">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                </div>
-=======
                     <form th:action="@{/orderfactory/update/} + ${id}" method="POST">
                         <label for="inputPin">Input PIN: </label>
                         <input placeholder="Enter 5-digit PIN" th:name="inputPin" class="form-control" id="inputPin" type="text"/>
@@ -81,7 +69,6 @@
                                     name="update"> Update </button>
                         </div>
                         <div th:if="${error}" th:text="${error}" class="invalid-feedback font-semibold flex items-center mt-2 gap-x-2"></div>
->>>>>>> 9648ccce5641c5c4a75aaa843f81ecd7468eb530:src/main/resources/templates/PesananPabrik/update.html
                     </form>
                 </div>
             </div>
