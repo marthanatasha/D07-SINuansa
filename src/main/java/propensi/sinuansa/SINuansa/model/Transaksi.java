@@ -60,4 +60,8 @@ public class Transaksi {
     @ManyToOne
     @JoinColumn(name="id_laporan")
     private Laporan laporan;
+
+    @ManyToOne
+    @JoinColumn(name="id_cabang")
+    private Cabang cabang;
 }

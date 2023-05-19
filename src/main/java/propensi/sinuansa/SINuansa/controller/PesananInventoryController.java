@@ -266,7 +266,7 @@ public class PesananInventoryController {
     }
 
     @PostMapping(value="/update/{id}", params={"update"})
-    public String updateStatusNonCoffeeSubmit(@PathVariable Long id, Model model) {
+    public String updateStatusNonCoffeeSubmit(@PathVariable Long id, Model model, Authentication authentication) {
         PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
 
         //Increment inventory
@@ -289,6 +289,7 @@ public class PesananInventoryController {
         tr.setWaktuTransaksi(LocalDateTime.now());
         tr.setNominal(pesananInventory.getHarga());
         tr.setKategori("Harga Pokok Penjualan");
+        tr.setCabang(userService.findByUsername(authentication.getName()).getCabang());
         transaksiService.saveTransaksi(tr);
 
         //Set done

@@ -6,12 +6,10 @@ import propensi.sinuansa.SINuansa.DTO.BarChartDTO;
 import propensi.sinuansa.SINuansa.DTO.LaporanCollectionDTO;
 import propensi.sinuansa.SINuansa.DTO.LaporanDTO;
 import propensi.sinuansa.SINuansa.DTO.LineChartDTO;
-import propensi.sinuansa.SINuansa.model.Cabang;
-import propensi.sinuansa.SINuansa.model.EntryPI;
-import propensi.sinuansa.SINuansa.model.Laporan;
-import propensi.sinuansa.SINuansa.model.Transaksi;
+import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.repository.InventoryDb;
 import propensi.sinuansa.SINuansa.repository.LaporanDb;
+import propensi.sinuansa.SINuansa.repository.PesananCustomerDb;
 import propensi.sinuansa.SINuansa.repository.PesananInventoryDb;
 
 import javax.transaction.Transactional;
@@ -34,6 +32,9 @@ public class LaporanServiceImpl implements LaporanService{
     @Autowired
     PesananInventoryDb pesananInventoryDb;
 
+    @Autowired
+    PesananCustomerDb pesananCustomerDb;
+
     @Override
     public Laporan findLaporanId(Long id){
         Optional<Laporan> laporan = laporanDb.findById(id);
@@ -47,7 +48,7 @@ public class LaporanServiceImpl implements LaporanService{
         List<Laporan> laporanList = laporanDb.findAll();
         boolean unexist = true;
         for(Laporan laporan : laporanList){
-            if(laporan.getWaktuLaporan().getMonthValue() == bulan && laporan.getWaktuLaporan().getYear() == tahun){
+            if(laporan.getWaktuLaporan().getMonthValue() == bulan && laporan.getWaktuLaporan().getYear() == tahun && laporan.getCabang().getId() == cabang.getId()){
                 unexist = false;
                 return laporan;
             }
@@ -163,28 +164,50 @@ public class LaporanServiceImpl implements LaporanService{
     }
 
     @Override
-    public BarChartDTO getBarChart(int bulan, int tahun){
+    public BarChartDTO getBarChart(int bulan, int tahun, Cabang cabang){
         BarChartDTO barChart = new BarChartDTO();
         ArrayList<String> kopiList = new ArrayList<>();
         ArrayList<Long> jumlahList = new ArrayList<>();
+        ArrayList<Long> pesananList = new ArrayList<>();
         for(int i=0; i<inventoryDb.findAll().size(); i++){
-            if(inventoryDb.findAll().get(i).isKopi()){
+            if(inventoryDb.findAll().get(i).isKopi() && inventoryDb.findAll().get(i).getCabang()==cabang){
                 kopiList.add(inventoryDb.findAll().get(i).getNama());
                 jumlahList.add(0L);
+                pesananList.add(0L);
             }
         }
         for(int j=0; j<pesananInventoryDb.findAll().size(); j++){
             if(pesananInventoryDb.findAll().get(j).isKopi()
-                    && (pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getYear() == tahun
-                    && pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getMonthValue() == bulan)){
+                    && ((pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getYear() == tahun
+                    && pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getMonthValue() == bulan)
+                    && pesananInventoryDb.findAll().get(j).getCabang()==cabang)){
                 for(EntryPI entri: pesananInventoryDb.findAll().get(j).getEntryPIList()){
                     int index = kopiList.indexOf(entri.getInventory().getNama());
                     jumlahList.set(index, jumlahList.get(index)+entri.getKuantitas());
                 }
             }
         }
+        for(int k=0; k<pesananCustomerDb.findAll().size(); k++){
+            if((pesananCustomerDb.findAll().get(k).getWaktu().getMonthValue()==bulan
+                    && pesananCustomerDb.findAll().get(k).getWaktu().getYear()==tahun)
+                    && pesananCustomerDb.findAll().get(k).getCabang()==cabang) {
+                for (MenuPesanan menuPesanan : pesananCustomerDb.findAll().get(k).getMenuPesananList()) {
+                    Menu menu = menuPesanan.getMenu();
+                    if (menu.getKategori().equals("Coffee")) {
+                        for (Resep resep : menu.getResepList()) {
+                            Inventory inventory = resep.getInventory();
+                            if (inventory.isKopi()) {
+                                int index = kopiList.indexOf(inventory.getNama());
+                                pesananList.set(index, pesananList.get(index) + resep.getJumlah() * menuPesanan.getJumlah());
+                            }
+                        }
+                    }
+                }
+            }
+        }
         barChart.setData(jumlahList);
         barChart.setLabels(kopiList);
+        barChart.setData2(pesananList);
         return barChart;
     }
 }

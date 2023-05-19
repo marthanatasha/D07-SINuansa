@@ -1,6 +1,7 @@
 package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import propensi.sinuansa.SINuansa.model.Transaksi;
 import propensi.sinuansa.SINuansa.service.PembayaranService;
 import propensi.sinuansa.SINuansa.service.PesananCustomerService;
 import propensi.sinuansa.SINuansa.service.TransaksiService;
+import propensi.sinuansa.SINuansa.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,9 +36,12 @@ public class PembayaranController {
     @Autowired
     private TransaksiService transaksiService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/success/{method}/{source}/{pesanan}")
-    public String postPayment(@PathVariable Long pesanan, @PathVariable String method, @PathVariable String source,Model model,
-                              Map<String, Object> modell){
+    public String postPayment(@PathVariable Long pesanan, @PathVariable String method, @PathVariable String source, Model model,
+                              Map<String, Object> modell, Authentication authentication){
         PesananCustomer pemesanan = pesananCustomerService.findPesananCustomerId(pesanan);
         Pembayaran pembayaran = new Pembayaran();
         pembayaran.setHarga(pemesanan.getHarga());
@@ -70,6 +75,7 @@ public class PembayaranController {
         transaksi.setWaktuTransaksi(LocalDateTime.now());
         transaksi.setNominal(pembayaran.getPesananCustomer().getHarga());
         transaksi.setRefCode("4-40000 Pendapatan Makanan");
+        transaksi.setCabang(userService.findByUsername(authentication.getName()).getCabang());
         transaksiService.saveTransaksi(transaksi);
 
         List<ItemDTO> listItem = new ArrayList<>();
