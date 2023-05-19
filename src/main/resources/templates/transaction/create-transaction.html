@@ -12,48 +12,70 @@
         <button th:replace="fragments/sidebar :: sidebarhead"></button>
         <aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
     <div class="sm:ml-64 bg-slate-200 h-screen w-full">
-        <div class="p-10">
-            <h1 class="text-3xl">Create Transaction</h1>
-        </div>
-        <div class="flex justify-center pt-7">
-            <div class="block p-6 bg-white border rounded-lg shadow w-2/4 pt-15">
-                <form th:object="${transaksi}" th:action="@{/transaction/add}" method="post">
-                    <label for="nama">Nama</label>
-                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="text"
-                           th:field="*{nama}"
-                           id="nama" />
-                    <label for="akun">Account</label>
-                    <select th:field="*{akun}" id="akun" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
-                        <option value="Debit" selected>Debit</option>
-                        <option value="Credit">Credit</option>
-                    </select>
-                    <label for="kategori">Category</label>
-                    <select th:field="*{kategori}" id="kategori" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600" onchange="getRef()">
-                        <option value="Pendapatan Penjualan" selected>Pendapatan Penjualan</option>
-                        <option value="Harga Pokok Penjualan">Harga Pokok Penjualan</option>
-                        <option value="Biaya Operasional">Biaya Operasional</option>
-                        <option value="Biaya Lainnya">Biaya Lainnya</option>
-                    </select>
-                    <label for="ref">Reference Code</label>
-                    <select th:field="*{refCode}" id="ref" class="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-600">
-                        <option value="4-40000 Pendapatan Makanan" selected>Pendapatan Makanan</option>
-                        <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
-                        <option value="4-40200 Retur Penjualan">Retur Penjualan</option>
-                    </select>
-                    <label for="kuantitas">Quantity</label>
-                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="number"
-                           th:field="*{kuantitas}"
-                           id="kuantitas" />
-                    <label for="nominal">Price</label>
-                    <input required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm" type="number"
-                           th:field="*{nominal}"
-                           id="nominal" />
-                    <button type="submit" class="rounded-full bg-cyan-900 text-slate-100 px-5 py-2 text-lg mr-3" id="exportForm">Save</button>
-                </form>
+        <section class="container px-4 py-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <h2 class="text-2xl font-bold text-gray-800 ">Add Menu</h2>
+                    </div>
+                </div>
             </div>
-        </div>
+                <form th:object="${transaksi}" th:action="@{/transaction/add}" method="post">
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="nama">Nama</label>
+                        <input required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="text"
+                               th:field="*{nama}"
+                               id="nama" />
+                    </div>
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="akun">Account</label>
+                        <select th:field="*{akun}" id="akun" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="Debit" selected>Debit</option>
+                            <option value="Credit">Credit</option>
+                        </select>
+                    </div>
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="kategori">Category</label>
+                        <select th:field="*{kategori}" id="kategori" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onchange="getRef()">
+                            <option value="Pendapatan Penjualan" selected>Pendapatan Penjualan</option>
+                            <option value="Harga Pokok Penjualan">Harga Pokok Penjualan</option>
+                            <option value="Biaya Operasional">Biaya Operasional</option>
+                            <option value="Biaya Lainnya">Biaya Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="ref">Reference Code</label>
+                        <select th:field="*{refCode}" id="ref" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="4-40000 Pendapatan Makanan" selected>Pendapatan Makanan</option>
+                            <option value="4-40100 Diskon Penjualan">Diskon Penjualan</option>
+                            <option value="4-40200 Retur Penjualan">Retur Penjualan</option>
+                        </select>
+                    </div>
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="kuantitas">Quantity</label>
+                        <input required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="number"
+                               th:field="*{kuantitas}"
+                               id="kuantitas" />
+                    </div>
+                    <div class="form-group m-5">
+                        <label class="block mb-2 text-base font-medium text-gray-900" for="nominal">Price</label>
+                        <input required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" type="number"
+                               th:field="*{nominal}"
+                               id="nominal" />
+                    </div>
+                    <div class="form-group flex items-center justify-center">
+                        <a href="/transaction/history">
+                            <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+                                Cancel
+                            </button>
+                        </a>
+                        <button type="submit" class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="exportForm">Save</button>
+                    </div>
+                </form>
+                </section>
+            </div>
     </div>
-    </div>
+
     <script>
         function getRef(){
             var select = document.getElementById("kategori");

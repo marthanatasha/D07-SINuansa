@@ -19,54 +19,65 @@
         <button th:replace="fragments/sidebar :: sidebarhead"></button>
         <aside th:replace="fragments/sidebar :: sidebar('Report')"></aside>
         <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
-            <div class="p-10">
-                <h1 class="text-3xl">Financial Report</h1>
-            </div>
-            <div>
-                <div>
-                    <select id="month">
-                        <option value="" disabled selected>Select month</option>
-                        <option th:each="months, iterationStatus: ${monthList}" th:text="${months}" th:value="${iterationStatus.count}"></option>
-                    </select>
+            <section class="container px-4 py-4 mx-auto">
+                <div class="sm:flex sm:items-center sm:justify-between m-5">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <h2 class="text-2xl font-bold text-gray-800 ">Reports</h2>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <select id="year">
-                        <option value="" disabled selected>Select year</option>
-                        <option th:each="years, iterationStatus2: ${yearList}" th:text="${years}"></option>
-                    </select>
-                </div>
-                <button onclick="getValue()">
-                    Cari
-                </button>
+                <div class="flex justify-center pt-7">
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <label for="month" class="ml-2 text-lg font-medium text-gray-900">
+                                Choose Month
+                            </label>
+                            <select id="month" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" disabled selected>Select month</option>
+                                <option th:each="months, iterationStatus: ${monthList}" th:text="${months}" th:value="${iterationStatus.count}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="ml-2 relative">
+                            <label for="year" class="ml-2 text-lg font-medium text-gray-900">
+                                Choose Year
+                            </label>
+                            <select id="year" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" disabled selected>Select year</option>
+                                <option th:each="years, iterationStatus2: ${yearList}" th:text="${years}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <button onclick="getValue()" class="ml-7 mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-2 py-2.5 text-center inline-flex items-center">
+                                Search
+                            </button>
+                        </div>
+                    </div>
             </div>
-            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <div class="mb-4 border-b border-gray-200 items-center">
+                <ul class="flex flex-wrap -mb-px text-base font-medium text-center items-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     <li class="mr-2" role="presentation">
-                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="getPDF()">PDF</button>
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-gray-600 hover:text-blue-600 border-gray-300" id="pdf-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="getPDF()">PDF</button>
                     </li>
                     <li class="mr-2" role="presentation">
-                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false" onclick="getLine()">Line Chart</button>
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-gray-600 hover:text-blue-600 border-gray-300" id="line-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false" onclick="getLine()">Line Chart</button>
                     </li>
                     <li class="mr-2" role="presentation">
-                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false" onclick="getBar()">Bar Chart</button>
+                        <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg text-gray-600 hover:text-blue-600 border-gray-300" id="bar-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false" onclick="getBar()">Bar Chart</button>
                     </li>
                 </ul>
             </div>
-            <div class="flex justify-center pt-7">
-                <div id="myTabContent" class="block p-6 bg-white border rounded-lg shadow w-2/4 pt-15">
-                    <canvas id="lineChart" width="240px" height="120px"></canvas>
-
-                    <!-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="pdf" role="tabpanel" aria-labelledby="profile-tab">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-                    </div>
-                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="line" role="tabpanel" aria-labelledby="dashboard-tab">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-                    </div>
-                    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="bar" role="tabpanel" aria-labelledby="settings-tab">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-                    </div> -->
+            <div id="out-card" class="flex justify-center pt-7">
+                <div id="myTabContent" class="block p-6 bg-white border rounded-lg shadow pt-15">
+                    <canvas id="lineChart" width="1000" height="800"></canvas>
                 </div>
+                <div id="button-dw"></div>
             </div>
+            </section>
         </div>
     </div>
     <script th:inline="javascript">
@@ -95,29 +106,48 @@
 
 
         function getPDF(){
+            let element = document.getElementById("pdf-tab");
+            let element2 = document.getElementById("line-tab");
+            let element3 = document.getElementById("bar-tab");
+
+            element.classList.add("text-blue-600");
+            element.classList.add("border-blue-300");
+            element.classList.remove("text-gray-600");
+            element.classList.remove("border-gray-300");
+
+            element2.classList.remove("text-blue-600");
+            element2.classList.remove("border-blue-300");
+            element2.classList.add("text-gray-600");
+            element2.classList.add("border-gray-300");
+
+            element3.classList.remove("text-blue-600");
+            element3.classList.remove("border-blue-300");
+            element3.classList.add("text-gray-600");
+            element3.classList.add("border-gray-300");
+
             var dataPDF = [[${laporanDTO}]]
             var laporanItemPP ="";
             var laporanItemHPP="";
             var laporanItemBO ="";
             var laporanItemBL = "";
             for(let i =0; i<3; i++){
-                laporanItemPP += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                laporanItemPP += `<tr class="border-b-2"> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
                         <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
             }
             for(let i =3; i<5; i++){
-                laporanItemHPP += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                laporanItemHPP += `<tr class="border-b-2"> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
                         <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
             }
             for(let i =5; i<12; i++){
-                laporanItemBO += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                laporanItemBO += `<tr class="border-b-2"> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
                         <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
             }
             for(let i =12; i<15; i++){
-                laporanItemBL += `<tr> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
+                laporanItemBL += `<tr class="border-b-2"> <td> <p>${dataPDF.listTransaksi[i].ref}</p> </td>
                         <td>${dataPDF.listTransaksi[i].total}</td> </tr>`
             }
             var content = document.getElementById("myTabContent");
-            console.log(dataPDF.cabang);
+            content.classList.add("w-3/4");
             content.innerHTML = "";
             content.innerHTML += `
                 <div id="pdf">
@@ -126,71 +156,100 @@
                     <p class="text-xl font-semibold text-center">Laba Rugi</p>
                     <p class="text-center">${dataPDF.bulan}  -  ${dataPDF.tahun}</p>
                     <p class="text-center">(dalam IDR)</p>
-                    <hr>
                     <table style="width:100%">
-                        <tr>
-                            <td> <p class="font-bold">Pendapatan</p> </td>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-bold text-base">Pendapatan</p> </td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Pendapatan dari Penjualan</p> </td>
+                        <tr class="border-b-2 border-black-600">
+                            <hr>
+                            <td> <p class="font-semibold text-base">Pendapatan dari Penjualan</p> </td>
                             <td></td>
+                            <hr>
                         </tr>
-                        ${laporanItemPP}
-                        <hr>
+                        <p class="text-base">${laporanItemPP}</p>
+                        <tr class="border-b-2 border-black-600 bg-yellow-300">
+                            <td> <p class="font-semibold text-base">Total Pendapatan dari Penjualan</p> </td>
+                            <td class="text-base">${dataPDF.totalPendapatanPenjualan}</td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Total Pendapatan dari Penjualan</p> </td>
-                            <td>${dataPDF.totalPendapatanPenjualan}</td>
+                        <tr><td> </td><td> </td></tr>
+                        <tr><td> </td><td> </td></tr>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base">Harga Pokok Penjualan</p> </td>
+                            <td class="text-base"></td>
                         </tr>
-                        <br>
-                        <tr>
-                            <td> <p class="font-semibold">Harga Pokok Penjualan</p> </td>
-                            <td></td>
+                        <p class="text-base">${laporanItemHPP}</p>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base text-red-500">Total Harga Pokok Penjualan</p> </td>
+                            <td class="text-base text-red-500">${dataPDF.totalHargaPokokPenjualan}</td>
                         </tr>
-                        ${laporanItemHPP}
-                        <tr>
-                            <td> <p class="font-semibold">Total Harga Pokok Penjualan</p> </td>
-                            <td>${dataPDF.totalHargaPokokPenjualan}</td>
+                        <tr class="border-b-2 border-black-600 bg-yellow-300">
+                            <td> <p class="font-semibold text-base">Laba Kotor</p></td>
+                            <td class="text-base">${dataPDF.labaKotor}</td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Laba Kotor</p> </td>
-                            <td>${dataPDF.labaKotor}</td>
+                        <tr><td><p> </p></td><td><p> </p></td></tr>
+                        <tr><td> </td><td> </td></tr>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base">Biaya Operasional</p> </td>
+                            <td class="text-base"></td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Biaya Operasional</p> </td>
-                            <td></td>
+                        <p class="text-base">${laporanItemBO}</p>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base text-red-500">Total Biaya</p> </td>
+                            <td class="text-base text-red-500">${dataPDF.totalBiaya}</td>
                         </tr>
-                        ${laporanItemBO}
-                        <tr>
-                            <td> <p class="font-semibold">Total Biaya</p> </td>
-                            <td>${dataPDF.totalBiaya}</td>
+                        <tr class="border-b-2 border-black-600 bg-yellow-300">
+                            <td> <p class="font-semibold class="text-base">Pendapatan Bersih Operasional</p> </td>
+                            <td class="text-base">${dataPDF.pendapatanBersihOperasional}</td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Pendapatan Bersih Operasional</p> </td>
-                            <td>${dataPDF.pendapatanBersihOperasional}</td>
+                        <tr><td> </td><td> </td></tr>
+                        <tr><td> </td><td> </td></tr>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base">Biaya Lainnya</p> </td>
+                            <td class="text-base"></td>
                         </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Biaya Lainnya</p> </td>
-                            <td></td>
+                        <p class="text-base">${laporanItemBL}</p>
+                        <tr class="border-b-2 border-black-600">
+                            <td> <p class="font-semibold text-base text-red-500">Total Biaya Lainnya</p> </td>
+                            <td class="text-base text-red-500">${dataPDF.totalBiayaLainnya}</td>
                         </tr>
-                        ${laporanItemBL}
-                        <tr>
-                            <td> <p class="font-semibold">Total Biaya Lainnya</p> </td>
-                            <td>${dataPDF.totalBiayaLainnya}</td>
-                        </tr>
-                        <tr>
-                            <td> <p class="font-semibold">Pendapatan Bersih</p> </td>
-                            <td>${dataPDF.pendapatanBersih}</td>
+                        <tr class="border-b-2 border-black-600 bg-yellow-300">
+                            <td> <p class="font-semibold text-base">Pendapatan Bersih</p> </td>
+                            <td class="text-base">${dataPDF.pendapatanBersih}</td>
                         </tr>
                     </div>
-                    <button class="rounded-full bg-cyan-900 text-slate-100 px-5 py-2 text-lg mr-3" onclick="download()">Print</button>
             </div>`
+
+            var outContent = document.getElementById("button-dw");
+            outContent.innerHTML = "";
+            outContent.innerHTML += `<button class="ml-7 mt-6 h-10 w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-2 py-2.5 text-center inline-flex items-center" onclick="download()">Print</button>`;
         }
 
         function getLine(){
+            let element2 = document.getElementById("pdf-tab");
+            let element = document.getElementById("line-tab");
+            let element3 = document.getElementById("bar-tab");
+
+            element.classList.add("text-blue-600");
+            element.classList.add("border-blue-300");
+            element.classList.remove("text-gray-600");
+            element.classList.remove("border-gray-300");
+
+            element2.classList.remove("text-blue-600");
+            element2.classList.remove("border-blue-300");
+            element2.classList.add("text-gray-600");
+            element2.classList.add("border-gray-300");
+
+            element3.classList.remove("text-blue-600");
+            element3.classList.remove("border-blue-300");
+            element3.classList.add("text-gray-600");
+            element3.classList.add("border-gray-300");
+
             var content = document.getElementById("myTabContent");
-            content.innerHTML = `<canvas id="lineChart" width="240px" height="120px"></canvas>`;
+            content.classList.remove("w-3/4")
+            content.innerHTML = `<canvas id="lineChart" width="1000" height="800"></canvas>`;
+            var outContent = document.getElementById("button-dw");
+            outContent.innerHTML = "";
             const lineChart = document.getElementById("lineChart");
             var dataLine = [[${lineChart}]]
             new Chart(lineChart, {
@@ -214,8 +273,30 @@
         }
 
         function getBar(){
+            let element3 = document.getElementById("pdf-tab");
+            let element2 = document.getElementById("line-tab");
+            let element = document.getElementById("bar-tab");
+
+            element.classList.add("text-blue-600");
+            element.classList.add("border-blue-300");
+            element.classList.remove("text-gray-600");
+            element.classList.remove("border-gray-300");
+
+            element2.classList.remove("text-blue-600");
+            element2.classList.remove("border-blue-300");
+            element2.classList.add("text-gray-600");
+            element2.classList.add("border-gray-300");
+
+            element3.classList.remove("text-blue-600");
+            element3.classList.remove("border-blue-300");
+            element3.classList.add("text-gray-600");
+            element3.classList.add("border-gray-300");
+
             var content = document.getElementById("myTabContent");
-            content.innerHTML = `<canvas id="lineChart" width="240px" height="120px"></canvas>`;
+            content.classList.remove("w-3/4");
+            var outContent = document.getElementById("button-dw");
+            outContent.innerHTML = "";
+            content.innerHTML = `<canvas id="lineChart" width"1000" height="800"></canvas>`;
             const barChart = document.getElementById("lineChart");
             var dataBar = [[${barChart}]]
             new Chart(barChart, {
@@ -294,10 +375,10 @@
             pdf.setFont(undefined, 'bold');
             pdf.setTextColor(255,0,0);
             pdf.text('Total Harga Pokok Penjualan', width/8, 65+pp*5+hpp*5);
-            pdf.setTextColor(0,0,0);
             pdf.text(""+data.totalHargaPokokPenjualan, 170, 65+pp*5+hpp*5);
             pdf.setLineWidth(0.1);
             pdf.line(width/8, 65+pp*5+hpp*5+1.5, width*7/8, 65+pp*5+hpp*5+1.5);
+            pdf.setTextColor(0,0,0);
             pdf.text('Laba Kotor', width/8, 70+pp*5+hpp*5);
             pdf.text(""+data.labaKotor, 170, 70+pp*5+hpp*5);
             pdf.setFont(undefined, 'normal');
@@ -311,10 +392,10 @@
             pdf.setFont(undefined, 'bold');
             pdf.setTextColor(255,0,0);
             pdf.text('Total Biaya', width/8, 85+pp*5+hpp*5+bo*5);
-            pdf.setTextColor(0,0,0);
             pdf.text(""+data.totalBiaya, 170, 85+pp*5+hpp*5+bo*5);
             pdf.setLineWidth(0.1);
             pdf.line(width/8, 85+pp*5+hpp*5+bo*5+1.5, width*7/8, 85+pp*5+hpp*5+bo*5+1.5);
+            pdf.setTextColor(0,0,0);
             pdf.text('Pendapatan Bersih Operasional', width/8, 90+pp*5+hpp*5+bo*5);
             pdf.text(""+data.pendapatanBersihOperasional, 170, 90+pp*5+hpp*5+bo*5);
             pdf.setFont(undefined, 'normal');
@@ -328,10 +409,10 @@
             pdf.setFont(undefined, 'bold');
             pdf.setTextColor(255,0,0);
             pdf.text('Total Biaya Lainnya', width/8, 105+pp*5+hpp*5+bo*5+bl*5);
-            pdf.setTextColor(0,0,0);
             pdf.text(""+data.totalBiayaLainnya, 170, 105+pp*5+hpp*5+bo*5+bl*5);
             pdf.setLineWidth(0.1);
             pdf.line(width/8,105+pp*5+hpp*5+bo*5+bl*5+1.5, width*7/8, 105+pp*5+hpp*5+bo*5+bl*5+1.5);
+            pdf.setTextColor(0,0,0);
             pdf.text('Pendapatan Bersih', width/8, 110+pp*5+hpp*5+bo*5+bl*5);
             pdf.text(""+data.pendapatanBersihOperasional, 170, 110+pp*5+hpp*5+bo*5+bl*5);
             pdf.save(`Laporan keuangan ${data.cabang} ${data.bulan} ${data.tahun}`);
