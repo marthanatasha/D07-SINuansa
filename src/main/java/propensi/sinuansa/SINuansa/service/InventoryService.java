@@ -1,5 +1,6 @@
 package propensi.sinuansa.SINuansa.service;
 import org.springframework.data.relational.core.sql.In;
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Inventory;
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface InventoryService {
     Inventory getInventoryByNama(String nama);
     List<Inventory> getListInventory();
     List<Inventory> getListInventoryBasedOnType(boolean isKopi);
+    List<Inventory> getListInventoryByCabang(String cabang);
+    List<Inventory> getInventoryByCabangQuery(Cabang cabang);
 }

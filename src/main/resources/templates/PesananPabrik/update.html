@@ -11,33 +11,29 @@
 <body>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
-    <aside th:replace="fragments/sidebar :: sidebar('Approvals')"></aside>
-    <div class="flex-auto sm:ml-64 bg-slate-200 h-auto w-full">
-        <section class="container px-6 py-6 mx-auto">
+    <aside th:replace="fragments/sidebar :: sidebar('Factory')"></aside>
+    <div class="sm:ml-64 bg-slate-200 h-auto w-full">
+        <section class="container px-4 py-4 mx-auto">
             <div class="container">
                 <div class="card m-4 p-4">
                     <div class="card-body">
                         <div class="justify-content-center">
-                            <h2 class="text-xl font-bold text-gray-900">Inventory Order Detail</h2>
+                            <h2 class="text-xl font-bold text-gray-900">Factory Order Detail</h2>
                         </div>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >
-                            <a th:href="@{/approval/all}">Back</a>
+                            <a th:href="@{/orderfactory/all}">Back</a>
                         </button>
                     </div>
-                    <form th:action="@{/approval/update/} + ${pesananInventory.id}" th:object="${pesananInventory}" method="POST" >
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Order         : ' + *{kode}"></p>
+                        <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'PIN         : ' + *{pin}"></p>
+                        <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Status        : ' + *{status}"></p>
-                    </div>
-                    <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Created at    : ' + *{#temporals.format(waktuPemesanan, 'dd MMMM yyyy')}"></p>
+                        <p th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
                     </div>
                     <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="${pesananInventory.getEntryPIList().size() != 0}">
                         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -49,12 +45,12 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                            <tr th:each="entry, iterationStatus : *{getEntryPIList()}">
+                            <tr th:each="entry, iterationStatus : ${pesananInventory.getEntryPIList()}">
                                 <td class="px-6 py-4">
                                     <div class="text-sm font-medium text-gray-600" th:text="${iterationStatus.count}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory.getNama()}"></div>
+                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory().getNama()}"></div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
@@ -63,22 +59,29 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex items-center mt-4 gap-x-3">
-                        <input th:field="*{id}" hidden>
-                        <input th:field="*{waktuPemesanan}" hidden>
-                        <input th:field="*{kopi}" hidden>
-                        <input th:field="*{kode}" hidden>
-                        <input th:field="*{harga}" hidden>
-                        <input th:field="*{cabang}" hidden>
-                        <p class="text-blue-900 font-semibold text-l"> Are you sure want to confirm this order? </p>
-                        <br>
-                        <button class="bg-green-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
-                            Approved
-                        </button>
-                        <button class="bg-red-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="decline">
-                            Decline
-                        </button>
-                    </div>
+
+<<<<<<< HEAD:src/main/resources/templates/pesananPabrik/update.html
+                    <form th:action="@{/orderfactory/updateStatus/}" th:object="${pesananInventory}">
+                        <div>
+                            Enter Your PIN:
+                            <input class="form-control" name="input" type="text"/>
+                            <br>
+                        </div>
+
+                <div class="flex items-center mt-4 gap-x-3">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+=======
+                    <form th:action="@{/orderfactory/update/} + ${id}" method="POST">
+                        <label for="inputPin">Input PIN: </label>
+                        <input placeholder="Enter 5-digit PIN" th:name="inputPin" class="form-control" id="inputPin" type="text"/>
+                        <div class="flex items-center mt-4 gap-x-3">
+                            <button type="submit"
+                                    class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                    name="update"> Update </button>
+                        </div>
+                        <div th:if="${error}" th:text="${error}" class="invalid-feedback font-semibold flex items-center mt-2 gap-x-2"></div>
+>>>>>>> 9648ccce5641c5c4a75aaa843f81ecd7468eb530:src/main/resources/templates/PesananPabrik/update.html
                     </form>
                 </div>
             </div>
