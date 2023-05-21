@@ -54,4 +54,7 @@ public class Cabang {
     @OneToMany(mappedBy="cabang")
     private List<PesananInventory> pesananInventoryList;
 
+    @OneToMany(mappedBy="cabang")
+    private  List<Transaksi> transaksiList;
+
 }

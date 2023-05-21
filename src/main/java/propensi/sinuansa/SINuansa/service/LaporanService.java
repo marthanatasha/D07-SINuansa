@@ -12,5 +12,5 @@ public interface LaporanService {
     LaporanCollectionDTO getLaporanOrganized(Laporan laporan, String bulan, String tahun);
     LaporanCollectionDTO calculateReport(LaporanCollectionDTO laporan);
     LineChartDTO getLineChart(int bulan, int tahun, Laporan laporan);
-    BarChartDTO getBarChart(int bulan, int tahun);
+    BarChartDTO getBarChart(int bulan, int tahun, Cabang cabang);
 }
