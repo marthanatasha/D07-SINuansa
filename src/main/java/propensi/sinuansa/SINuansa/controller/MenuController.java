@@ -49,11 +49,11 @@ public class MenuController {
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-        //Boolean editable = menuService.canEdit(LocalTime.now());
-        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
+//        Boolean editable = menuService.canEdit(LocalTime.now());
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-        //Boolean deleteable = menuService.canDelete(LocalTime.now());
-        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
+//        Boolean deleteable = menuService.canDelete(LocalTime.now());
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
@@ -162,7 +162,7 @@ public class MenuController {
     @GetMapping("/menu/update/{id}")
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
         //cek jam
-        //Boolean editable = menuService.canEdit(LocalTime.now());
+//        Boolean editable = menuService.canEdit(LocalTime.now());
         Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
@@ -265,7 +265,7 @@ public class MenuController {
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
-        //Boolean deleteable = menuService.canDelete(LocalTime.now());
+//        Boolean deleteable = menuService.canDelete(LocalTime.now());
         Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error

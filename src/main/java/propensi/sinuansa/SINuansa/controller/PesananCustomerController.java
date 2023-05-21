@@ -59,6 +59,7 @@ public class PesananCustomerController {
         ArrayList<Long> hargaMenu = new ArrayList<Long>( );
         ArrayList<Long> totalHargaMenu = new ArrayList<Long>( );
         Long total_harga = 0L;
+        pesananCustomer.setCabang(user.getCabang());
         if(pesananCustomer.getMenuPesananList() == null){
             pesananCustomer.setMenuPesananList(new ArrayList<>());
         } else{
