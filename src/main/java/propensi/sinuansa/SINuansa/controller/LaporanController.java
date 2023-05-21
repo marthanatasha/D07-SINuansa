@@ -47,7 +47,7 @@ public class LaporanController {
     public String getLaporan (Model model){
         LocalDateTime today = LocalDateTime.now();
         ArrayList<Integer> yearList = new ArrayList<>();
-        for(int i = 2020; i<= today.getYear(); i++){
+        for(int i = 2023; i<= today.getYear(); i++){
             yearList.add(i);
         }
         String[] monthList = new DateFormatSymbols().getMonths();
@@ -69,7 +69,7 @@ public class LaporanController {
         LaporanCollectionDTO laporanDTO = laporanService.calculateReport(laporanList);
         LocalDateTime today = LocalDateTime.now();
         ArrayList<Integer> yearList = new ArrayList<>();
-        for(int i = 2020; i<= today.getYear(); i++){
+        for(int i = 2023; i<= today.getYear(); i++){
             yearList.add(i);
         }
         String[] monthList = new DateFormatSymbols().getMonths();
