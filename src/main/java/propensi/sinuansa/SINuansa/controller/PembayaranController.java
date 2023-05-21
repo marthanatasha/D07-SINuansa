@@ -77,6 +77,8 @@ public class PembayaranController {
         transaksi.setRefCode("4-40000 Pendapatan Makanan");
         transaksi.setCabang(userService.findByUsername(authentication.getName()).getCabang());
         transaksiService.saveTransaksi(transaksi);
+        pembayaran.setTransaksi(transaksi);
+        pembayaranService.savePembayaran(pembayaran);
 
         List<ItemDTO> listItem = new ArrayList<>();
 
@@ -91,7 +93,7 @@ public class PembayaranController {
         InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar(), pembayaran.getId(), listItem, source, pemesanan.getHarga());
 
         model.addAttribute("invoice", invoiceDTO);
-        return "/invoice/view-invoice";
+        return "invoice/view-invoice";
     }
 
     @GetMapping("/option/{custId}")
