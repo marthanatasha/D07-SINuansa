@@ -24,18 +24,18 @@
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <a th:href="@{/orderfactory/all}" >
-                            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600"
+                            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white"
                             th:text="'Back'"></button>
                         </a>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
+                        <p class="font-semibold" th:text="'Order         : ' + ${pesananInventory.kode}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
+                        <p class="font-semibold"th:text="'Status        : ' + ${pesananInventory.status}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
+                        <p class="font-semibold"th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
                     </div>
                     <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="${pesananInventory.getEntryPIList().size() != 0}">
                         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -62,7 +62,11 @@
                         </table>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3" th:if="${flag}">
-                        <a class="btn btn-primary" th:href="@{/orderfactory/update/} + ${pesananInventory.id}">Update Status</a>
+                        <a th:href="@{/orderfactory/update/} + ${pesananInventory.id}">
+                            <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300
+                                    bg-blue-950 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600">Update Status
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
