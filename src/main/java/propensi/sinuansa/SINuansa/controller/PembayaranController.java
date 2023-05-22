@@ -44,10 +44,11 @@ public class PembayaranController {
     public String postPayment(@PathVariable Long pesanan,
                               @PathVariable String method,
                               @PathVariable String source,
-                              @RequestParam(value="inputCash", required = false) Long inputCash,
+                              @RequestParam(value="inputCash", required = false) Integer inputCash,
                               Model model,
                               Map<String, Object> modell,
                               Authentication authentication){
+        System.out.println("input Cash" + inputCash);
         PesananCustomer pemesanan = pesananCustomerService.findPesananCustomerId(pesanan);
         Pembayaran pembayaran = new Pembayaran();
         pembayaran.setHarga(pemesanan.getHarga());
@@ -119,7 +120,7 @@ public class PembayaranController {
 
         if (metbool) {
             model.addAttribute("inputCash", inputCash);
-            model.addAttribute("kembalian", inputCash - pemesanan.getHarga() - pemesanan.getDiskon());
+            model.addAttribute("kembalian", inputCash - (pemesanan.getHarga() - pemesanan.getDiskon()));
         }
 
         model.addAttribute("totalHarga", pemesanan.getHarga() - pemesanan.getDiskon());
