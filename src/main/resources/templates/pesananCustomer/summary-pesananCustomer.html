@@ -17,7 +17,7 @@
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Order')"></aside>
-    <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
+    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
         <div class="p-10">
             <h1 class="text-3xl">Confirm your Order</h1>
         </div>
@@ -44,7 +44,12 @@
                     <tr>
                         <td><p class="font-semibold" style="text-align:left">Subtotal</p></td>
                         <td></td>
-                        <td><p class="font-semibold" th:text="${total_harga}" style="text-align:right"></p></td>
+                        <td><p class="font-semibold" th:text="${subtotal_harga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr th:if="${isDiskon}">
+                        <td><p class="font-semibold" style="text-align:left">Diskon</p></td>
+                        <td></td>
+                        <td><p class="font-semibold" th:text="${diskon}" style="text-align:right"></p></td>
                     </tr>
                     <tr style="border-bottom: 1px solid #000;"></tr>
                     <tr>

@@ -55,16 +55,28 @@
                         <td></td>
                         <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
                     </tr>
-                    <tr style="border-bottom: 1px solid #000;"></tr>
-                    <tr>
-                        <td><p class="font-semibold" style="text-align:left">Total</p></td>
+                    <tr th:if="${isDiskon}">
+                        <td><p class="font-semibold" style="text-align:left">Diskon</p></td>
                         <td></td>
-                        <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
+                        <td><p class="font-semibold" th:text="${diskon}" style="text-align:right"></p></td>
                     </tr>
+                    <tr style="border-bottom: 1px solid #000;"></tr>
                     <tr>
                         <td><p style="text-align:left" th:text="${invoice.source}"></p></td>
                         <td></td>
-                        <td><p th:text="${invoice.harga}" style="text-align:right"></p></td>
+                        <td th:if="${metbool}"><p th:text="${inputCash}" style="text-align:right"></p></td>
+                        <td th:unless="${metbool}"><p th:text="${totalHarga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr th:if="${metbool}">
+                        <td><p style="text-align:left">Changes </p></td>
+                        <td></td>
+                        <td><p th:text="${kembalian}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr>
+
+                        <td><p class="font-semibold" style="text-align:left">Total</p></td>
+                        <td></td>
+                        <td><p class="font-semibold" th:text="${totalHarga}" style="text-align:right"></p></td>
                     </tr>
                     <tr style="border-bottom: 1px solid #000;"></tr>
                     <tr>

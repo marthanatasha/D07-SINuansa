@@ -23,16 +23,17 @@
                         </div>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >
-                            <a th:href="@{/orderinventory/all}">Back</a>
-                        </button>
+<!--                        <a class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >-->
+<!--                            <button th:href="@{/orderinventory/all}">Back</button>-->
+<!--                        </a>-->
+                        <a th:href="@{/orderinventory/all}">
+                            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600"
+                            th:text="'Back'"></button>
+                        </a>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
                     </div>
-                    <!--                    <div class="flex items-center mt-4 gap-x-3">-->
-                    <!--                        <p th:text="'PIN         : ' + ${pesananInventory.pin}"></p>-->
-                    <!--                    </div>-->
                     <div class="flex items-center mt-4 gap-x-3">
                         <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
                     </div>
