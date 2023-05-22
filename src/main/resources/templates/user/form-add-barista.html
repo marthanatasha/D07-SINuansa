@@ -11,17 +11,17 @@
 <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 <div class="flex">
   <button th:replace="fragments/sidebar :: sidebarhead"></button>
-  <aside th:replace="fragments/sidebar :: sidebar('Users')"></aside>
-  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+  <aside th:replace="fragments/sidebar :: sidebar('UsersBarista')"></aside>
+  <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
     <section class="container px-4 py-4 mx-auto">
       <div class="sm:flex sm:items-center sm:justify-between m-5">
         <div>
           <div class="flex items-center gap-x-3">
-            <h2 class="text-2xl font-bold text-gray-800 ">Add Inventory Staff </h2>
+            <h2 class="text-2xl font-bold text-gray-800 ">Add Barista</h2>
           </div>
         </div>
       </div>
-      <form th:action="@{/user/addstafpabrik}" th:object="${staff}" method="POST" >
+      <form th:action="@{/user/addbarista}" th:object="${barista}" method="POST" >
         <div class="form-group m-5">
           <label class="block mb-2 text-base font-medium text-gray-900 ">Name</label>
           <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
@@ -29,7 +29,7 @@
         </div>
         <div class="form-group m-5">
           <label class="block mb-2 text-base font-medium text-gray-900">Username</label>
-          <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+          <input type="text" id="username" onblur="checkUsername()" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="username" th:field="*{username}">
         </div>
         <div class="form-group m-5">
@@ -41,6 +41,11 @@
           <label class="block mb-2 text-base font-medium text-gray-900">Contact</label>
           <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
              dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="contact" th:field="*{kontak}">
+        </div>
+        <div class="form-group m-5">
+          <label class="block mb-2 text-base font-medium text-gray-900">Cabang</label>
+          <input type="text" class="form-control bg-gray-300 border border-gray-300 text-gray-900 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+             dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" th:value="${cabang}" disabled>
         </div>
         <div class="form-group flex items-center justify-center">
           <a th:href="@{/user}">
@@ -59,4 +64,20 @@
   </div>
 </div>
 </body>
+<script th:inline="javascript">
+
+    function checkUsername(){
+        var temp3 = document.getElementById("username").value;
+        console.log(temp3);
+        var allUser = [[${listUser}]]
+        var check = true;
+        for(let i =0; i<allUser.length; i++){
+            if(temp3 == allUser[i]){
+                alert("That username is taken. Try another");
+                check = false;
+                return false;
+            }
+        }
+    }
+</script>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Transaction History</title>
@@ -16,99 +16,121 @@
 <div class="flex">
 <button th:replace="fragments/sidebar :: sidebarhead"></button>
 <aside th:replace="fragments/sidebar :: sidebar('Transaction')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
         <div class="p-10">
-            <h1 class="text-3xl">Transaction History</h1>
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div class="flex items-center gap-x-3">
+                    <h2 class="text-2xl font-bold text-gray-800">Transaction History</h2>
+                </div>
+                <div class="flex items-center mt-4 gap-x-3">
+                    <a
+                           href="/transaction/create" type="button">
+                        <button sec:authorize="hasAnyAuthority('ADMIN','BARISTA')" class="flex items-center justify-center w-1/2 px-5 py-2 text-base tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
+                        Create New Transaction
+                        </button>
+                    </a>
+                </div>
+            </div>
         </div>
     <div class="flex justify-center pt-7">
         <div class="flex items-center">
             <div class="relative">
-                <input onchange="print(this)" name="start" id="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+                <label for="start" class="ml-2 text-lg font-medium text-gray-900">
+                    Start Date
+                </label>
+                <input onchange="print(this)" name="start" id="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Select date start">
             </div>
-            <span class="mx-4 text-gray-500">to</span>
+            <div class="ml-2 relative">
+                <label for="end" class="ml-2 text-lg font-medium text-gray-900">
+                    End Date
+                </label>
+                <input onchange="print(this)" name="end" id="end" type="date" class="content-end bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Select date end">
+            </div>
             <div class="relative">
-                <input onchange="print(this)" name="end" id="end" type="date" class="content-end bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                        class="ml-7 mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-2 py-2.5 text-center inline-flex items-center"
+                        type="button">
+                    Filter
+                    <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 items-center">
+                    <h6 class="mx-auto mb-3 text-base font-medium text-gray-900">
+                        Category
+                    </h6>
+                    <ul class="py-2 text-base text-gray-700" aria-labelledby="dropdownDefaultButton">
+                        <li class="flex items-center block px-4 py-2 hover:bg-gray-100">
+                            <input onclick="check(this)" id="pp" type="checkbox" value="Pendapatan Penjualan"
+                                   class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+
+                            <label for="pp" class="ml-2 text-base font-medium text-gray-900">
+                                Pendapatan Penjualan
+                            </label>
+                        </li>
+
+                        <li class="flex items-center block px-4 py-2 hover:bg-gray-100">
+                            <input onclick="check(this)" id="hpp" type="checkbox" value="Harga Pokok Penjualan"
+                                   class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+
+                            <label for="hpp" class="ml-2 text-base font-medium text-gray-900">
+                                Harga Pokok Penjualan
+                            </label>
+                        </li>
+
+                        <li class="flex items-center block px-4 py-2 hover:bg-gray-100">
+                            <input onclick="check(this)" id="bo" type="checkbox" value="Biaya Operasional"
+                                   class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+
+                            <label for="bo" class="ml-2 text-base font-medium text-gray-900">
+                                Biaya Operasional
+                            </label>
+                        </li>
+
+                        <li class="flex items-center block px-4 py-2 hover:bg-gray-100">
+                            <input onclick="check(this)" id="bl" type="checkbox" value="Biaya Lainnya"
+                                   class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+
+                            <label for="bl" class="ml-2 text-base font-medium text-gray-900">
+                                Biaya Lainnya
+                            </label>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <button id="dropdownDefault" data-dropdown-toggle="dropdown"
-                class="mx-5 text-white bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                type="button">
-            Filter by category
-            <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </button>
-        <a class="mx-5 text-white bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                href="/transaction/create" type="button">Create New Transaction</a>
-        <div id="dropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-            <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">
-                Category
-            </h6>
-            <ul class="space-y-2 text-sm" aria-labelledby="dropdownDefault">
-                <li class="flex items-center">
-                    <input onclick="check(this)" id="pp" type="checkbox" value="Pendapatan Penjualan"
-                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-
-                    <label for="pp" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Pendapatan Penjualan
-                    </label>
-                </li>
-
-                <li class="flex items-center">
-                    <input onclick="check(this)" id="hpp" type="checkbox" value="Harga Pokok Penjualan"
-                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-
-                    <label for="hpp" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Harga Pokok Penjualan
-                    </label>
-                </li>
-
-                <li class="flex items-center">
-                    <input onclick="check(this)" id="bo" type="checkbox" value="Biaya Operasional"
-                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-
-                    <label for="bo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Biaya Operasional
-                    </label>
-                </li>
-
-                <li class="flex items-center">
-                    <input onclick="check(this)" id="bl" type="checkbox" value="Biaya Lainnya"
-                           class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-
-                    <label for="bl" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                        Biaya Lainnya
-                    </label>
-                </li>
-            </ul>
         </div>
     </div>
             <div class="block p-6 mt-35 pt-40" id="table">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg" th:if="${listTransaksi.size() != 0}">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table class="w-full text-base text-left text-gray-500">
+                        <thead class="text-base text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Name
                             </th>
-                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Quantity
                             </th>
-                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Akun
                             </th>
-                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Date
                             </th>
                         </tr>
                         </thead>
-                        <tbody id="body">
+                        <tbody id="body" class="text-base">
                     </tbody>
                 </table>
+                </div>
+                <div th:unless="${listTransaksi.size() != 0}" class="flex justify-center pt-7">
+                    <div id="myTabContent" class="block flex p-6 bg-white border rounded-lg shadow w-2/4 pt-15 items-center justify-center">
+                       <h3 class="text-lg font-bold">Belum ada transaksi</h3>
+                    </div>
                 </div>
             </div>
     </div>
@@ -132,7 +154,7 @@
         var startDate = new Date(startVal);
         var endDate = new Date(endVal);
         if(Math.abs((startDate - endDate)/ (1000 * 3600 * 24))>30){
-                        alert("Maksimal periode yang dipilih 30 hari")
+                        alert("Please choose maximal 30 days between start and end date");
         }else{
             if(datas.length>0){
                 for(let i =0; i<datas.length; i++){
@@ -153,12 +175,12 @@
                 tables.innerHTML = "";
                 
                 for(let j =0; j<listFinal.length; j++){  
-                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                    let row = `<tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
@@ -181,12 +203,12 @@
                 tables.innerHTML = "";
                 
                 for(let j =0; j<listFinal.length; j++){  
-                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                    let row = `<tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
@@ -205,12 +227,12 @@
                 tables.innerHTML = "";
                 
                 for(let j =0; j<listFinal.length; j++){  
-                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nama}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listFinal[j].kuantitas}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].nominal}</td>
-                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listFinal[j].akun}</p></td>`}
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
+                    let row = `<tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nama}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> ${listFinal[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].nominal}</td>
+                            ${(listFinal[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-auto">${listFinal[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listFinal[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }
@@ -220,12 +242,12 @@
                 var tables = document.getElementById("body");
                 tables.innerHTML = "";
                 for(let j =0; j<listData.length; j++){  
-                    let row = `<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].nama}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> ${listData[j].kuantitas}</td>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].nominal}</td>
-                            ${(listData[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-2/4">${listData[j].akun}</p></td>`}
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${listData[j].waktuTransaksi.substring(0,10)}</td>
+                    let row = `<tr class="bg-white border-b">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listData[j].nama}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> ${listData[j].kuantitas}</td>
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listData[j].nominal}</td>
+                            ${(listData[j]).akun=="Debit"?`<td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"> <p class="rounded-full bg-lime-900 text-slate-100 px-2 py-2 w-auto">${listData[j].akun}</p></td>`:`<td class="px-6 py-4"> <p class="rounded-full bg-red-600 text-slate-100 px-2 py-2 w-auto">${listData[j].akun}</p></td>`}
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${listData[j].waktuTransaksi.substring(0,10)}</td>
                         </tr>`
                     tables.innerHTML+=row;
                 }

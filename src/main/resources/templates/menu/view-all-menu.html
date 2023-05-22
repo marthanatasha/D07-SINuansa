@@ -13,7 +13,7 @@
 <div class="flex">
   <button th:replace="fragments/sidebar :: sidebarhead"></button>
   <aside th:replace="fragments/sidebar :: sidebar('Menus')"></aside>
-  <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+  <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
     <section class="container px-4 py-4 mx-auto">
       <div class="sm:flex sm:items-center sm:justify-between m-5">
         <div>
@@ -38,10 +38,13 @@
             </div>
             <div th:unless="${deletable}">
               <a th:disabled="${deletable == false}">
-                <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-gray-600 dark:hover:bg-gray-500 dark:bg-gray-600" disabled>
-                  Delete Menu
+                <button disabled class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2  dark:bg-gray-600">
+                  <div title="Deleting menu items can only take place after the store has closed or before the store opens">
+                    Delete Menu
+                  </div>
                 </button>
               </a>
+<!--              <span class="tooltip-text">Deleting menu items can only take place after the store has closed or before the store opens.</span>-->
             </div>
           </div>
         </div>
@@ -90,7 +93,7 @@
                   </a>
                 </div>
                 <div class="flex justify-end gap-4" th:unless="${editable}">
-                  <a x-data="{ tooltip: 'Edite' }" th:disabled="${editable == false}">
+                  <a x-data="{ tooltip: 'Edite' }" th:disabled="${editable == false}" title="Updating menu items can only take place after the store has closed or before the store opens">
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

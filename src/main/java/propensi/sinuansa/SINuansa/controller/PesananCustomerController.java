@@ -59,14 +59,16 @@ public class PesananCustomerController {
         ArrayList<Long> hargaMenu = new ArrayList<Long>( );
         ArrayList<Long> totalHargaMenu = new ArrayList<Long>( );
         Long total_harga = 0L;
+        long total = 0L;
         if(pesananCustomer.getMenuPesananList() == null){
             pesananCustomer.setMenuPesananList(new ArrayList<>());
         } else{
             int idx =0;
-            pesananCustomer.setDiskon(0L);
             pesananCustomer.setHarga(0L);
+            pesananCustomer.setDiskon(0L);
             pesananCustomer.setWaktu(LocalDateTime.now());
             pesananCustomerService.addPesananCustomer(pesananCustomer);
+            long diskon = 0L;
             for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
                 menuPesanan.setPesananCustomer(pesananCustomer);
                 Menu cariMenu = menuService.findMenuId(pesananCustomer.getMenuPesananList().get(idx).getMenu().getId());
@@ -78,19 +80,33 @@ public class PesananCustomerController {
                 total_harga = total_harga + cariMenu.getHarga()*menuPesanan.getJumlah();
                 totalHargaMenu.add(cariMenu.getHarga()*menuPesanan.getJumlah());
                 menuPesananService.addMenuPesanan(menuPesanan);
+                diskon += (menuPesanan.getMenu().getDiskon()/100.0f) * (menuPesanan.getMenu().getHarga() * menuPesanan.getJumlah());
+                System.out.println("Diskon menu: " + (menuPesanan.getMenu().getDiskon()));
                 idx++;
             }
+            pesananCustomer.setCabang(user.getCabang());
             pesananCustomer.setHarga(total_harga);
+            pesananCustomer.setDiskon(diskon);
+            total = pesananCustomer.getHarga() - pesananCustomer.getDiskon();
         }
         pesananCustomerService.addPesananCustomer(pesananCustomer);
 
         Long id = pesananCustomer.getId();
+        boolean isDiskon = true;
+        if (pesananCustomer.getDiskon() == 0L) {
+            isDiskon = false;
+        }
+
         model.addAttribute("id", id);
         model.addAttribute("namaMenu", namaMenu);
         model.addAttribute("jumlahMenu", jumlahMenu);
         model.addAttribute("hargaMenu", hargaMenu);
         model.addAttribute("totalHargaMenu", totalHargaMenu);
-        model.addAttribute("total_harga", total_harga);
+        model.addAttribute("subtotal_harga", total_harga);
+        model.addAttribute("diskon", pesananCustomer.getDiskon());
+        model.addAttribute("total_harga", total);
+        model.addAttribute("isDiskon", isDiskon);
+
 
         for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
             Menu menuNow = menuPesanan.getMenu();

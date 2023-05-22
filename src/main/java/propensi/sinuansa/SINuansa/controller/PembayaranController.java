@@ -1,11 +1,13 @@
 package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import propensi.sinuansa.SINuansa.DTO.InvoiceDTO;
 import propensi.sinuansa.SINuansa.DTO.ItemDTO;
 import propensi.sinuansa.SINuansa.model.MenuPesanan;
@@ -15,6 +17,7 @@ import propensi.sinuansa.SINuansa.model.Transaksi;
 import propensi.sinuansa.SINuansa.service.PembayaranService;
 import propensi.sinuansa.SINuansa.service.PesananCustomerService;
 import propensi.sinuansa.SINuansa.service.TransaksiService;
+import propensi.sinuansa.SINuansa.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,9 +37,17 @@ public class PembayaranController {
     @Autowired
     private TransaksiService transaksiService;
 
-    @GetMapping("/success/{method}/{source}/{pesanan}")
-    public String postPayment(@PathVariable Long pesanan, @PathVariable String method, @PathVariable String source,Model model,
-                              Map<String, Object> modell){
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("/success/{method}/{source}/{pesanan}")
+    public String postPayment(@PathVariable Long pesanan,
+                              @PathVariable String method,
+                              @PathVariable String source,
+                              @RequestParam(value="inputCash", required = false) Long inputCash,
+                              Model model,
+                              Map<String, Object> modell,
+                              Authentication authentication){
         PesananCustomer pemesanan = pesananCustomerService.findPesananCustomerId(pesanan);
         Pembayaran pembayaran = new Pembayaran();
         pembayaran.setHarga(pemesanan.getHarga());
@@ -70,7 +81,28 @@ public class PembayaranController {
         transaksi.setWaktuTransaksi(LocalDateTime.now());
         transaksi.setNominal(pembayaran.getPesananCustomer().getHarga());
         transaksi.setRefCode("4-40000 Pendapatan Makanan");
+        transaksi.setCabang(userService.findByUsername(authentication.getName()).getCabang());
         transaksiService.saveTransaksi(transaksi);
+        pembayaran.setTransaksi(transaksi);
+        pembayaranService.savePembayaran(pembayaran);
+
+        boolean isDiskon = true;
+        if (pemesanan.getDiskon() == 0) {
+            isDiskon = false;
+        }
+
+        if (isDiskon) {
+            Transaksi transaksiDiskon = new Transaksi();
+            transaksiDiskon.setAkun("Credit");
+            transaksiDiskon.setKategori("Pendapatan Penjualan");
+            transaksiDiskon.setKuantitas((long)1);
+            transaksiDiskon.setNama(transaksi.getNama());
+            transaksiDiskon.setWaktuTransaksi(LocalDateTime.now());
+            transaksiDiskon.setNominal(pemesanan.getDiskon());
+            transaksiDiskon.setRefCode("4-40100 Diskon Penjualan");
+            transaksiDiskon.setCabang(userService.findByUsername(authentication.getName()).getCabang());
+            transaksiService.saveTransaksi(transaksiDiskon);
+        }
 
         List<ItemDTO> listItem = new ArrayList<>();
 
@@ -81,9 +113,18 @@ public class PembayaranController {
         String namaCab = pemesanan.getCabang().getNama();
         String alamat = pemesanan.getCabang().getAlamat();
         String noTelp = "0"+pemesanan.getCabang().getNoTelp();
-        //kalau Tunai, source-nya Tunai juga (mapping: payment/success/{idPesananCust}/Tunai/Tunai)
         InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar(), pembayaran.getId(), listItem, source, pemesanan.getHarga());
 
+        model.addAttribute("metbool", metbool);
+
+        if (metbool) {
+            model.addAttribute("inputCash", inputCash);
+            model.addAttribute("kembalian", inputCash - pemesanan.getHarga() - pemesanan.getDiskon());
+        }
+
+        model.addAttribute("totalHarga", pemesanan.getHarga() - pemesanan.getDiskon());
+        model.addAttribute("isDiskon", isDiskon);
+        model.addAttribute("diskon", pemesanan.getDiskon());
         model.addAttribute("invoice", invoiceDTO);
         return "/invoice/view-invoice";
     }
@@ -102,7 +143,9 @@ public class PembayaranController {
                                @PathVariable String source,
                                Model model) {
         PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
+        Long total_harga = pc.getHarga() - pc.getDiskon();
         model.addAttribute("pesananCustomer", pc);
+        model.addAttribute("totalHarga", total_harga);
         model.addAttribute("source", source.toUpperCase());
         return "Payment/nontunai";
     }
@@ -112,8 +155,10 @@ public class PembayaranController {
                              Model model) {
         PesananCustomer pc = pesananCustomerService.findPesananCustomerId(custId);
         Long inputCash = 0L;
-        model.addAttribute("inputCash", inputCash);
+        Long total_harga = pc.getHarga() - pc.getDiskon();
         model.addAttribute("pesananCustomer", pc);
+        model.addAttribute("totalHarga", total_harga);
+        model.addAttribute("inputCash", inputCash);
         //todo: pakai ajax kah untuk retrieve function ngitung kembalian? alt: javascript
 
         return "Payment/tunai";

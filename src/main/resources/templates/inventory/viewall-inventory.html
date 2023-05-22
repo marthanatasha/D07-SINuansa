@@ -13,14 +13,20 @@
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Inventories')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
 <div class="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
-    <h2 class="text-center text-3xl font-bold dark:text-black">List Inventory Nuansa Coffe</h2>
+    <h2 class="text-center text-3xl font-bold dark:text-black">List Inventory Nuansa Coffee</h2>
     <table class="rounded-md w-400 mx-auto text-sm text-center font-bold text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
             <th scope="col" class="px-6 py-3">
-                <button data-modal-target="authentication-modal1" data-modal-toggle="authentication-modal1" class="bg-blue-900 text-white hover:bg-blue-600 font-bold py-2 px-4 mt-3 rounded">Add Inventory</button>
+                <div class="flex items-center mt-4 gap-x-3">
+                    <button data-modal-target="authentication-modal1" data-modal-toggle="authentication-modal1" class="bg-blue-900 text-white hover:bg-blue-600 font-bold py-2 px-4 mt-3 rounded">Add Inventory</button>
+                    <a th:href="@{/orderinventory/all}">
+                        <button class="bg-yellow-600 text-white hover:bg-yellow-400 font-bold py-2 px-4 mt-3 rounded"> Order Inventory </button>
+                    </a>
+                </div>
+
                 <div id="authentication-modal1" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
                     <div class="relative w-full h-full max-w-md md:h-auto">
                         <!-- Modal content -->
@@ -56,7 +62,7 @@
                 </div>
             </th>
             <th scope="col" class="px-6 py-3">
-                <a class="bg-yellow-600 text-white hover:bg-yellow-400 font-bold py-2 px-4 mt-3 rounded" th:href="@{/orderinventory/all}">Order Inventory</a>
+
             </th>
     </table>
 </div>

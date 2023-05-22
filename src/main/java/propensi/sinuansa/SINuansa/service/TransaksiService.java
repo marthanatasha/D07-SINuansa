@@ -1,5 +1,6 @@
 package propensi.sinuansa.SINuansa.service;
 
+import propensi.sinuansa.SINuansa.model.Cabang;
 import propensi.sinuansa.SINuansa.model.Laporan;
 import propensi.sinuansa.SINuansa.model.Transaksi;
 
@@ -9,5 +10,5 @@ public interface TransaksiService {
     Transaksi findTransactionId(Long Id);
     void saveTransaksi(Transaksi transaksi);
     List<Transaksi> getTransaksiList();
-    List<Transaksi> getTransaksiLaporanList(int bulan, int tahun, Laporan laporan);
+    void getTransaksiLaporanList(int bulan, int tahun, Laporan laporan, Cabang cabang);
 }

@@ -13,15 +13,13 @@
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
-<div class="flex">
+<div class="flex ">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Dashboard')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
-<h1 class="text-3xl font-bold underline m-10">
-    Welcome to SINuansa!
-</h1>
-<h2 class="text-xl font-normal m-10" th:if="${#httpServletRequest.remoteUser != null}" th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'">Login as</h2>
-</div>
+    <!--    <div class="sm:ml-64 bg-slate-200 h-screen w-full">-->
+    <div class = "flex sm:ml-64 flex-col min-h-screen w-full bg-[url('../images/home-bg.jpg')] bg-no-repeat bg-cover bg-center justify-center items-center">
+
+    </div>
 </div>
 </body>
 </html>
