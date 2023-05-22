@@ -56,7 +56,6 @@ public class PembayaranController {
         boolean metbool;
         if(method.equalsIgnoreCase("Tunai")) metbool = true;
         else metbool = false;
-        //todo
         String id = "INV-" + pemesanan.getId() + "/" + pemesanan.getCabang().getNama() +"/" + LocalDateTime.now().getYear();
 
         //bulan
@@ -127,7 +126,7 @@ public class PembayaranController {
         model.addAttribute("isDiskon", isDiskon);
         model.addAttribute("diskon", pemesanan.getDiskon());
         model.addAttribute("invoice", invoiceDTO);
-        return "/invoice/view-invoice";
+        return "invoice/view-invoice";
     }
 
     @GetMapping("/option/{custId}")
@@ -138,7 +137,6 @@ public class PembayaranController {
         return "Payment/option";
     }
 
-    //todo: generate QRIS (nontunai) dan kembalian Tunai (form input trus return hasil kembaliannya berapa)
     @GetMapping("/nontunai/{source}/{custId}")
     public String generateQRIS(@PathVariable Long custId,
                                @PathVariable String source,
@@ -160,8 +158,6 @@ public class PembayaranController {
         model.addAttribute("pesananCustomer", pc);
         model.addAttribute("totalHarga", total_harga);
         model.addAttribute("inputCash", inputCash);
-        //todo: pakai ajax kah untuk retrieve function ngitung kembalian? alt: javascript
-
         return "Payment/tunai";
     }
 }

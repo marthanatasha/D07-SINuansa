@@ -2,8 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <title>List Factory Order</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -20,25 +23,25 @@
                 </div>
                 <div class="flex items-center justify-center mt-4 mx-auto gap-x-16">
                     <a th:href="@{/orderfactory/all}">
-                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-600 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                         th:text="'All Store'"></button>
                     </a>
                     <a th:href="@{/orderfactory/1}">
-                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-600 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                                 th:text="'Store Gajah Mada'"></button>
                     </a>
                     <a th:href="@{/orderfactory/2}">
-                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-600 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                                 th:text="'Store Cawang Kavling'"></button>
                     </a>
                     <a th:href="@{/orderfactory/3}">
-                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-600 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                                 th:text="'Store Bandung'"></button>
                     </a>
                 </div>
             </div>
-            <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="*{listPesanan.size() != 0}">
-                <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-8" th:if="*{listPesanan.size() != 0}">
+                <table id="FactoryReqTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-4 font-bold text-gray-900">Date</th>
@@ -57,27 +60,37 @@
                             <div class="text-sm font-medium text-gray-600" th:text="${po.kode}"></div>
                         </td>
                         <td class="px-6 py-4">
-                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 1" th:text="'Store A'"></p>
-                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 2" th:text="'Store B'"></p>
-                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 3" th:text="'Store C'"></p>
+                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 1" th:text="'Store Jakarta Barat'"></p>
+                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 2" th:text="'Store Cawang Kavling'"></p>
+                            <p class="text-sm font-medium text-gray-600" th:if="${po.cabang.id} == 3" th:text="'Store Bandung'"></p>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-gray-600" th:text="${po.status}"></div>
+                            <a class="w-auto px-3 py-1 bg-blue-950 text-white rounded-full text-sm font-medium" th:text="${po.status}"></a>
                         </td>
                         <td class="px-6 py-4">
-                            <a class="text-sm font-medium text-blue-500"  th:href="@{/orderfactory/detail/} + ${po.id}">Detail</a>
+                            <a class="text-sm font-medium text-blue-950"  th:href="@{/orderfactory/detail/} + ${po.id}">Detail</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="flex items-center gap-x-3 mt-0 py-8" th:unless="*{listPesanan.size() != 0}">
+            <div class="mx-5 mt-2 py-8" th:unless="*{listPesanan.size() != 0}">
                 <h3 class="text-l font-bold text-gray-800" th:text="'No Factory Order Found in This Store'"></h3>
             </div>
 
         </section>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // $('#FactoryReqTable').DataTable();
+        var table = $('#FactoryReqTable').DataTable({
+            responsive: true
+        })
+            .columns.adjust()
+            .responsive.recalc();
+    });
+</script>
 </body>
 </html>
