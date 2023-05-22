@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <div class="flex">
         <button th:replace="fragments/sidebar :: sidebarhead"></button>
         <aside th:replace="fragments/sidebar :: sidebar('Report')"></aside>
@@ -34,7 +35,6 @@
                                 Choose Month
                             </label>
                             <select id="month" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="" disabled selected>Select month</option>
                                 <option th:each="months, iterationStatus: ${monthList}" th:text="${months}" th:value="${iterationStatus.count}"></option>
                             </select>
                         </div>
@@ -45,7 +45,6 @@
                                 Choose Year
                             </label>
                             <select id="year" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="" disabled selected>Select year</option>
                                 <option th:each="years, iterationStatus2: ${yearList}" th:text="${years}"></option>
                             </select>
                         </div>
@@ -72,8 +71,8 @@
                 </ul>
             </div>
             <div id="out-card" class="flex justify-center pt-7">
-                <div id="myTabContent" class="block p-6 bg-white border rounded-lg shadow pt-15">
-                    <canvas id="lineChart" width="1000" height="800"></canvas>
+                <div th:if="${laporanDTO}" id="myTabContent" class="block p-6 bg-white border rounded-lg shadow pt-15">
+                    <h3>Please choose the desired report form</h3>
                 </div>
                 <div id="button-dw"></div>
             </div>
@@ -92,12 +91,13 @@
                 console.log(monthSelect);
                 if(today.getMonth()+1<=monthSelect){
                     console.log("if 2");
-                    alert(`Maksimal bulan yang dipilih untuk tahun ${yearSelect} adalah ${months[today.getMonth()]}`)
+                    alert(`The maximum month can be selected for ${yearSelect} is ${months[today.getMonth()-1]}`)
                 }
                 else{
                     var url = window.location.href;
                     console.log(url);
                     var urlFixed = url.slice(0, 28);
+<!--                    var urlFixed = url.slice(0, 40);-->
                     console.log(urlFixed);
                     window.location.href = urlFixed + "/" + monthSelect + "/" + yearSelect;
                 }

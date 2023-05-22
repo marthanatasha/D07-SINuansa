@@ -9,10 +9,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Factory')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-auto w-full">
+    <div class="sm:ml-64 bg-slate-200 min-h-auto w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="container">
                 <div class="card m-4 p-4">
@@ -22,9 +23,10 @@
                         </div>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600" >
-                            <a th:href="@{/orderfactory/all}">Back</a>
-                        </button>
+                        <a th:href="@{/orderfactory/all}" >
+                            <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-900 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-white dark:hover:bg-gray-400 dark:bg-gray-600"
+                            th:text="'Back'"></button>
+                        </a>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
                         <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>

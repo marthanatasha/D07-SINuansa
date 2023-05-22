@@ -11,7 +11,7 @@
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-screen w-full">
+    <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="sm:flex sm:items-center sm:justify-between m-5">
                 <div>
@@ -55,10 +55,6 @@
                                 </svg>
                             </a>
                         </button>
-
-                        <!--                        <button th:value="${iterationStatus.index}" class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-normal hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">-->
-                        <!--                            Delete-->
-                        <!--                        </button>-->
                     </div>
                     <br>
                     <br>
@@ -70,9 +66,10 @@
                     <br>
                     <br>
                     <div class="form-group flex items-center justify-center">
-                        <button class="bg-red-700 mx-2 hover:bg-red-500 text-white font-semibold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="button">
-                            <a th:href="@{/orderinventory/all}">Cancel</a>
-                        </button>
+                        <a th:href="@{/orderinventory/all}">
+                            <button class="bg-red-700 mx-2 hover:bg-red-500 text-white font-semibold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="button"
+                            th:text="'Cancel'"></button>
+                        </a>
                         <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">
                             Submit
                         </button>

@@ -2,6 +2,7 @@ package propensi.sinuansa.SINuansa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,10 @@ public class PesananPabrikController {
 
     @Autowired
     private TransaksiService transaksiService;
+
+    @Autowired
+    @Qualifier("userServiceImpl")
+    private UserService userService;
 
     @GetMapping("/all")
     private String getPesananPabrik(Model model) {
@@ -90,13 +95,18 @@ public class PesananPabrikController {
     @PostMapping(value="/update/{id}", params={"update"})
     public String updateStatusPesanan(@PathVariable Long id,
                                       @RequestParam(value="inputPin", required = false) String inputPin,
-                                      Model model) {
+                                      Model model, Authentication authentication) {
 
         //todo: ambil inputPin dari html ke controller inih
         PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
+
+        String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
+        String username = authentication.getName();
+        UserModel user = userService.findByUsername(username);
         String pin_pesanan = pesananInventory.getPin();
 
         if (pin_pesanan.equals(inputPin)) {
+            //Set done
             //Increment inventory
             List<EntryPI> entryPIList = pesananInventory.getEntryPIList();
             for(EntryPI entry : entryPIList) {
@@ -117,6 +127,7 @@ public class PesananPabrikController {
             tr.setWaktuTransaksi(LocalDateTime.now());
             tr.setNominal(pesananInventory.getHarga());
             tr.setKategori("Harga Pokok Penjualan");
+            tr.setCabang(user.getCabang());
             transaksiService.saveTransaksi(tr);
 
             //Set done

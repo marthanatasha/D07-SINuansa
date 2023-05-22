@@ -135,11 +135,11 @@ public class PesananInventoryController {
         String cabangKode = "";
 
         if (cabang.getId().equals(1L)) {
-            cabangKode = "A";
+            cabangKode = "JB";
         } else if (cabang.getId().equals(2L)) {
-            cabangKode = "B";
+            cabangKode = "CK";
         } else {
-            cabangKode = "C";
+            cabangKode = "MB";
         }
 
         String noId = String.format("%03d", (pesananInventoryService.getListPesananInventory().size() + 1));

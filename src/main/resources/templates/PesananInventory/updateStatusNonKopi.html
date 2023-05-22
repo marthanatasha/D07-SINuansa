@@ -9,10 +9,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 <div class="flex">
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Requests')"></aside>
-    <div class="sm:ml-64 bg-slate-200 h-auto w-full">
+    <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
         <section class="container px-4 py-4 mx-auto">
             <div class="container">
                 <div class="card m-4 p-4">
@@ -70,9 +71,10 @@
                             <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="update">
                                 Update
                             </button>
-                            <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
-                                <a th:href="@{/orderinventory/detail/} + ${pesananInventory.id}">Cancel</a>
-                            </button>
+                            <a th:href="@{/orderinventory/detail/} + ${pesananInventory.id}">
+                                <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button"
+                                        th:text="'Cancel'"></button>
+                            </a>
                         </div>
                     </form>
                 </div>

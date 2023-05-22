@@ -5,14 +5,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.*;
 import propensi.sinuansa.SINuansa.service.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +65,7 @@ public class PesananCustomerController {
         } else{
             int idx =0;
             pesananCustomer.setHarga(0L);
+            pesananCustomer.setDiskon(0L);
             pesananCustomer.setWaktu(LocalDateTime.now());
             pesananCustomerService.addPesananCustomer(pesananCustomer);
             long diskon = 0L;
@@ -81,9 +80,11 @@ public class PesananCustomerController {
                 total_harga = total_harga + cariMenu.getHarga()*menuPesanan.getJumlah();
                 totalHargaMenu.add(cariMenu.getHarga()*menuPesanan.getJumlah());
                 menuPesananService.addMenuPesanan(menuPesanan);
-                diskon+=menuPesanan.getMenu().getDiskon()*(menuPesanan.getMenu().getHarga() * menuPesanan.getJumlah());
+                diskon += (menuPesanan.getMenu().getDiskon()/100.0f) * (menuPesanan.getMenu().getHarga() * menuPesanan.getJumlah());
+                System.out.println("Diskon menu: " + (menuPesanan.getMenu().getDiskon()));
                 idx++;
             }
+            pesananCustomer.setCabang(user.getCabang());
             pesananCustomer.setHarga(total_harga);
             pesananCustomer.setDiskon(diskon);
             total = pesananCustomer.getHarga() - pesananCustomer.getDiskon();
@@ -91,6 +92,11 @@ public class PesananCustomerController {
         pesananCustomerService.addPesananCustomer(pesananCustomer);
 
         Long id = pesananCustomer.getId();
+        boolean isDiskon = true;
+        if (pesananCustomer.getDiskon() == 0L) {
+            isDiskon = false;
+        }
+
         model.addAttribute("id", id);
         model.addAttribute("namaMenu", namaMenu);
         model.addAttribute("jumlahMenu", jumlahMenu);
@@ -99,6 +105,7 @@ public class PesananCustomerController {
         model.addAttribute("subtotal_harga", total_harga);
         model.addAttribute("diskon", pesananCustomer.getDiskon());
         model.addAttribute("total_harga", total);
+        model.addAttribute("isDiskon", isDiskon);
 
 
         for(MenuPesanan menuPesanan : pesananCustomer.getMenuPesananList()){
