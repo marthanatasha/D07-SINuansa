@@ -18,18 +18,22 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-center mt-4 mx-auto gap-x-16">
-                    <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
-                        <a th:href="@{/orderfactory/all}">All Store</a>
-                    </button>
-                    <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
-                        <a th:href="@{/orderfactory/1}">Store A</a>
-                    </button>
-                    <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
-                        <a th:href="@{/orderfactory/2}">Store B</a>
-                    </button>
-                    <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >
-                        <a th:href="@{/orderfactory/3}">Store C</a>
-                    </button>
+                    <a th:href="@{/orderfactory/all}">
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        th:text="'All Store'"></button>
+                    </a>
+                    <a th:href="@{/orderfactory/1}">
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                th:text="'Store Gajah Mada'"></button>
+                    </a>
+                    <a th:href="@{/orderfactory/2}">
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                th:text="'Store Cawang Kavling'"></button>
+                    </a>
+                    <a th:href="@{/orderfactory/3}">
+                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                                th:text="'Store Bandung'"></button>
+                    </a>
                 </div>
             </div>
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="*{listPesanan.size() != 0}">
