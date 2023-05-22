@@ -126,7 +126,7 @@ public class PembayaranController {
         model.addAttribute("isDiskon", isDiskon);
         model.addAttribute("diskon", pemesanan.getDiskon());
         model.addAttribute("invoice", invoiceDTO);
-        return "/invoice/view-invoice";
+        return "invoice/view-invoice";
     }
 
     @GetMapping("/option/{custId}")

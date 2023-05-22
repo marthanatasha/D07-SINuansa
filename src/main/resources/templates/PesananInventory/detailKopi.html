@@ -29,16 +29,16 @@
                         </a>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Order         : ' + ${pesananInventory.kode}"></p>
+                        <p class="font-semibold" th:text="'Order         : ' + ${pesananInventory.kode}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'PIN           : ' + ${pesananInventory.pin}"></p>
+                        <p class="font-semibold" th:text="'PIN           : ' + ${pesananInventory.pin}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Status        : ' + ${pesananInventory.status}"></p>
+                        <p class="font-semibold" th:text="'Status        : ' + ${pesananInventory.status}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
+                        <p class="font-semibold" th:text="'Created at    : ' + ${#temporals.format(pesananInventory.waktuPemesanan, 'dd MMMM yyyy')}"></p>
                     </div>
                     <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="${pesananInventory.getEntryPIList().size() != 0}">
                         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -52,13 +52,13 @@
                             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                             <tr th:each="entry, iterationStatus : ${pesananInventory.getEntryPIList()}">
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${iterationStatus.count}"></div>
+                                    <div class="text-sm font-semibold font-medium text-gray-600" th:text="${iterationStatus.count}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getInventory.getNama()}"></div>
+                                    <div class="text-sm font-semibold font-medium text-gray-600" th:text="${entry.getInventory.getNama()}"></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
+                                    <div class="text-sm font-semibold font-medium text-gray-600" th:text="${entry.getKuantitas()}"></div>
                                 </td>
                             </tr>
                             </tbody>

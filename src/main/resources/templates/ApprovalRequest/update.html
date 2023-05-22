@@ -29,16 +29,16 @@
                     </div>
                     <form th:action="@{/approval/update/} + ${pesananInventory.id}" th:object="${pesananInventory}" method="POST" >
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Order         : ' + *{kode}"></p>
+                        <p class="font-semibold" th:text="'Order         : ' + *{kode}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'PIN         : ' + *{pin}"></p>
+                        <p class="font-semibold" th:text="'PIN         : ' + *{pin}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Status        : ' + *{status}"></p>
+                        <p class="font-semibold" th:text="'Status        : ' + *{status}"></p>
                     </div>
                     <div class="flex items-center mt-4 gap-x-3">
-                        <p th:text="'Created at    : ' + *{#temporals.format(waktuPemesanan, 'dd MMMM yyyy')}"></p>
+                        <p class="font-semibold" th:text="'Created at    : ' + *{#temporals.format(waktuPemesanan, 'dd MMMM yyyy')}"></p>
                     </div>
                     <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="${pesananInventory.getEntryPIList().size() != 0}">
                         <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -73,10 +73,10 @@
                         <input th:field="*{cabang}" hidden>
                         <p class="text-blue-900 font-semibold text-l"> Are you sure want to confirm this order? </p>
                         <br>
-                        <button class="bg-green-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
+                        <button class="bg-blue-950 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="approved">
                             Approved
                         </button>
-                        <button class="bg-red-400 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="decline">
+                        <button class="bg-red-600 mx-2 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="submit" name="decline">
                             Decline
                         </button>
                     </div>
