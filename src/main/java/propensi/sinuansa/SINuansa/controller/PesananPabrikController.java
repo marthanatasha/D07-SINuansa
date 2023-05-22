@@ -97,16 +97,16 @@ public class PesananPabrikController {
                                       @RequestParam(value="inputPin", required = false) String inputPin,
                                       Model model, Authentication authentication) {
 
-        //cabang
+        //todo: ambil inputPin dari html ke controller inih
+        PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
+
         String authorities = String.valueOf(authentication.getAuthorities().stream().toArray()[0]);
         String username = authentication.getName();
         UserModel user = userService.findByUsername(username);
-
-        //todo: ambil inputPin dari html ke controller inih
-        PesananInventory pesananInventory = pesananInventoryService.findPesananInventoryId(id);
         String pin_pesanan = pesananInventory.getPin();
 
         if (pin_pesanan.equals(inputPin)) {
+            //Set done
             //Increment inventory
             List<EntryPI> entryPIList = pesananInventory.getEntryPIList();
             for(EntryPI entry : entryPIList) {

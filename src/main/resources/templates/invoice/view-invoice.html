@@ -55,16 +55,28 @@
                         <td></td>
                         <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
                     </tr>
-                    <tr style="border-bottom: 1px solid #000;"></tr>
-                    <tr>
-                        <td><p class="font-semibold" style="text-align:left">Total</p></td>
+                    <tr th:if="${isDiskon}">
+                        <td><p class="font-semibold" style="text-align:left">Disc</p></td>
                         <td></td>
-                        <td><p class="font-semibold" th:text="${invoice.harga}" style="text-align:right"></p></td>
+                        <td><p class="font-semibold" th:text="${diskon}" style="text-align:right"></p></td>
                     </tr>
+                    <tr style="border-bottom: 1px solid #000;"></tr>
                     <tr>
                         <td><p style="text-align:left" th:text="${invoice.source}"></p></td>
                         <td></td>
-                        <td><p th:text="${invoice.harga}" style="text-align:right"></p></td>
+                        <td th:if="${metbool}"><p th:text="${inputCash}" style="text-align:right"></p></td>
+                        <td th:unless="${metbool}"><p th:text="${totalHarga}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr th:if="${metbool}">
+                        <td><p style="text-align:left">Changes</p></td>
+                        <td></td>
+                        <td><p th:text="${kembalian}" style="text-align:right"></p></td>
+                    </tr>
+                    <tr>
+
+                        <td><p class="font-semibold" style="text-align:left">Total</p></td>
+                        <td></td>
+                        <td><p class="font-semibold" th:text="${totalHarga}" style="text-align:right"></p></td>
                     </tr>
                     <tr style="border-bottom: 1px solid #000;"></tr>
                     <tr>
@@ -93,7 +105,7 @@
             pdf.setFont('Helvetica');
             pdf.setFontSize(10);
             pdf.setFont(undefined, 'bold');
-            pdf.text(data.namaCabang, 100, 20, {align:'center'})
+            pdf.text(data.namaCabang, 90, 20, {align:'center'})
             pdf.setFontSize(8);
             pdf.setFont(undefined, 'normal');
             pdf.text(data.alamatCabang, 75, 25, {align:'center'});
@@ -114,18 +126,31 @@
             pdf.setFont(undefined, 'bold');
             pdf.text("Subtotal", width/8, 70+(data.items.length*5));
             pdf.text(data.harga+"", 170, 70+(data.items.length*5));
-            pdf.line(width/8, 75+(data.items.length*5), width*7/8, 75+(data.items.length*5));
-            pdf.text("Total", width/8, 80+(data.items.length*5));
-            pdf.text(data.harga+"", 170, 80+(data.items.length*5));
+            if([[${isDiskon}]]){
+                pdf.text("Disc", width/8, 75+(data.items.length*5));
+                pdf.text([[${diskon}]]+"", 170, 75+(data.items.length*5));
+            }
+            pdf.line(width/8, 80+(data.items.length*5), width*7/8, 80+(data.items.length*5));
             pdf.setFont(undefined, 'normal');
-            pdf.text(data.source, width/8, 85+(data.items.length*5));
-            pdf.text(data.harga+"", 170, 85+(data.items.length*5));
-            pdf.line(width/8, 90+(data.items.length*5), width*7/8, 90+(data.items.length*5));
-            pdf.text('Instagram : @nuansa_idn', width/8, 95+(data.items.length*5));
+            if([[${metbool}]]){
+                 pdf.text('Tunai', width/8, 85+(data.items.length*5));
+                 pdf.text([[${inputCash}]]+"", 170, 85+(data.items.length*5));
+                 pdf.text('Changes', width/8, 90+(data.items.length*5));
+                 pdf.text([[${kembalian}]]+"", 170, 90+(data.items.length*5));
+            }
+            else{
+                pdf.text(data.source, width/8, 85+(data.items.length*5));
+                pdf.text(data.harga+"", 170, 85+(data.items.length*5));
+            }
+            pdf.setFont(undefined, 'bold');
+            pdf.text("Total", width/8, 95+(data.items.length*5));
+            pdf.text([[${totalHarga}]]+"", 170, 95+(data.items.length*5));
             pdf.line(width/8, 100+(data.items.length*5), width*7/8, 100+(data.items.length*5));
+            pdf.text('Instagram : @nuansa_idn', width/8, 105+(data.items.length*5));
+            pdf.line(width/8, 110+(data.items.length*5), width*7/8, 110+(data.items.length*5));
             pdf.setFont(undefined, 'bold');
             pdf.setFontSize(10);
-            pdf.text("Thank You", 97, 105+(data.items.length*5));
+            pdf.text("Thank You", 97, 115+(data.items.length*5));
 
             pdf.save(`${data.noPembayaran}-Receipt.pdf`);
     })

@@ -22,27 +22,50 @@
         </div>
       </div>
       <form th:action="@{/pesananCustomer/add}" th:object="${pesananCustomer}" method="POST" >
+        <label class="block mb-2 text-base font-medium text-gray-900">Pesanan</label>
         <div class="form-group m-5">
-          <label class="block mb-2 text-base font-medium text-gray-900">Pesanan</label>
-          <div th:each="menu, iterationStatus: *{menuPesananList}">
-            <select onchange="logologo(this)" th:id="'myselect-'+${iterationStatus.index}" name="id" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].menu.id}"
-                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingredients">
-              <div th:each="menuEx, iterationStatus2 : ${listMenu}">
-                <option th:data-harga="${menuEx.harga}" th:value="${menuEx.id}" th:text="${menuEx.nama}"></option>
-              </div>
-            </select>
-            <input onchange="logologo(this)" th:id="'myinput-'+${iterationStatus.index}" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-             dark:focus:ring-blue-500 dark:focus:border-blue-500 " type="number" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].jumlah}">
-            <td>
-              <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
-            </td>
-            <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteRow">
-              Delete
-            </button>
+          <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Menu</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Quantity</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900">Price</th>
+              <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
+            </tr>
+            </thead>
 
-          </div>
-          <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="addRow">
+            <tbody>
+            <tr th:each="menu, iterationStatus: *{menuPesananList}">
+
+              <td class="px-6 py-4 font-normal text-gray-900">
+                <select onchange="logologo(this)" th:id="'myselect-'+${iterationStatus.index}" name="id" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].menu.id}"
+                        class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ingredients">
+                  <div th:each="menuEx, iterationStatus2 : ${listMenu}">
+                    <option th:data-harga="${menuEx.harga}" th:value="${menuEx.id}" th:text="${menuEx.nama}"></option>
+                  </div>
+                </select>
+              </td>
+
+              <td class="px-6 py-4 font-normal text-gray-900">
+                <input onchange="logologo(this)" th:id="'myinput-'+${iterationStatus.index}" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+             dark:focus:ring-blue-500 dark:focus:border-blue-500 " type="number" th:data-iteridx="${iterationStatus.index}" th:field="*{menuPesananList[__${iterationStatus.index}__].jumlah}">
+              </td>
+
+              <td class="px-6 py-4 font-normal text-gray-900">
+                <p type="number" th:data-iteridx="${iterationStatus.index}" th:id="'myharga-'+${iterationStatus.index}"></p>
+              </td>
+
+              <td class="gap-3 px-6 py-4 font-normal text-gray-900">
+                <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteRow">
+                  Delete
+                </button>
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+          <button class="bg-blue-500 mx-2 mt-7 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="addRow">
             Add Menu Pesanan
           </button>
           <div class="form-group flex items-center justify-center">

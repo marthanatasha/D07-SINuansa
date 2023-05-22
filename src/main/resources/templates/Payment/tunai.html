@@ -24,41 +24,37 @@
                 <p class="font-bold text-gray-800" th:text="'Date      : ' + ${#temporals.format(pesananCustomer.waktu, 'dd MMMM yyyy')}"></p>
             </div>
             <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <p class="font-bold text-gray-800"th:text="'Nominal    : ' + ${pesananCustomer.harga}"></p>
+                <p class="font-bold text-gray-800"th:text="'Nominal    : ' + ${totalHarga}"></p>
             </div>
             <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <form id="calculation">
+                <form id="calculation" th:action="@{/payment/success/tunai/Tunai/}+${pesananCustomer.id}">
                     <div class="sm:flex sm:items-center sm:justify-between m-5">
-                        <p class="font-semibold text-gray-800">Input Cash: </p>
-                    </div>
-                    <div class="sm:flex sm:items-center sm:justify-between m-5">
-                        <input type="text" id="inputCash"/>
-                        <input type="text" id="totalHarga" th:value="${pesananCustomer.harga}" hidden/>
+                        <label for="inputCash" class="font-semibold text-gray-800">Input Cash: </label>
+                        <input name="inputCash" type="number" id="inputCash"/>
                     </div>
 
                     <div class="sm:flex sm:items-center sm:justify-between m-5">
-                        <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-green-200 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-400 dark:hover:bg-green-400 dark:bg-green-400"
-                                type="submit">Check Changes</button>
+                        <button id="check" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-950 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-450"
+                        >Check Changes</button>
                     </div>
 
                     <div class="sm:flex sm:items-center sm:justify-between m-5">
                         <p id="res" class="font-semibold text-red-700"></p>
                     </div>
+                    <div id="confirm" class="sm:flex sm:items-center sm:justify-between m-5">
+                        <button disabled class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2">
+                            Confirm
+                        </button>
+                    </div>
                 </form>
 
             </div>
-            <div id="confirm" class="sm:flex sm:items-center sm:justify-between m-5">
-                    <button disabled class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-gray-500 rounded-lg shrink-0 sm:w-auto gap-x-2">
-                        Confirm
-                    </button>
-            </div>
         </section>
         <script>
-            document.getElementById('calculation').addEventListener('submit', function(event) {
+            document.getElementById("check").addEventListener("click", function() {
                 event.preventDefault();
-
                 var inputCash = document.getElementById('inputCash').value;
-                var totalHarga = document.getElementById('totalHarga').value;
+                var totalHarga = [[${totalHarga}]]
                 var res = eval('inputCash - totalHarga');
 
                 if (res < 0) {
@@ -66,10 +62,10 @@
                 Confirm</button>`
                     document.getElementById('res').textContent = 'Insufficient cash. Check your input or try with bigger amount of cash!'
                 } else {
-                    document.getElementById('confirm').innerHTML = `<a href="/payment/success/tunai/Tunai/[[${pesananCustomer.id}]]">
-                    <button class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                    document.getElementById('confirm').innerHTML =
+                    `<button type="submit" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
                     Confirm </button>
-                    </a>`
+                    `
                     document.getElementById('res').textContent = 'Changes: ' + res;
                 }
             })
