@@ -21,9 +21,9 @@
         <tr>
             <th scope="col" class="px-6 py-3">
                 <div class="flex items-center mt-4 gap-x-3">
-                    <button data-modal-target="authentication-modal1" data-modal-toggle="authentication-modal1" class="bg-blue-900 text-white hover:bg-blue-600 font-bold py-2 px-4 mt-3 rounded">Add Inventory</button>
+                    <button data-modal-target="authentication-modal1" data-modal-toggle="authentication-modal1" class="bg-blue-600 text-white hover:bg-blue-900 font-bold py-2 px-4 mt-3 rounded">Add Inventory</button>
                     <a th:href="@{/orderinventory/all}">
-                        <button class="bg-yellow-600 text-white hover:bg-yellow-400 font-bold py-2 px-4 mt-3 rounded"> Order Inventory </button>
+                        <button class="bg-green-600 text-white hover:bg-green-400 font-bold py-2 px-4 mt-3 rounded"> Order Inventory </button>
                     </a>
                 </div>
 
@@ -82,9 +82,9 @@
             <th scope="col" class="px-6 py-3">
                 Edit Quantity
             </th>
-            <th scope="col" class="px-6 py-3">
-                Delete
-            </th>
+<!--            <th scope="col" class="px-6 py-3">-->
+<!--                Delete-->
+<!--            </th>-->
         </tr>
         </thead>
         <tbody>
@@ -94,7 +94,7 @@
             <td th:text="${inventory.nama}"></td>
             <td th:text="${inventory.jumlah}"></td>
             <td>
-                <button th:value="${inventory.id}" onclick="savingId(this)" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="m-2 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded-full">
+                <button th:value="${inventory.id}" onclick="savingId(this)" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="m-2 bg-transparent hover:bg-blue-600 text-blue-900 font-semibold hover:text-white py-1 px-2 border border-blue-900 hover:border-transparent rounded-full">
                     Update Quantity
 
                 </button>
@@ -121,11 +121,11 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <a class="m-2 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded-full" th:href="@{/inventory/delete/}+${inventory.id}">
-                    Delete
-                </a>
-            </td>
+<!--            <td>-->
+<!--                <a class="m-2 text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded-full" th:href="@{/inventory/delete/}+${inventory.id}">-->
+<!--                    Delete-->
+<!--                </a>-->
+<!--            </td>-->
         </tr>
         </tbody>
     </table>
