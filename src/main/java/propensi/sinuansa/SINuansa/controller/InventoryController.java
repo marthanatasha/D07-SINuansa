@@ -83,14 +83,14 @@ public class InventoryController {
         return "redirect:/inventory/viewall";
     }
 
-    @GetMapping("/inventory/delete/{id}")
-    public String deleteInventorySubmitPage(@PathVariable Long id, Model model){
-        Inventory inventory = inventoryService.getInventoryById(id);
-        Long idThis = inventory.getId();
-        Inventory deletedInventory = inventoryService.deleteInventory(inventory);
-        model.addAttribute("id", idThis);
-        return "redirect:/inventory/viewall";
-    }
+//    @GetMapping("/inventory/delete/{id}")
+//    public String deleteInventorySubmitPage(@PathVariable Long id, Model model){
+//        Inventory inventory = inventoryService.getInventoryById(id);
+//        Long idThis = inventory.getId();
+//        Inventory deletedInventory = inventoryService.deleteInventory(inventory);
+//        model.addAttribute("id", idThis);
+//        return "redirect:/inventory/viewall";
+//    }
 
     @GetMapping("/inventory/viewall")
     public String listInventory(Model model, Authentication authentication){

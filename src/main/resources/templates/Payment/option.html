@@ -15,58 +15,99 @@
             <div class="sm:flex sm:items-center sm:justify-between m-5">
                 <div>
                     <div class="flex items-center gap-x-3">
-                        <h2 class="text-xl font-bold text-gray-800">Choose Payment Option</h2>
+                        <h2 class="text-2xl font-bold text-gray-800">Choose Payment Option</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/tunai/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'Cash'"></button>
-                    </a>
-                </div>
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/nontunai/gopay/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'Gopay'"></button>
-                    </a>
-                </div>
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/nontunai/shopeepay/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'ShopeePay'"></button>
-                    </a>
-                </div>
-            </div>
+            <table class="flex w-full border-collapse justify-center text-sm text-gray-500">
+                <tr>
+                    <td class="px-12 py-6">
+                            <div>
+                                <a th:href="@{/payment/tunai/} + ${custId}">
+                                    <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color:ghostwhite; padding: 20px'"
+                                         th:src="@{/images/cash.png}" />
+                                </a>
+                            </div>
+                            <div class="flex items-center mt-5 ml-16 gap-x-3">
+                                <h4 class="px-6 text-xl font-bold text-blue-900">Cash</h4>
+                            </div>
+                    </td>
+                    <td class="px-12 py-6">
+                        <div>
+                            <a th:href="@{/payment/nontunai/gopay/} + ${custId}">
+                                <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color: ghostwhite; padding: 20px'"
+                                     th:src="@{/images/gopay.png}" />
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-5 ml-16 gap-x-3">
+                            <h4 class="px-6 text-xl font-bold text-blue-900">GOPAY</h4>
+                        </div>
+                    </td>
+                    <td class="px-12 py-6">
+                        <div>
+                            <a th:href="@{/payment/nontunai/shopeepay/} + ${custId}">
+                                <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color: ghostwhite;
+                                padding-top: 20px;
+                                padding-bottom: 20px;
+                                padding-left: 30px;
+                                padding-right: 30px'"
+                                     th:src="@{/images/spay.png}" />
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-5 ml-12 gap-x-3">
+                            <h4 class="px-6 text-xl font-bold text-blue-900">SHOPEEPAY</h4>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
-            <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/nontunai/ovo/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'OVO'"></button>
-                    </a>
-                </div>
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/nontunai/dana/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'Dana'"></button>
-                    </a>
-                </div>
-                <div class="flex items-center mt-4 gap-x-3">
-                    <a th:href="@{/payment/nontunai/other/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'Other QRIS'"></button>
-                    </a>
-                </div>
-            </div>
+            <table class="flex w-full border-collapse justify-center text-sm text-gray-500">
+                <tr>
+                    <td class="px-12 py-6">
+                        <div>
+                            <a th:href="@{/payment/nontunai/dana/} + ${custId}"  >
+                                <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color: ghostwhite;
+                                padding-top: 30px;
+                                padding-bottom: 30px;
+                                padding-left: 20px;
+                                padding-right: 20px'"
+                                     th:src="@{/images/dana.png}" />
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-5 ml-14 gap-x-3">
+                            <h4 class="px-6 text-xl font-bold text-blue-900">DANA</h4>
+                        </div>
+                    </td>
+                    <td class="px-12 py-6">
+                        <div>
+                            <a th:href="@{/payment/nontunai/ovo/} + ${custId}"  >
+                                <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color: ghostwhite;
+                                padding-top: 60px;
+                                padding-bottom: 60px;
+                                padding-left: 30px;
+                                padding-right: 30px'"
+                                     th:src="@{/images/ovo.png}" />
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-5 ml-16 gap-x-3">
+                            <h4 class="px-6 text-xl font-bold text-blue-900">OVO</h4>
+                        </div>
+                    </td>
+                    <td class="px-12 py-6">
+                        <div>
+                            <a th:href="@{/payment/nontunai/other/} + ${custId}"  >
+                                <img th:style="'width: 240px; height: 200px; border-radius: 20px; display:block; background-color: ghostwhite'"
+                                     th:src="@{/images/qris.png}" />
+                            </a>
+                        </div>
+                        <div class="flex items-center mt-5 ml-12 gap-x-3">
+                            <h4 class="px-6 text-xl font-bold text-blue-900">Other QRIS</h4>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </section>
-        <script>
-            $(document).ready(function () {
-                $('#SupplierTable').DataTable();
-            });
-        </script>
     </div>
 </div>
 </body>

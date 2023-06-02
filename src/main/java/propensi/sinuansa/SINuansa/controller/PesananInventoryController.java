@@ -115,6 +115,7 @@ public class PesananInventoryController {
                 EntryPI entryPI = pesananInventory.getEntryPIList().get(i);
 
                 entryPI.setPesananInventory(pesananInventory);
+//                entryPI.setNama(pesananInventory.getEntryPIList().get(i).getInventory().getNama());
                 entryPI.setInventory(pesananInventory.getEntryPIList().get(i).getInventory());
 
                 total_harga += entryPI.getKuantitas() * Long.valueOf(entryPI.getHarga());
@@ -130,7 +131,6 @@ public class PesananInventoryController {
         pesananInventory.setCabang(cabang);
         pesananInventory.setKopi(flag);
 
-        //todo: Set for default pesananInventory
         String prefix = "ORDER";
         String cabangKode = "";
 
