@@ -21,43 +21,79 @@
             </div>
 
             <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="items-center mt-5 ml-20 mr-20 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">Cash</h3>
+                </div>
+                <div class="items-center mt-5 ml-5 mr-5 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">Gopay</h3>
+                </div>
+                <div class="items-center mt-5 ml-5 mr-5 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">ShopeePay</h3>
+                </div>
+            </div>
+
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/tunai/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'Cash'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                        th:text="'Cash'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/cash.png}" />
                     </a>
                 </div>
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/nontunai/gopay/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'Gopay'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                        th:text="'Gopay'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/gopay.png}" />
                     </a>
                 </div>
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/nontunai/shopeepay/} + ${custId}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'ShopeePay'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                                th:text="'ShopeePay'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/spay.png}" />
                     </a>
                 </div>
             </div>
 
             <div class="sm:flex sm:items-center sm:justify-between m-5">
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">Ovo</h3>
+                </div>
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">Dana</h3>
+                </div>
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
+                    <h3 class="text-l font-bold text-blue-900">Other QRIS</h3>
+                </div>
+            </div>
+
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/nontunai/ovo/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                        th:text="'OVO'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                        th:text="'OVO'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/ovo-1.jpg}" />
                     </a>
                 </div>
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/nontunai/dana/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'Dana'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                                th:text="'Dana'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/dana.png}" />
                     </a>
                 </div>
-                <div class="flex items-center mt-4 gap-x-3">
+                <div class="flex items-center mt-5 ml-5 mr-5 gap-x-3">
                     <a th:href="@{/payment/nontunai/other/} + ${custId}"  >
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
-                                th:text="'Other QRIS'"></button>
+<!--                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"-->
+<!--                                th:text="'Other QRIS'"></button>-->
+                        <img th:style="'width: 225px; height: 175px; border-radius: 20px; display:block; background-color: white; padding: 5px'"
+                             th:src="@{/images/qris.png}" />
                     </a>
                 </div>
             </div>
