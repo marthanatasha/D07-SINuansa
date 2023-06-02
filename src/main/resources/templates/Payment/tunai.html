@@ -14,9 +14,17 @@
         <section class="container px-4 py-4 mx-auto">
             <div class="sm:flex sm:items-center sm:justify-between m-5">
                 <div>
-                    <div class="flex items-center gap-x-3">
-                        <h2 class="text-2xl font-bold text-blue-900">Payment Order</h2>
-                    </div>
+                    <a th:href="@{/payment/option/} + ${pesananCustomer.id}">
+                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white
+                        transition-colors duration-200 bg-gray-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-900"
+                                th:text="'Back to Payment Options'"></button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div class="flex items-center gap-x-3">
+                    <h2 class="text-2xl font-bold text-gray-800">Payment Order</h2>
                 </div>
             </div>
 
@@ -34,8 +42,8 @@
                     </div>
 
                     <div class="sm:flex sm:items-center sm:justify-between m-5">
-                        <button id="check" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-950 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-450"
-                        >Check Changes</button>
+                        <button id="check" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-green-600
+                        rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-450">Check Changes</button>
                     </div>
 
                     <div class="sm:flex sm:items-center sm:justify-between m-5">
@@ -63,7 +71,7 @@
                     document.getElementById('res').textContent = 'Insufficient cash. Check your input or try with bigger amount of cash!'
                 } else {
                     document.getElementById('confirm').innerHTML =
-                    `<button type="submit" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                    `<button type="submit" class="flex items-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-300 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600">
                     Confirm </button>
                     `
                     document.getElementById('res').textContent = 'Changes: ' + res;

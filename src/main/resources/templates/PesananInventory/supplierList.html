@@ -2,8 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <title>Supplier List</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -26,7 +29,7 @@
                 </div>
             </div>
             <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="*{supplierList.size() != 0}">
-                <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+                <table id="SuppListTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Name</th>
@@ -36,23 +39,23 @@
                     <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                     <tr th:each="supp, iterationStatus : ${supplierList}" class="hover:bg-gray-50">
                         <td class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                            <div class="text-sm font-medium text-gray-700" th:text="${supp.nama}"></div>
+                            <div class="text-sm font-semibold font-medium text-gray-700" th:text="${supp.nama}"></div>
                         </td>
                         <td class="px-6 py-4">
-                            <a class="text-sm font-medium text-blue-500"  th:text="${supp.link}" th:href="'https://' + ${supp.link}"></a>
+                            <a class="text-sm font-semibold font-medium text-blue-500"  th:text="${supp.link}" th:href="'https://' + ${supp.link}"></a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="flex items-center gap-x-3 mt-0 py-8" th:unless="*{supplierList.size() != 0}">
-                <h3 class="text-l font-bold text-gray-800" th:text="'No Supplier Found. Please Check Again!'"></h3>
+            <div class="mx-5 mt-2 py-8" th:unless="*{supplierList.size() != 0}">
+                <h3 class="text-l font-semibold text-blue-950" th:text="'No Supplier Found. Please Check Again!'"></h3>
             </div>
 
-            <div class="flex items-center mt-4 gap-x-3">
+            <div class="flex items-center mt-2 gap-x-3 mx-5">
                 <a th:href="@{/orderinventory/detail/} + *{pesananInventory.id}" >
-                    <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                    <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-950 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                     th:text="'Back to Order'"></button>
                 </a>
             </div>
@@ -60,5 +63,15 @@
         </section>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // $('#SuppListTable').DataTable();
+        var table = $('#SuppListTable').DataTable({
+            responsive: true
+        })
+            .columns.adjust()
+            .responsive.recalc();
+    });
+</script>
 </body>
 </html>

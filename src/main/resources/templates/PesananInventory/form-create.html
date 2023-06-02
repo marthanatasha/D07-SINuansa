@@ -25,17 +25,14 @@
                     <label class="block mb-2 text-base font-medium text-gray-900">Ingredients</label>
                     <div class="flex" th:each="inventory, iterationStatus: *{entryPIList}">
                         <select name="id" th:field="*{entryPIList[__${iterationStatus.index}__].inventory.id}"
-                                class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-             dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Inventory">
+                                class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Inventory">
                             <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
                                 <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
                             </div>
                         </select>
                         <input type="text" value="-" th:field="*{entryPIList[__${iterationStatus.index}__].nama} " hidden>
-                        <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Quantity" th:field="*{entryPIList[__${iterationStatus.index}__].kuantitas}">
-                        <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Price" th:field="*{entryPIList[__${iterationStatus.index}__].harga}">
+                        <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Quantity" th:field="*{entryPIList[__${iterationStatus.index}__].kuantitas}">
+                        <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Price" th:field="*{entryPIList[__${iterationStatus.index}__].harga}">
                         <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteItem">
                             <a x-data="{ tooltip: 'Delete' }" th:value="${iterationStatus.index}">
                                 <svg
@@ -68,7 +65,7 @@
                     <div class="form-group flex items-center justify-center">
                         <a th:href="@{/orderinventory/all}">
                             <button class="bg-red-700 mx-2 hover:bg-red-500 text-white font-semibold py-2 px-2 rounded focus:outline-none focus:shadow-outline" type="button"
-                            th:text="'Cancel'"></button>
+                                    th:text="'Cancel'"></button>
                         </a>
                         <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="save">
                             Submit

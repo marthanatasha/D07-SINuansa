@@ -2,8 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"  rel="stylesheet" />
+    <title>All Inventory Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -15,23 +18,20 @@
             <div class="sm:flex sm:items-center sm:justify-between m-5">
                 <div>
                     <div class="flex items-center gap-x-3">
-                        <h2 class="text-xl font-bold text-gray-800">List Inventory Order</h2>
+                        <h2 class="text-xl font-bold text-gray-800">List Inventory Orders</h2>
                     </div>
                 </div>
 
                 <div class="flex items-center mt-4 gap-x-3">
-<!--                    <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" >-->
-<!--                        <a th:href="@{/orderinventory/create}">+ Create Order Inventory Request</a>-->
-<!--                    </button>-->
                     <a th:href="@{/orderinventory/create}">
-                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+                        <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm font-semibold tracking-wide text-white transition-colors duration-200 bg-blue-950 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600"
                         th:text="'+ Create Order Inventory Request'">
                         </button>
                     </a>
                 </div>
             </div>
-            <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5" th:if="*{listPesananInventory.size() != 0}">
-                <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+            <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-8" th:if="*{listPesananInventory.size() != 0}">
+                <table id="InvOrderTable" class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-4 font-medium text-gray-900">Date</th>
@@ -42,28 +42,44 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                     <tr th:each="pi, iterationStatus : ${listPesananInventory}" class="hover:bg-gray-50">
-                        <td class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                        <td class="px-6 py-4 font-normal text-gray-900">
                             <div class="text-sm font-medium text-gray-700" th:text="${#temporals.format(pi.waktuPemesanan, 'dd MMMM yyyy')}"></div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm font-medium text-gray-700" th:text="${pi.kode}"></div>
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-gray-700" th:text="${pi.status}"></div>
+                        <td class="px-6">
+                            <a th:if="${pi.status} == 'Done'" class="w-auto px-3 py-1 bg-green-200 text-green-600 rounded-full text-sm font-medium" th:text="${pi.status}"></a>
+                            <a th:if="${pi.status} == 'On Process'" class="w-auto px-3 py-1 bg-blue-950 text-white rounded-full text-sm font-medium" th:text="${pi.status}"></a>
+                            <a th:if="${pi.status} == 'Declined'" class="w-auto px-3 py-1 bg-red-500 text-white rounded-full text-sm font-medium" th:text="${pi.status}"></a>
+                            <a th:if="${pi.status} == 'Waiting for Manager Approval'" class="w-auto px-3 py-1 bg-yellow-500 text-gray-800 rounded-full text-sm font-medium" th:text="${pi.status}"></a>
                         </td>
-                        <td class="px-6 py-4">
-                            <a class="text-sm font-medium text-blue-500"  th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>
+                        <td class="px-6 py-4 text-center">
+                            <a class="text-sm font-medium text-blue-950" th:href="@{/orderinventory/detail/} + ${pi.id}">Detail</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="flex items-center gap-x-3 mt-0 py-8" th:unless="*{listPesananInventory.size() != 0}">
+            <div class="mx-5 mt-2 py-8" th:unless="*{listPesananInventory.size() != 0}">
                 <h3 class="text-l font-bold text-gray-800" th:text="'No Order Has Been Made'"></h3>
             </div>
         </section>
     </div>
 </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // $('#InvOrderTable').DataTable();
+        var table = $('#InvOrderTable').DataTable({
+            responsive: true
+        })
+            .columns.adjust()
+            .responsive.recalc();
+    });
+</script>
 </body>
 </html>
