@@ -113,7 +113,7 @@ public class PembayaranController {
         String namaCab = pemesanan.getCabang().getNama();
         String alamat = pemesanan.getCabang().getAlamat();
         String noTelp = "0"+pemesanan.getCabang().getNoTelp();
-        InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar(), pembayaran.getId(), listItem, source, pemesanan.getHarga());
+        InvoiceDTO invoiceDTO = new InvoiceDTO(namaCab, alamat, noTelp, pembayaran.getWaktuBayar().plusHours(7), pembayaran.getId(), listItem, source, pemesanan.getHarga());
 
         model.addAttribute("metbool", metbool);
 
@@ -126,6 +126,8 @@ public class PembayaranController {
         model.addAttribute("isDiskon", isDiskon);
         model.addAttribute("diskon", pemesanan.getDiskon());
         model.addAttribute("invoice", invoiceDTO);
+
+
         return "invoice/view-invoice";
     }
 
