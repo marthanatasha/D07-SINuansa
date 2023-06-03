@@ -75,11 +75,13 @@ public class LaporanController {
         String[] monthList = new DateFormatSymbols().getMonths();
         LineChartDTO lineChart = laporanService.getLineChart(bulan, tahun, laporan);
         BarChartDTO barChart = laporanService.getBarChart(bulan, tahun, cabang);
+        LocalDateTime dateTime = LocalDateTime.now().plusHours(7);
         model.addAttribute("laporanDTO", laporanDTO);
         model.addAttribute("monthList", monthList);
         model.addAttribute("yearList", yearList);
         model.addAttribute("lineChart", lineChart);
         model.addAttribute("barChart", barChart);
+        model.addAttribute("dateTime", dateTime);
         return "laporan/view-laporan";
     }
 }

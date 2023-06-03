@@ -8,6 +8,8 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
     <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -16,63 +18,89 @@
     <button th:replace="fragments/sidebar :: sidebarhead"></button>
     <aside th:replace="fragments/sidebar :: sidebar('Suppliers')"></aside>
     <div class="sm:ml-64 bg-slate-200 min-h-screen w-full">
-<section class="container px-4 py-4 mx-auto">
-    <div class="sm:flex sm:items-center sm:justify-between m-5">
-        <div>
-            <div class="flex items-center gap-x-3">
-                <h2 class="text-2xl font-bold text-gray-800 ">Add Supplier</h2>
-            </div>
-        </div>
-    </div>
-    <form th:action="@{/supplier/add}" th:object="${supplier}" method="POST" >
-        <div class="form-group mx-5 my-3">
-            <label class="block mb-2 text-base font-medium text-gray-900 ">Name</label>
-            <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Name" th:field="*{nama}">
-        </div>
-        <div class="form-group mx-5 my-3">
-            <label class="block mb-2 text-base font-medium text-gray-900">Contact</label>
-            <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Contact" th:field="*{link}">
-        </div>
-        <div class="form-group mx-5 my-3 ">
-            <label class="block mb-2 text-base font-medium text-gray-900">Material</label>
-            <select name="id" th:field="*{inventory}"
-                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Material">
-                <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
-                    <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+        <section class="container px-4 py-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between m-5">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <h2 class="text-2xl font-bold text-gray-800 ">Add Supplier</h2>
+                    </div>
                 </div>
-            </select>
-<!--            <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white-->
-<!--             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Material" th:field="*{material}">-->
-        </div>
-        <div class="form-group mx-5 my-3">
-            <label class="block mb-2 text-base font-medium text-gray-900">Status</label>
-            <select name="id" th:field="*{status}"
-                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Status">
-<!--                <option selected>Choose the status</option>-->
-                <option th:value="Active">Active</option>
-                <option th:value="Nonactive">Nonactive</option>
-            </select>
-        </div>
-        <div class="form-group mx-5 my-3">
-            <label class="block mb-2 text-base font-medium text-gray-900">Cabang</label>
-            <input type="text" class="form-control bg-gray-300 border border-gray-300 text-gray-900 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed " th:value="${cabang}" disabled>
-        </div>
-        <div class="form-group flex items-center justify-center">
-            <a th:href="@{/supplier/viewall}">
-                <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
-                    Cancel
-                </button>
-            </a>
-            <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Submit
-            </button>
-        </div>
+            </div>
+            <form th:action="@{/supplier/add}" th:object="${supplier}" method="POST" >
+                <div class="form-group mx-5 my-3">
+                    <label class="block mb-2 text-base font-medium text-gray-900 ">Name</label>
+                    <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Name" th:field="*{nama}">
+                </div>
+                <div class="form-group mx-5 my-3">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Type of Contact</label>
+                    <select name="chooseContact" id="chooseContact"
+                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Type of Contact">
+                        <!--                <option selected>Choose the status</option>-->
+                        <option value="0">Whatsapp</option>
+                        <option value="1">Other</option>
+                    </select>
+                </div>
+                <div class="form-group mx-5 my-3" id="wa" name="wa">
+                    <label id="labelContact" class="block mb-2 text-base font-medium text-gray-900">Whatsapp Number</label>
+                    <input id="waInput" name="wa" type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="628xxxxxxxxxx" th:field="*{link}">
+                </div>
+                <div class="form-group mx-5 my-3 ">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Material</label>
+                    <select name="id" th:field="*{inventory}"
+                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Material">
+                        <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
+                            <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+                        </div>
+                    </select>
+                    <!--            <input type="text" required class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white-->
+                    <!--             dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Material" th:field="*{material}">-->
+                </div>
+                <div class="form-group mx-5 my-3">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Status</label>
+                    <select name="id" th:field="*{status}"
+                            class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Status">
+                        <!--                <option selected>Choose the status</option>-->
+                        <option th:value="Active">Active</option>
+                        <option th:value="Nonactive">Nonactive</option>
+                    </select>
+                </div>
+                <div class="form-group mx-5 my-3">
+                    <label class="block mb-2 text-base font-medium text-gray-900">Cabang</label>
+                    <input type="text" class="form-control bg-gray-300 border border-gray-300 text-gray-900 text-base font-semibold rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed " th:value="${cabang}" disabled>
+                </div>
+                <div class="form-group flex items-center justify-center">
+                    <a th:href="@{/supplier/viewall}">
+                        <button class="bg-transparent mx-2 hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded" type="button">
+                            Cancel
+                        </button>
+                    </a>
+                    <button class="bg-blue-500 mx-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Submit
+                    </button>
+                </div>
 
 
-    </form>
-</section>
+            </form>
+        </section>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#chooseContact").change(function() {
+            if( $(this).val()=="0") {
+                document.getElementById("waInput").placeholder = "628xxxxxxxxxx";
+                document.getElementById("labelContact").innerHTML = "Whatsapp Number"
+                document.getElementById("waInput").value = "wa.me/62";
+            }else if($(this).val()=="1") {
+                document.getElementById("waInput").placeholder = "https://xxxxxx";
+                document.getElementById("labelContact").innerHTML = "Contact"
+                document.getElementById("waInput").value = "";
+            }
+        });
+        $("#chooseContact").trigger("change");
+    });
+
+</script>
 </body>
 </html>
