@@ -333,7 +333,9 @@
         var data = [[${laporanDTO}]]
 
         function download() {
-
+            const dateTime = [[${dateTime}]]
+            const date = dateTime.substring(0,10);
+            const time = dateTime.substring(11,16);
             var pdf = new jsPDF('p', 'mm', 'a4');
             var width = pdf.internal.pageSize.width;
             var height = pdf.internal.pageSize.height;
@@ -415,6 +417,8 @@
             pdf.setTextColor(0,0,0);
             pdf.text('Pendapatan Bersih', width/8, 110+pp*5+hpp*5+bo*5+bl*5);
             pdf.text(""+data.pendapatanBersihOperasional, 170, 110+pp*5+hpp*5+bo*5+bl*5);
+            pdf.setFont(undefined, 'normal');
+            pdf.text("Last accessed: "+ date + " " + time, 130, height-10);
             pdf.save(`Laporan keuangan ${data.cabang} ${data.bulan} ${data.tahun}`);
     }
     </script>

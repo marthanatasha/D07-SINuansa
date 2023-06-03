@@ -177,10 +177,10 @@ public class LaporanServiceImpl implements LaporanService{
             }
         }
         for(int j=0; j<pesananInventoryDb.findAll().size(); j++){
-            if(pesananInventoryDb.findAll().get(j).isKopi()
+            if(pesananInventoryDb.findAll().get(j).isKopi() && ( pesananInventoryDb.findAll().get(j).getStatus().equals("Done")
                     && ((pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getYear() == tahun
                     && pesananInventoryDb.findAll().get(j).getWaktuPemesanan().getMonthValue() == bulan)
-                    && pesananInventoryDb.findAll().get(j).getCabang()==cabang)){
+                    && pesananInventoryDb.findAll().get(j).getCabang()==cabang))){
                 for(EntryPI entri: pesananInventoryDb.findAll().get(j).getEntryPIList()){
                     int index = kopiList.indexOf(entri.getInventory().getNama());
                     jumlahList.set(index, jumlahList.get(index)+entri.getKuantitas());

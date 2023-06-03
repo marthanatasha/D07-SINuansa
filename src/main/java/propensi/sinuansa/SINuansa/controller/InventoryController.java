@@ -46,14 +46,14 @@ public class InventoryController {
     public String addInventoryModal(Model model,
                                     @RequestParam(value="is_kopi",required = false) Boolean is_kopi,
                                     @RequestParam(value="quantity1",required = false) Integer quantity1,
-
                                     @RequestParam(value="name",required = false) String name,
+                                    @RequestParam(value="satuan",required = false) String satuan,
                                     @RequestParam(value="temp",required = false) Long temp, Principal principal){
         Inventory inventory = new Inventory();
         inventory.setKopi(is_kopi);
         inventory.setJumlah(quantity1);
         inventory.setKategori("none");
-        inventory.setNama(name);
+        inventory.setNama(name + " ("+satuan+")");
         UserModel user = userService.findByUsername(principal.getName());
         inventory.setCabang(user.getCabang());
         inventoryService.addInventory(inventory);
@@ -63,8 +63,8 @@ public class InventoryController {
 
     @RequestMapping ("/inventory/update")
     public String updateInventoryModal(Model model,
-                                        @RequestParam(value="quantity",required = false) Integer quantity,
-                                        @RequestParam(value="temp",required = false) Long temp, Authentication authentication){
+                                       @RequestParam(value="quantity",required = false) Integer quantity,
+                                       @RequestParam(value="temp",required = false) Long temp, Authentication authentication){
         UserModel user = userService.findByUsername(authentication.getName());
         Inventory inventory = inventoryService.getInventoryById(temp);
         inventory.setJumlah(quantity);
