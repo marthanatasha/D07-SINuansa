@@ -266,8 +266,8 @@ public class MenuController {
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
-        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error
             return "error/403";
