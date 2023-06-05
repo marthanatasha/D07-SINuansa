@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -54,7 +58,7 @@
                 <div class="form-group m-5">
                     <label class="block mb-2 text-base font-medium text-gray-900">Ingredients</label>
                     <div class="flex" th:each="inventory, iterationStatus: *{resepList}">
-                        <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
+                        <select data-te-select-init data-te-select-filter="true" data-te-select-size="lg" name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
                                 class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ingredients">
                             <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
                                 <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
@@ -104,4 +108,5 @@
     </div>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 </html>

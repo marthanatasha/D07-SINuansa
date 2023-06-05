@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
@@ -43,12 +44,12 @@
                 <div class="form-group m-5">
                     <label class="block mb-2 text-base font-medium text-gray-900">Ingredients</label>
                     <div class="flex" th:each="inventory, iterationStatus: *{resepList}">
-                        <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
-                                class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ingredients">
-                            <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
-                                <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
-                            </div>
-                        </select>
+                            <select name="id" th:field="*{resepList[__${iterationStatus.index}__].inventory.id}"
+                                    class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ingredients">
+                                <div th:each="inventoryEx, iterationStatus2 : ${listInventory}">
+                                    <option th:value="${inventoryEx.id}" th:text="${inventoryEx.nama}"></option>
+                                </div>
+                            </select>
                         <input type="number" class="form-control bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Quantity" th:field="*{resepList[__${iterationStatus.index}__].jumlah}">
                         <button th:value="${iterationStatus.index}" class="bg-red-500 mx-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" name="deleteRowResep">
                             <a x-data="{ tooltip: 'Delete' }" th:value="${iterationStatus.index}">
