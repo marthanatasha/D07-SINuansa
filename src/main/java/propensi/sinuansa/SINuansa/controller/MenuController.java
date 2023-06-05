@@ -53,8 +53,8 @@ public class MenuController {
         // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
         Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
