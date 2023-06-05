@@ -30,7 +30,7 @@
                 <hr>
                 <table style="width:100%">
                     <tr>
-                        <td th:text="${invoice.waktu}"></td>
+                        <td th:text="${#temporals.format(invoice.waktu, 'dd MMMM yyyy HH:mm')}"></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -98,7 +98,6 @@
     var date = data.waktu.substring(0,10);
     var time = data.waktu.substring(11,16);
     $('#exportForm').click(function () {
-            
             var pdf = new jsPDF('p', 'mm', 'a4');
             var width = pdf.internal.pageSize.width;
             var height = pdf.internal.pageSize.height;

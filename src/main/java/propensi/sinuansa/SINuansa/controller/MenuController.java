@@ -6,11 +6,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import propensi.sinuansa.SINuansa.model.*;
-import propensi.sinuansa.SINuansa.service.*;
+import propensi.sinuansa.SINuansa.service.InventoryService;
+import propensi.sinuansa.SINuansa.service.MenuService;
+import propensi.sinuansa.SINuansa.service.ResepService;
+import propensi.sinuansa.SINuansa.service.UserService;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +50,11 @@ public class MenuController {
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-        Boolean editable = menuService.canEdit(LocalTime.now());
-//        Boolean editable = menuService.canEdit(LocalTime.of(11,00,00));
+        // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-        Boolean deleteable = menuService.canDelete(LocalTime.now());
-//        Boolean deleteable = menuService.canDelete(LocalTime.of(11,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
@@ -162,8 +163,8 @@ public class MenuController {
     @GetMapping("/menu/update/{id}")
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
         //cek jam
-        Boolean editable = menuService.canEdit(LocalTime.now());
-//        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+//        Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
             return "error/403";
@@ -265,7 +266,7 @@ public class MenuController {
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
-        Boolean deleteable = menuService.canDelete(LocalTime.now());
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
 //        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error
