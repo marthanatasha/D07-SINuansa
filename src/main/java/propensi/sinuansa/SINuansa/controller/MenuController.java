@@ -52,12 +52,14 @@ public class MenuController {
             menu.setStatus(menuService.availabilityCheck(menu));
         }
 
-        // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-        // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        // constraint: edit dan delete hanya saat store tutup
+         Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+        // note: jika ingin coba fitur saat store buka, gunakan code dibawah
+//        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+        // note: jika ingin coba fitur saat store buka, gunakan code dibawah
+//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
@@ -169,8 +171,8 @@ public class MenuController {
     @GetMapping("/menu/update/{id}")
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
         //cek jam
-//        Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+//        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
             return "error/403";
@@ -272,8 +274,8 @@ public class MenuController {
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
-//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error
             return "error/403";
