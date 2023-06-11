@@ -81,7 +81,6 @@ public class MenuServiceImpl implements MenuService{
     public Boolean availabilityCheck(Menu menu){
         Boolean status = true;
         for (Resep resep : menu.getResepList()){
-            System.out.println(resep.getInventory().getJumlah());
             if (resep.getInventory().getJumlah() < resep.getJumlah()){
                 status = false;
                 break;

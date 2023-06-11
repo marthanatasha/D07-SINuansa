@@ -48,13 +48,18 @@ public class MenuController {
         }
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
 
-        // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
-        // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        // constraint: edit dan delete hanya saat store tutup
+         Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+        // note: jika ingin coba fitur saat store buka, gunakan code dibawah
+//        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
 
-//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+        // note: jika ingin coba fitur saat store buka, gunakan code dibawah
+//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
 
         model.addAttribute("listMenu", listMenu);
         model.addAttribute("editable", editable);
@@ -100,6 +105,7 @@ public class MenuController {
             for (Resep resep : menu.getResepList()) {
                 resep.setMenu(menu);
                 resep.setInventory(menu.getResepList().get(idx).getInventory());
+                resep.setJumlah(menu.getResepList().get(idx).getJumlah());
                 idx++;
             }
         }
@@ -112,7 +118,9 @@ public class MenuController {
         menu.setIsShow(true);
         menu.setDiskon(0L);
         menuService.addMenu(menu);
-        model.addAttribute("menu", menu);
+//        Boolean status = menuService.availabilityCheck(menu);
+//        menu.setStatus(status);
+//        menuService.addMenu(menu);
         return "redirect:/menu";
     }
 
@@ -163,8 +171,8 @@ public class MenuController {
     @GetMapping("/menu/update/{id}")
     public String updateMenuForm (@PathVariable Long id, Model model, Authentication authentication){
         //cek jam
-//        Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
-        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
+        Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
+//        Boolean editable = menuService.canEdit(LocalTime.of(23,00,00));
         if (!editable){
             // return page error
             return "error/403";
@@ -266,8 +274,8 @@ public class MenuController {
     @GetMapping("/menu/hide")
     public String deleteMenuForm (Model model, Authentication authentication){
         // cek jam
-//        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
-        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
+        Boolean deleteable = menuService.canDelete(LocalTime.now().plusHours(7));
+//        Boolean deleteable = menuService.canDelete(LocalTime.of(23,00,00));
         if (!deleteable){
             // return page error
             return "error/403";
@@ -280,6 +288,9 @@ public class MenuController {
         String cabang = user.getCabang().getNama();
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-hide";
@@ -301,6 +312,9 @@ public class MenuController {
         String cabang = user.getCabang().getNama();
 
         List<Menu> listMenu = menuService.getListMenuByCabangToShow(cabang);
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-unhide";
