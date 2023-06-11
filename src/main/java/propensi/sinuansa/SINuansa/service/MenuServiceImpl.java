@@ -79,8 +79,11 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public Boolean availabilityCheck(Menu menu){
+        System.out.println("menu: " + menu.getNama());
         Boolean status = true;
         for (Resep resep : menu.getResepList()){
+            System.out.println("resep: " + resep.getId());
+            System.out.println("inv: " + resep.getInventory().getNama());
             System.out.println(resep.getInventory().getJumlah());
             if (resep.getInventory().getJumlah() < resep.getJumlah()){
                 status = false;

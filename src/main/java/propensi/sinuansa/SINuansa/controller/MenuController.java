@@ -48,6 +48,18 @@ public class MenuController {
         }
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
+//        System.out.println("huhuhu: " + listMenu.size());
+//
+//        for (Menu menu: listMenu){
+//            System.out.println("hahaha");
+//            System.out.println(menu.getNama());
+//            if (!menuService.availabilityCheck(menu)){
+//                System.out.println("abc");
+//                menu.setStatus(false);
+//                listMenu.remove(menu);
+//            }
+//            System.out.println("gef");
+//        }
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
         // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
@@ -112,6 +124,10 @@ public class MenuController {
         menu.setIsShow(true);
         menu.setDiskon(0L);
         menuService.addMenu(menu);
+        if (!menuService.availabilityCheck(menu)){
+            menu.setStatus(false);
+            menuService.updateMenu(menu);
+        }
         model.addAttribute("menu", menu);
         return "redirect:/menu";
     }
