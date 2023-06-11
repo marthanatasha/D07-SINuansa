@@ -48,18 +48,9 @@ public class MenuController {
         }
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
-//        System.out.println("huhuhu: " + listMenu.size());
-//
-//        for (Menu menu: listMenu){
-//            System.out.println("hahaha");
-//            System.out.println(menu.getNama());
-//            if (!menuService.availabilityCheck(menu)){
-//                System.out.println("abc");
-//                menu.setStatus(false);
-//                listMenu.remove(menu);
-//            }
-//            System.out.println("gef");
-//        }
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
 
         // notes: buat kalo langsung dri link tetep gabisa dibuka (meskipun tombol udh di disabled)
         // Boolean editable = menuService.canEdit(LocalTime.now().plusHours(7));
@@ -112,6 +103,7 @@ public class MenuController {
             for (Resep resep : menu.getResepList()) {
                 resep.setMenu(menu);
                 resep.setInventory(menu.getResepList().get(idx).getInventory());
+                resep.setJumlah(menu.getResepList().get(idx).getJumlah());
                 idx++;
             }
         }
@@ -124,11 +116,9 @@ public class MenuController {
         menu.setIsShow(true);
         menu.setDiskon(0L);
         menuService.addMenu(menu);
-        if (!menuService.availabilityCheck(menu)){
-            menu.setStatus(false);
-            menuService.updateMenu(menu);
-        }
-        model.addAttribute("menu", menu);
+//        Boolean status = menuService.availabilityCheck(menu);
+//        menu.setStatus(status);
+//        menuService.addMenu(menu);
         return "redirect:/menu";
     }
 
@@ -296,6 +286,9 @@ public class MenuController {
         String cabang = user.getCabang().getNama();
 
         List<Menu> listMenu = menuService.getListMenuByCabangToHide(cabang);
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-hide";
@@ -317,6 +310,9 @@ public class MenuController {
         String cabang = user.getCabang().getNama();
 
         List<Menu> listMenu = menuService.getListMenuByCabangToShow(cabang);
+        for (Menu menu : listMenu){
+            menu.setStatus(menuService.availabilityCheck(menu));
+        }
         model.addAttribute("listMenu", listMenu);
 
         return "menu/form-unhide";
